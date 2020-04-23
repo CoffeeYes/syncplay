@@ -1,5 +1,9 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Required Files
+
+A connect.js file is required in the src folder which contains a valid youtube API key to be imported into App.js.
+
 ## Available Scripts
 
 In the project directory, you can run:
