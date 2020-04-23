@@ -1,10 +1,13 @@
 import React, { Component} from 'react';
 import './App.css';
+import {Route,Switch} from 'react-router-dom';
+
+import connect from './connect.js'
+import socketClient from 'socket.io-client'
 
 import SearchBar from './SearchBar.js'
 import Player from './Player.js'
-
-import connect from './connect.js'
+import Splash from './Splash.js'
 
 var key = connect.youtubeAPI.key
 
@@ -13,6 +16,8 @@ class App extends Component {
 
   constructor(props) {
     super(props)
+
+    this.socket = socketClient('http://localhost:5001')
 
     this.state = {
       searchTerm : '',
@@ -38,7 +43,15 @@ class App extends Component {
       this.youtubeAPILoaded();
     }
 
-    fetch('/test')
+    /*--------------------- Sockets ------------------------*/
+
+    //change video locally when another client changed the video
+      this.socket.on("anotherClientChangedVideoId",(videoID) => {
+        this.setState({videoID : videoID},() => {
+          this.player.cueVideoById(this.state.videoID)
+        })
+      })
+    /*------------------------------------------------------*/
   }
 
   youtubeAPILoaded = () => {
@@ -74,16 +87,25 @@ class App extends Component {
       //extract video ID from pasted URL
       const videoID = this.state.searchTerm.split("=")[1];
       this.setState({videoID : videoID},() => {
-        this.player.loadVideoById(this.state.videoID)
+        this.player.cueVideoById(this.state.videoID)
+        this.socket.emit('videoIdWasChangedByClient',this.state.videoID)
       })
     }
   }
   render = () => {
     return(
-      <div className="main">
-        <SearchBar handleChange={this.handleChange} searchInputEnterPressed={this.searchInputEnterPressed}/>
-        <Player videoSource={this.state.videoSource}/>
-      </div>
+      <Switch>
+          <Route exact path="/room/" render={() => (
+            <div className="main">
+              <SearchBar handleChange={this.handleChange} searchInputEnterPressed={this.searchInputEnterPressed}/>
+              <Player videoSource={this.state.videoSource}/>
+            </div>
+          )} />
+          <Route path="/" render={() => (
+            <Splash />
+          )}/>
+        </Switch>
+      
       
     )
   }
