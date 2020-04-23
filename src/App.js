@@ -5,9 +5,8 @@ import {Route,Switch} from 'react-router-dom';
 import connect from './connect.js'
 import socketClient from 'socket.io-client'
 
-import SearchBar from './SearchBar.js'
-import Player from './Player.js'
 import Splash from './Splash.js'
+import Room from './Room.js'
 
 var key = connect.youtubeAPI.key
 
@@ -51,6 +50,12 @@ class App extends Component {
           this.player.cueVideoById(this.state.videoID)
         })
       })
+
+      this.socket.on("roomCreatedSuccesfully", (roomID) => {
+        this.setState({roomID : roomID}, () => {
+          window.location = '/room/' + roomID
+        })
+      })
     /*------------------------------------------------------*/
   }
 
@@ -92,21 +97,30 @@ class App extends Component {
       })
     }
   }
+
+  createNewRoom = (event) => {
+    event.preventDefault();
+    this.socket.emit("requestCreateNewRoom",this.socket.id)
+  }
+
+  setStateRoomCode = (roomCode) => {
+    this.setState({roomID : roomCode})
+  }
   render = () => {
     return(
       <Switch>
-          <Route exact path="/room/" render={() => (
-            <div className="main">
-              <SearchBar handleChange={this.handleChange} searchInputEnterPressed={this.searchInputEnterPressed}/>
-              <Player videoSource={this.state.videoSource}/>
-            </div>
+          <Route exact path="/room/*" render={() => (
+            <Room 
+            handleChange={this.handleChange} 
+            searchInputEnterPressed={this.searchInputEnterPressed} 
+            videoSource={this.state.videoSource}
+            setStateRoomCode={ (roomCode) => {this.setStateRoomCode(roomCode)}}
+            />
           )} />
           <Route path="/" render={() => (
-            <Splash />
+            <Splash createNewRoom={this.createNewRoom}/>
           )}/>
         </Switch>
-      
-      
     )
   }
 }
