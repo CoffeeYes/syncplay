@@ -37,6 +37,8 @@ class App extends Component {
     else {
       this.youtubeAPILoaded();
     }
+
+    fetch('/test')
   }
 
   youtubeAPILoaded = () => {
@@ -69,6 +71,7 @@ class App extends Component {
 
   searchInputEnterPressed = (event) => {
     if(event.which === 13) {
+      //extract video ID from pasted URL
       const videoID = this.state.searchTerm.split("=")[1];
       this.setState({videoID : videoID},() => {
         this.player.loadVideoById(this.state.videoID)
