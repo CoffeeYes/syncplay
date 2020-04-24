@@ -17,16 +17,21 @@ app.get('/test', (req,res,next) => {
 
 io.on('connection', (client) => {
     
-    client.on('videoIdWasChangedByClient', (videoID) => {
+    client.on('videoIdWasChangedByClient', (videoID,roomCode) => {
         console.log("video ID Changed to : " + videoID)
-        io.emit("anotherClientChangedVideoId",videoID)
+        io.to(roomCode).emit("anotherClientChangedVideoId",videoID)
     })
 
     client.on("requestCreateNewRoom",(userID) => {
-        console.log(userID);
+        //create random room string and join it
         let newRoomId = generateRandomRoomString();
         client.join(newRoomId);
         io.to(userID).emit("roomCreatedSuccesfully",newRoomId)
+    })
+
+    client.on("userJoinedRoom",(roomCode) => {
+        client.leaveAll();
+        client.join(roomCode);
     })
 })
 

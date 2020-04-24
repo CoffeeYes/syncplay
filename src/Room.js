@@ -5,8 +5,8 @@ import SearchBar from './SearchBar.js'
 class Room extends Component {
 
     componentDidMount = () => {
-        let roomCode = window.location.href.split("/room/")[1]
-        this.props.setStateRoomCode(roomCode)
+        let roomID = window.location.href.split("/room/")[1]
+        this.props.setStateRoomCode(roomID)
     }
     render = () => {
         return(

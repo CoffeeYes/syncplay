@@ -93,7 +93,7 @@ class App extends Component {
       const videoID = this.state.searchTerm.split("=")[1];
       this.setState({videoID : videoID},() => {
         this.player.cueVideoById(this.state.videoID)
-        this.socket.emit('videoIdWasChangedByClient',this.state.videoID)
+        this.socket.emit('videoIdWasChangedByClient',this.state.videoID,this.state.roomID)
       })
     }
   }
@@ -103,9 +103,12 @@ class App extends Component {
     this.socket.emit("requestCreateNewRoom",this.socket.id)
   }
 
-  setStateRoomCode = (roomCode) => {
-    this.setState({roomID : roomCode})
+  setStateRoomCode = (roomID) => {
+    this.setState({roomID : roomID},() => {
+      this.socket.emit("userJoinedRoom",roomID)
+    })
   }
+
   render = () => {
     return(
       <Switch>
@@ -114,7 +117,7 @@ class App extends Component {
             handleChange={this.handleChange} 
             searchInputEnterPressed={this.searchInputEnterPressed} 
             videoSource={this.state.videoSource}
-            setStateRoomCode={ (roomCode) => {this.setStateRoomCode(roomCode)}}
+            setStateRoomCode={ (roomID) => {this.setStateRoomCode(roomID)}}
             />
           )} />
           <Route path="/" render={() => (
