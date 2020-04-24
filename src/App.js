@@ -51,10 +51,20 @@ class App extends Component {
         })
       })
 
+      //receive random room string from server and save locally,redirect to room
       this.socket.on("roomCreatedSuccesfully", (roomID) => {
         this.setState({roomID : roomID}, () => {
           window.location = '/room/' + roomID
         })
+      })
+
+      //pause/play video when another user pauses/plays
+      this.socket.on("anotherUserPlayedVideo", () => {
+        this.player.playVideo();
+      })
+
+      this.socket.on("anotherUserPausedVideo",() => {
+        this.player.pauseVideo();
       })
     /*------------------------------------------------------*/
   }
@@ -63,13 +73,27 @@ class App extends Component {
     this.player = new window.YT.Player('player',{
       videoId : this.state.videoID,
       events : {
-        onReady : this.onPlayerReady
+        onReady : this.onPlayerReady,
+        onStateChange : this.onPlayerStateChange
       }
     });
   }
 
   onPlayerReady = event => {
 
+  }
+
+  onPlayerStateChange = (event) => {
+    console.log("player state changed")
+
+    //emit messages to pause/play other users on local pause/play
+    console.log(window.YT.PlayerState)
+    if(event.data == window.YT.PlayerState.PLAYING) {
+      this.socket.emit("userPlayedVideo",this.state.roomID)
+    }
+    else if(event.data == window.YT.PlayerState.PAUSED) {
+      this.socket.emit("userPausedVideo",this.state.roomID)
+    }
   }
 
   handleChange = (event) => {

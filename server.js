@@ -17,9 +17,9 @@ app.get('/test', (req,res,next) => {
 
 io.on('connection', (client) => {
     
-    client.on('videoIdWasChangedByClient', (videoID,roomCode) => {
+    client.on('videoIdWasChangedByClient', (videoID,roomID) => {
         console.log("video ID Changed to : " + videoID)
-        io.to(roomCode).emit("anotherClientChangedVideoId",videoID)
+        io.to(roomID).emit("anotherClientChangedVideoId",videoID)
     })
 
     client.on("requestCreateNewRoom",(userID) => {
@@ -29,9 +29,17 @@ io.on('connection', (client) => {
         io.to(userID).emit("roomCreatedSuccesfully",newRoomId)
     })
 
-    client.on("userJoinedRoom",(roomCode) => {
+    client.on("userJoinedRoom",(roomID) => {
         client.leaveAll();
-        client.join(roomCode);
+        client.join(roomID);
+    })
+
+    client.on("userPlayedVideo",(roomID) => {
+        client.to(roomID).emit("anotherUserPlayedVideo");
+    })
+
+    client.on("userPausedVideo", (roomID) => {
+        client.to(roomID).emit("anotherUserPausedVideo");
     })
 })
 
