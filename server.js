@@ -6,6 +6,8 @@ const app = express();
 const io = require('socket.io')();
 const socketPort = 5001;
 
+var roomMetaData = {};
+
 generateRandomRoomString = () => {
     let roomString = Math.random().toString(36).substring(5);
     return roomString
@@ -18,19 +20,22 @@ app.get('/test', (req,res,next) => {
 io.on('connection', (client) => {
     
     client.on('videoIdWasChangedByClient', (videoID,roomID) => {
-        console.log("video ID Changed to : " + videoID)
         io.to(roomID).emit("anotherClientChangedVideoId",videoID)
+        roomMetaData[roomID].currentVideoID = videoID;
     })
 
     client.on("requestCreateNewRoom",(userID) => {
         //create random room string and join it
-        let newRoomId = generateRandomRoomString();
-        client.join(newRoomId);
-        io.to(userID).emit("roomCreatedSuccesfully",newRoomId)
+        var newRoomID = generateRandomRoomString();
+        client.join(newRoomID);
+
+        roomMetaData[newRoomID] = {};
+        roomMetaData[newRoomID].owner = client.id;
+
+        io.to(userID).emit("roomCreatedSuccesfully",newRoomID)
     })
 
     client.on("userJoinedRoom",(roomID) => {
-        client.leaveAll();
         client.join(roomID);
     })
 
