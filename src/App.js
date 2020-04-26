@@ -66,6 +66,11 @@ class App extends Component {
       this.socket.on("anotherUserPausedVideo",() => {
         this.player.pauseVideo();
       })
+
+      //receive video currentVideoID of room from backend
+      this.socket.on("receiveCurrentVideoID",(videoID) => {
+        this.setState({videoID : videoID});
+      })
     /*------------------------------------------------------*/
   }
 
@@ -80,7 +85,8 @@ class App extends Component {
   }
 
   onPlayerReady = event => {
-
+    //cue current video of the room when player is ready
+    this.player.cueVideoById(this.state.videoID)
   }
 
   onPlayerStateChange = (event) => {

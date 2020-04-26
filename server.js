@@ -21,6 +21,7 @@ io.on('connection', (client) => {
     
     client.on('videoIdWasChangedByClient', (videoID,roomID) => {
         io.to(roomID).emit("anotherClientChangedVideoId",videoID)
+        //save current video of given room
         roomMetaData[roomID].currentVideoID = videoID;
     })
 
@@ -32,11 +33,15 @@ io.on('connection', (client) => {
         roomMetaData[newRoomID] = {};
         roomMetaData[newRoomID].owner = client.id;
 
+        roomMetaData[newRoomID].currentVideoID = "";
+
         io.to(userID).emit("roomCreatedSuccesfully",newRoomID)
     })
 
     client.on("userJoinedRoom",(roomID) => {
         client.join(roomID);
+
+        io.to(client.id).emit("receiveCurrentVideoID",roomMetaData[roomID].currentVideoID)
     })
 
     client.on("userPlayedVideo",(roomID) => {
