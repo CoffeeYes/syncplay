@@ -20,7 +20,8 @@ class App extends Component {
 
     this.state = {
       searchTerm : '',
-      videoID : ''
+      videoID : '',
+      currentTime : 0
     }
   }
 
@@ -71,6 +72,19 @@ class App extends Component {
       this.socket.on("receiveCurrentVideoID",(videoID) => {
         this.setState({videoID : videoID});
       })
+
+      this.socket.on("requestCurrentTimeStamp",() => {
+        if(this.player.getPlayerState() != 2) {
+          this.player.pauseVideo();
+        }
+        var time = Math.round(this.player.getCurrentTime());
+        this.socket.emit("receiveCurrentTime",time,this.state.roomID);
+      })
+
+      this.socket.on("syncTimeWithNewUser", (time,videoID) => {
+        //setState to time received so onReady function synchronizes player to this time
+        this.setState({currentTime : time})
+      })
     /*------------------------------------------------------*/
   }
 
@@ -85,12 +99,18 @@ class App extends Component {
   }
 
   onPlayerReady = event => {
-    //cue current video of the room when player is ready
-    this.player.cueVideoById(this.state.videoID)
+    //load video and pause after 1 second to allow seeking for time sync from other users
+    this.player.loadVideoById(this.state.videoID,0,"large")
+    setTimeout(() => {
+      this.player.pauseVideo();
+      this.player.seekTo(this.state.currentTime,true);
+    },1000)
+    //request current video time
+    this.socket.emit("newUserRequestTime",this.state.roomID);
   }
 
   onPlayerStateChange = (event) => {
-    console.log("player state changed")
+    console.log("player state changed : " + event.data)
 
     //emit messages to pause/play other users on local pause/play
     console.log(window.YT.PlayerState)
@@ -122,7 +142,7 @@ class App extends Component {
       //extract video ID from pasted URL
       const videoID = this.state.searchTerm.split("=")[1];
       this.setState({videoID : videoID},() => {
-        this.player.cueVideoById(this.state.videoID)
+        this.player.loadVideoById(this.state.videoID,0,"large")
         this.socket.emit('videoIdWasChangedByClient',this.state.videoID,this.state.roomID)
       })
     }

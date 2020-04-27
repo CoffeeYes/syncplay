@@ -51,6 +51,20 @@ io.on('connection', (client) => {
     client.on("userPausedVideo", (roomID) => {
         client.to(roomID).emit("anotherUserPausedVideo");
     })
+
+    client.on("newUserRequestTime",(roomID) => {
+        //get clients currently connected to room
+        var clients = io.sockets.adapter.rooms[roomID].sockets;
+        clients = Object.keys(clients);
+
+        if(clients.length > 1) {
+            io.to(clients[0]).emit("requestCurrentTimeStamp");
+        }
+    })
+
+    client.on("receiveCurrentTime",(time,roomID) => {
+        io.to(roomID).emit("syncTimeWithNewUser",time,roomMetaData[roomID].currentVideoID);
+    })
 })
 
 
