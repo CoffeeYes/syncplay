@@ -84,6 +84,7 @@ class App extends Component {
       this.socket.on("syncTimeWithNewUser", (time,videoID) => {
         //setState to time received so onReady function synchronizes player to this time
         this.setState({currentTime : time})
+        this.player.pauseVideo();
       })
     /*------------------------------------------------------*/
   }
