@@ -65,6 +65,10 @@ io.on('connection', (client) => {
     client.on("receiveCurrentTime",(time,roomID) => {
         io.to(roomID).emit("syncTimeWithNewUser",time,roomMetaData[roomID].currentVideoID);
     })
+
+    client.on("userChangedTimeWhilePaused", (time,roomID) => {
+        io.to(roomID).emit("anotherUserChangedTimeWhilePaused",time);
+    })
 })
 
 

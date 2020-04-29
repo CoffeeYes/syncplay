@@ -10,6 +10,8 @@ import Room from './Room.js'
 
 var key = connect.youtubeAPI.key
 
+var checkTimeWhilePaused
+
 class App extends Component {
 
 
@@ -86,6 +88,15 @@ class App extends Component {
         this.setState({currentTime : time})
         this.player.pauseVideo();
       })
+
+      //resync with another user if they changed time while paused
+      this.socket.on("anotherUserChangedTimeWhilePaused", (time) => {
+        if(this.player.PlayerState != 2) {
+          this.player.pauseVideo();
+        }
+
+        this.player.seekTo(time,true);
+      })
     /*------------------------------------------------------*/
   }
 
@@ -117,9 +128,22 @@ class App extends Component {
     console.log(window.YT.PlayerState)
     if(event.data == window.YT.PlayerState.PLAYING) {
       this.socket.emit("userPlayedVideo",this.state.roomID)
+
+      clearInterval(checkTimeWhilePaused)
     }
     else if(event.data == window.YT.PlayerState.PAUSED) {
       this.socket.emit("userPausedVideo",this.state.roomID)
+
+      var timePausedAt = Math.round(this.player.getCurrentTime());
+
+      checkTimeWhilePaused = setInterval( () => {
+        var currentTime = Math.round(this.player.getCurrentTime());
+        //check if a user changes timestamp while the video is paused, emit to backend to resync other users if time was changed
+        if( currentTime != timePausedAt) {
+          timePausedAt = currentTime
+          this.socket.emit("userChangedTimeWhilePaused",currentTime,this.state.roomID);
+        }
+      },1000)
     }
   }
 
