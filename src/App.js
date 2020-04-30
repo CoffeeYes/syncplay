@@ -10,7 +10,8 @@ import Room from './Room.js'
 
 var key = connect.youtubeAPI.key
 
-var checkTimeWhilePaused
+var checkTimeWhilePaused;
+var timeTracker;
 
 class App extends Component {
 
@@ -128,17 +129,43 @@ class App extends Component {
     console.log(window.YT.PlayerState)
     if(event.data == window.YT.PlayerState.PLAYING) {
       this.socket.emit("userPlayedVideo",this.state.roomID)
-
+      //clear intervall for time changes when player is paused
       clearInterval(checkTimeWhilePaused)
+
+      var timeCounter = Math.round(this.player.getCurrentTime());
+      timeTracker = setInterval(() => {
+        timeCounter += 1;
+        var currentTime = Math.round(this.player.getCurrentTime());
+
+        console.log("current Time : " + currentTime)
+        console.log("current count " + timeCounter)
+
+        if(currentTime != timeCounter) {
+          //allow for one second variation and adjust timer 
+          if(currentTime - 1 != timeCounter || currentTime +1 != timeCounter) {
+            timeCounter = currentTime;
+          }
+          else {
+            //pause the player when time changes so that the player re-synchronizes the other users
+            this.player.pauseVideo();
+          }
+        }
+      },1000)
     }
     else if(event.data == window.YT.PlayerState.PAUSED) {
+      //clear interval that checks for time changes when player is playing
+      clearInterval(timeTracker);
+      //tell other users to pause
       this.socket.emit("userPausedVideo",this.state.roomID)
 
       var timePausedAt = Math.round(this.player.getCurrentTime());
 
+      this.socket.emit("resyncTimeOnPause",timePausedAt,this.state.roomID)
+
       checkTimeWhilePaused = setInterval( () => {
         var currentTime = Math.round(this.player.getCurrentTime());
         //check if a user changes timestamp while the video is paused, emit to backend to resync other users if time was changed
+
         if( currentTime != timePausedAt) {
           timePausedAt = currentTime
           this.socket.emit("userChangedTimeWhilePaused",currentTime,this.state.roomID);

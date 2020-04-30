@@ -69,6 +69,10 @@ io.on('connection', (client) => {
     client.on("userChangedTimeWhilePaused", (time,roomID) => {
         io.to(roomID).emit("anotherUserChangedTimeWhilePaused",time);
     })
+
+    client.on("resyncTimeOnPause", (time,roomID) => {
+        io.to(roomID).emit("anotherUserChangedTimeWhilePaused",time);
+    })
 })
 
 
