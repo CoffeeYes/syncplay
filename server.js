@@ -17,8 +17,12 @@ app.get('/test', (req,res,next) => {
     console.log("test received")
 })
 
++app.get('/*', function (req, res) {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  });
+
 io.on('connection', (client) => {
-    
+
     client.on('videoIdWasChangedByClient', (videoID,roomID) => {
         io.to(roomID).emit("anotherClientChangedVideoId",videoID)
         //save current video of given room
@@ -77,4 +81,4 @@ io.on('connection', (client) => {
 
 
 io.listen(socketPort);
-app.listen(process.env.PORT || 5000);
+app.listen(process.env.PORT || 5002);

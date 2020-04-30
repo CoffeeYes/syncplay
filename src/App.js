@@ -19,7 +19,7 @@ class App extends Component {
   constructor(props) {
     super(props)
 
-    this.socket = socketClient('http://localhost:5001')
+    this.socket = socketClient(connect.serverData.URL + ':5001')
 
     this.state = {
       searchTerm : '',
@@ -37,7 +37,7 @@ class App extends Component {
       //make youtube api script the first script tag
       const topScriptTag = document.getElementsByTagName('script')[0];
       topScriptTag.parentNode.insertBefore(tag, topScriptTag);
-      
+
 
       //set callback for succesful load of API
       window.onYouTubeIframeAPIReady = this.youtubeAPILoaded;
@@ -141,9 +141,12 @@ class App extends Component {
         console.log("current count " + timeCounter)
 
         if(currentTime != timeCounter) {
-          //allow for one second variation and adjust timer 
+          //allow for one second variation and adjust timer
           if(currentTime - 1 != timeCounter || currentTime +1 != timeCounter) {
             timeCounter = currentTime;
+            console.log("Error with Local Time Sync")
+            console.log("current Time(error) : " + currentTime)
+            console.log("current count(error) " + timeCounter)
           }
           else {
             //pause the player when time changes so that the player re-synchronizes the other users
@@ -179,7 +182,7 @@ class App extends Component {
   }
 
   searchForYoutubePreviews = () => {
-    var url = 'https://www.googleapis.com/youtube/v3/search?q=test&key=' + key; 
+    var url = 'https://www.googleapis.com/youtube/v3/search?q=test&key=' + key;
     fetch(url,{
 
     })
@@ -215,9 +218,9 @@ class App extends Component {
     return(
       <Switch>
           <Route exact path="/room/*" render={() => (
-            <Room 
-            handleChange={this.handleChange} 
-            searchInputEnterPressed={this.searchInputEnterPressed} 
+            <Room
+            handleChange={this.handleChange}
+            searchInputEnterPressed={this.searchInputEnterPressed}
             videoSource={this.state.videoSource}
             setStateRoomCode={ (roomID) => {this.setStateRoomCode(roomID)}}
             />
