@@ -23,8 +23,8 @@ app.get('/test', (req,res,next) => {
 
 io.on('connection', (client) => {
 
-    client.on('videoIdWasChangedByClient', (videoID,roomID) => {
-        io.to(roomID).emit("anotherClientChangedVideoId",videoID)
+    client.on('videoIdWasChangedByClient', (videoID,roomID,time) => {
+        io.to(roomID).emit("anotherClientChangedVideoId",videoID,time)
         //save current video of given room
         roomMetaData[roomID].currentVideoID = videoID;
     })

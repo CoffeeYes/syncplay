@@ -49,9 +49,13 @@ class App extends Component {
     /*--------------------- Sockets ------------------------*/
 
     //change video locally when another client changed the video
-      this.socket.on("anotherClientChangedVideoId",(videoID) => {
+      this.socket.on("anotherClientChangedVideoId",(videoID,time) => {
         this.setState({videoID : videoID},() => {
-          this.player.cueVideoById(this.state.videoID)
+          this.player.cueVideoById(this.state.videoID,time)
+          this.player.playVideo();
+          setTimeout( () => {
+            this.player.pauseVideo();
+          },1000)
         })
       })
 
@@ -194,11 +198,26 @@ class App extends Component {
 
   searchInputEnterPressed = (event) => {
     if(event.which === 13) {
+
+      var videoID;
+      var time = 0;
+
       //extract video ID from pasted URL
-      const videoID = this.state.searchTerm.split("=")[1];
+      if(this.state.searchTerm.includes(".be")) {
+        //if video is "be" format and contains timestamp do seperate split 
+        videoID = this.state.searchTerm.split("youtu.be/")[1];
+        if(videoID.includes("?")) {
+          time = videoID.split("?t=")[1];
+          videoID = videoID.split("?")[0];
+        }
+      }
+      //normal string split to get videoID
+      else {
+        videoID = this.state.searchTerm.split("=")[1];
+      }
       this.setState({videoID : videoID},() => {
-        this.player.loadVideoById(this.state.videoID,0,"large")
-        this.socket.emit('videoIdWasChangedByClient',this.state.videoID,this.state.roomID)
+        this.player.cueVideoById(this.state.videoID,time,"large")
+        this.socket.emit('videoIdWasChangedByClient',this.state.videoID,this.state.roomID,time)
       })
     }
   }
