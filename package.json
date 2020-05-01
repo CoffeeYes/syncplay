@@ -34,5 +34,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://0ymxqurlq4gnzjrf.myfritz.net:5002"
+  "proxy": ":5002"
 }

@@ -9,4 +9,59 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  padding : 0;
+  margin : 0;
 }
+
+#player {
+  height: 90vh;
+  width: 95vw;
+}
+
+#searchBar {
+  width: 50vw;
+  margin-top : -5vh;
+  margin-bottom : 1vh;
+}
+/*
+@media  screen and (max-width: 1920px) {
+  #player {
+    width: 1800px;
+    height: 800px;
+  }
+
+  #searchBar {
+    width: 900px;
+    margin-bottom : 20px;
+    text-align: center;
+  }
+}
+
+@media screen and (min-width: 2560px) {
+  #player {
+    width: 2400px;
+    height: 800px;
+  }
+
+  #searchBar {
+    width: 1600px;
+    margin-bottom : 20px;
+    text-align: center;
+  }
+}
+
+
+@media screen and (min-width: 3440px) {
+  #player {
+    width: 3300px;
+    height: 1300px;
+  }
+
+  #searchBar {
+    width: 2500px;
+    margin-bottom : 30px;
+    text-align: center;
+  }
+}
+
+*/

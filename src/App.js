@@ -18,8 +18,8 @@ class App extends Component {
 
   constructor(props) {
     super(props)
-
-    this.socket = socketClient(connect.serverData.URL + ':5001')
+    console.log(connect.serverData.url)
+    this.socket = socketClient(connect.serverData.url + ':5001')
 
     this.state = {
       searchTerm : '',
