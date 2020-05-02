@@ -146,11 +146,11 @@ class App extends Component {
 
         if(currentTime != timeCounter) {
           //allow for one second variation and adjust timer
-          if(currentTime - 1 != timeCounter || currentTime +1 != timeCounter) {
-            timeCounter = currentTime;
+          if(currentTime < timeCounter -1 || currentTime > timeCounter + 1) {
             console.log("Error with Local Time Sync")
             console.log("current Time(error) : " + currentTime)
             console.log("current count(error) " + timeCounter)
+            timeCounter = currentTime;
           }
           else {
             //pause the player when time changes so that the player re-synchronizes the other users
@@ -204,7 +204,7 @@ class App extends Component {
 
       //extract video ID from pasted URL
       if(this.state.searchTerm.includes(".be")) {
-        //if video is "be" format and contains timestamp do seperate split 
+        //if video is "be" format and contains timestamp do seperate split
         videoID = this.state.searchTerm.split("youtu.be/")[1];
         if(videoID.includes("?")) {
           time = videoID.split("?t=")[1];
