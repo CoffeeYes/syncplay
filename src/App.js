@@ -80,12 +80,9 @@ class App extends Component {
         this.setState({videoID : videoID});
       })
 
-      this.socket.on("requestCurrentTimeStamp",() => {
-        if(this.player.getPlayerState() != 2) {
-          this.player.pauseVideo();
-        }
+      this.socket.on("requestCurrentTimeStamp",(newClientID) => {
         var time = Math.round(this.player.getCurrentTime());
-        this.socket.emit("receiveCurrentTime",time,this.state.roomID);
+        this.socket.emit("receiveCurrentTime",time,this.state.roomID,newClientID);
       })
 
       this.socket.on("syncTimeWithNewUser", (time,videoID) => {
@@ -102,6 +99,15 @@ class App extends Component {
 
         this.player.seekTo(time,true);
       })
+
+      this.socket.on("newUserReceiveVideoAndTimeStamp", (time,videoID) => {
+        this.player.cueVideoById(videoID,time,"large");
+        this.player.playVideo();
+        setTimeout( () => {
+          //once new user receives time and video, pause video to resync all users to timestamp
+          this.player.pauseVideo();
+        },1000)
+      })
     /*------------------------------------------------------*/
   }
 
@@ -117,6 +123,7 @@ class App extends Component {
 
   onPlayerReady = event => {
     //load video and pause after 1 second to allow seeking for time sync from other users
+    /*
     this.player.loadVideoById(this.state.videoID,0,"large")
     setTimeout(() => {
       this.player.pauseVideo();
@@ -124,6 +131,8 @@ class App extends Component {
     },1000)
     //request current video time
     this.socket.emit("newUserRequestTime",this.state.roomID);
+    */
+    this.socket.emit("newUserRequestVideoIdAndTimeStamp",this.state.roomID);
   }
 
   onPlayerStateChange = (event) => {

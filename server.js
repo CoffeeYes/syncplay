@@ -35,6 +35,7 @@ io.on('connection', (client) => {
         client.join(newRoomID);
 
         roomMetaData[newRoomID] = {};
+        roomMetaData[newRoomID].newestUser = "";
         roomMetaData[newRoomID].owner = client.id;
 
         roomMetaData[newRoomID].currentVideoID = "";
@@ -44,6 +45,8 @@ io.on('connection', (client) => {
 
     client.on("userJoinedRoom",(roomID) => {
         client.join(roomID);
+
+        roomMetaData[roomID].newestUser = "";
 
         io.to(client.id).emit("receiveCurrentVideoID",roomMetaData[roomID].currentVideoID)
     })
@@ -66,8 +69,9 @@ io.on('connection', (client) => {
         }
     })
 
-    client.on("receiveCurrentTime",(time,roomID) => {
-        io.to(roomID).emit("syncTimeWithNewUser",time,roomMetaData[roomID].currentVideoID);
+    client.on("receiveCurrentTime",(time,roomID,newClientID) => {
+        //io.to(roomID).emit("syncTimeWithNewUser",time,roomMetaData[roomID].currentVideoID);
+        io.to(newClientID).emit("newUserReceiveVideoAndTimeStamp",time,roomMetaData[roomID].currentVideoID);
     })
 
     client.on("userChangedTimeWhilePaused", (time,roomID) => {
@@ -76,6 +80,16 @@ io.on('connection', (client) => {
 
     client.on("resyncTimeOnPause", (time,roomID) => {
         io.to(roomID).emit("anotherUserChangedTimeWhilePaused",time);
+    })
+
+    client.on("newUserRequestVideoIdAndTimeStamp",(roomID) => {
+        var clients = io.sockets.adapter.rooms[roomID].sockets;
+        clients = Object.keys(clients);
+
+        if(clients.length > 1) {
+            //request time from 1st user of room, pass execution to receiveCurrentTime
+            io.to(clients[0]).emit("requestCurrentTimeStamp",client.id);
+        }
     })
 })
 
