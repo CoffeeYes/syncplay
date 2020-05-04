@@ -154,11 +154,12 @@ class App extends Component {
         console.log("current count " + timeCounter)
 
         if(currentTime != timeCounter) {
+          console.log("Error with Local Time Sync")
+          console.log("current Time(error) : " + currentTime)
+          console.log("current count(error) " + timeCounter)
           //allow for one second variation and adjust timer
-          if(currentTime < timeCounter -1 || currentTime > timeCounter + 1) {
-            console.log("Error with Local Time Sync")
-            console.log("current Time(error) : " + currentTime)
-            console.log("current count(error) " + timeCounter)
+          if(currentTime > timeCounter - 2 && currentTime < timeCounter + 2) {
+            console.log("time re-synced")
             timeCounter = currentTime;
           }
           else {
