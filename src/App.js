@@ -106,7 +106,7 @@ class App extends Component {
         setTimeout( () => {
           //once new user receives time and video, pause video to resync all users to timestamp
           this.player.pauseVideo();
-        },1000)
+        },1500)
       })
     /*------------------------------------------------------*/
   }
