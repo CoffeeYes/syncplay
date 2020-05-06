@@ -13,6 +13,8 @@ var key = connect.youtubeAPI.key
 var checkTimeWhilePaused;
 var timeTracker;
 
+var timePausedAt
+
 class App extends Component {
 
 
@@ -51,7 +53,7 @@ class App extends Component {
     //change video locally when another client changed the video
       this.socket.on("anotherClientChangedVideoId",(videoID,time) => {
         this.setState({videoID : videoID},() => {
-          this.player.cueVideoById(this.state.videoID,time)
+          this.player.loadVideoById(this.state.videoID,time)
           this.player.playVideo();
           setTimeout( () => {
             this.player.pauseVideo();
@@ -71,8 +73,9 @@ class App extends Component {
         this.player.playVideo();
       })
 
-      this.socket.on("anotherUserPausedVideo",() => {
+      this.socket.on("anotherUserPausedVideo",(time) => {
         this.player.pauseVideo();
+        timePausedAt = time;
       })
 
       //receive video currentVideoID of room from backend
@@ -101,12 +104,11 @@ class App extends Component {
       })
 
       this.socket.on("newUserReceiveVideoAndTimeStamp", (time,videoID) => {
-        this.player.cueVideoById(videoID,time,"large");
-        this.player.playVideo();
-        setTimeout( () => {
-          //once new user receives time and video, pause video to resync all users to timestamp
+        this.player.loadVideoById(videoID,time,"large");
+        setTimeout(() => {
           this.player.pauseVideo();
-        },1500)
+        },2000)
+        
       })
     /*------------------------------------------------------*/
   }
@@ -164,6 +166,7 @@ class App extends Component {
           }
           else {
             //pause the player when time changes so that the player re-synchronizes the other users
+            clearInterval(timeTracker)
             this.player.pauseVideo();
           }
         }
@@ -172,10 +175,10 @@ class App extends Component {
     else if(event.data == window.YT.PlayerState.PAUSED) {
       //clear interval that checks for time changes when player is playing
       clearInterval(timeTracker);
+      //get current time
+      timePausedAt = Math.round(this.player.getCurrentTime());
       //tell other users to pause
-      this.socket.emit("userPausedVideo",this.state.roomID)
-
-      var timePausedAt = Math.round(this.player.getCurrentTime());
+      this.socket.emit("userPausedVideo",timePausedAt,this.state.roomID)
 
       this.socket.emit("resyncTimeOnPause",timePausedAt,this.state.roomID)
 
@@ -226,7 +229,7 @@ class App extends Component {
         videoID = this.state.searchTerm.split("=")[1];
       }
       this.setState({videoID : videoID},() => {
-        this.player.cueVideoById(this.state.videoID,time,"large")
+        this.player.loadVideoById(this.state.videoID,time,"large")
         this.socket.emit('videoIdWasChangedByClient',this.state.videoID,this.state.roomID,time)
       })
     }

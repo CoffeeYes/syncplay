@@ -55,8 +55,8 @@ io.on('connection', (client) => {
         client.to(roomID).emit("anotherUserPlayedVideo");
     })
 
-    client.on("userPausedVideo", (roomID) => {
-        client.to(roomID).emit("anotherUserPausedVideo");
+    client.on("userPausedVideo", (time,roomID) => {
+        client.to(roomID).emit("anotherUserPausedVideo",time);
     })
 
     client.on("newUserRequestTime",(roomID) => {
@@ -75,7 +75,15 @@ io.on('connection', (client) => {
     })
 
     client.on("userChangedTimeWhilePaused", (time,roomID) => {
-        io.to(roomID).emit("anotherUserChangedTimeWhilePaused",time);
+        var clients = io.sockets.adapter.rooms[roomID].sockets;
+        clients = Object.keys(clients);
+
+        //emit new time to all users except the one who changed the timestamp while paused
+        for(var item in clients) {
+            if(clients[item] != client.id) {
+                io.to(clients[item]).emit("anotherUserChangedTimeWhilePaused",time);
+            }
+        }
     })
 
     client.on("resyncTimeOnPause", (time,roomID) => {
