@@ -74,8 +74,8 @@ class App extends Component {
       })
 
       this.socket.on("anotherUserPausedVideo",(time) => {
+        this.player.seekTo(time,true);
         this.player.pauseVideo();
-        timePausedAt = time;
       })
 
       //receive video currentVideoID of room from backend
@@ -88,27 +88,14 @@ class App extends Component {
         this.socket.emit("receiveCurrentTime",time,this.state.roomID,newClientID);
       })
 
-      this.socket.on("syncTimeWithNewUser", (time,videoID) => {
-        //setState to time received so onReady function synchronizes player to this time
-        this.setState({currentTime : time})
-        this.player.pauseVideo();
-      })
-
       //resync with another user if they changed time while paused
       this.socket.on("anotherUserChangedTimeWhilePaused", (time) => {
-        if(this.player.PlayerState != 2) {
-          this.player.pauseVideo();
-        }
-
         this.player.seekTo(time,true);
+        this.player.pauseVideo()
       })
 
       this.socket.on("newUserReceiveVideoAndTimeStamp", (time,videoID) => {
-        this.player.loadVideoById(videoID,time,"large");
-        setTimeout(() => {
-          this.player.pauseVideo();
-        },2000)
-        
+        this.player.cueVideoById(videoID,time,"large"); 
       })
     /*------------------------------------------------------*/
   }
@@ -124,16 +111,7 @@ class App extends Component {
   }
 
   onPlayerReady = event => {
-    //load video and pause after 1 second to allow seeking for time sync from other users
-    /*
-    this.player.loadVideoById(this.state.videoID,0,"large")
-    setTimeout(() => {
-      this.player.pauseVideo();
-      this.player.seekTo(this.state.currentTime,true);
-    },1000)
-    //request current video time
-    this.socket.emit("newUserRequestTime",this.state.roomID);
-    */
+    //emit ready event to receive id and timestamp from backend
     this.socket.emit("newUserRequestVideoIdAndTimeStamp",this.state.roomID);
   }
 
@@ -143,70 +121,32 @@ class App extends Component {
     //emit messages to pause/play other users on local pause/play
     console.log(window.YT.PlayerState)
     if(event.data == window.YT.PlayerState.PLAYING) {
-      this.socket.emit("userPlayedVideo",this.state.roomID)
-      //clear intervall for time changes when player is paused
+      //clear paused timechange checker
       clearInterval(checkTimeWhilePaused)
-
-      var timeCounter = Math.round(this.player.getCurrentTime());
-      timeTracker = setInterval(() => {
-        timeCounter += 1;
-        var currentTime = Math.round(this.player.getCurrentTime());
-
-        console.log("current Time : " + currentTime)
-        console.log("current count " + timeCounter)
-
-        if(currentTime != timeCounter) {
-          console.log("Error with Local Time Sync")
-          console.log("current Time(error) : " + currentTime)
-          console.log("current count(error) " + timeCounter)
-          //allow for one second variation and adjust timer
-          if(currentTime > timeCounter - 2 && currentTime < timeCounter + 2) {
-            console.log("time re-synced")
-            timeCounter = currentTime;
-          }
-          else {
-            //pause the player when time changes so that the player re-synchronizes the other users
-            clearInterval(timeTracker)
-            this.player.pauseVideo();
-          }
-        }
-      },1000)
+      //tell other users to play video
+      this.socket.emit("userPlayedVideo",this.state.roomID)
+      
     }
     else if(event.data == window.YT.PlayerState.PAUSED) {
-      //clear interval that checks for time changes when player is playing
-      clearInterval(timeTracker);
-      //get current time
-      timePausedAt = Math.round(this.player.getCurrentTime());
-      //tell other users to pause
-      this.socket.emit("userPausedVideo",timePausedAt,this.state.roomID)
+      //clear old timechecker incase of re-pause
+      clearInterval(checkTimeWhilePaused)
+      //tell other users time is paused
+      this.socket.emit("userPausedVideo",this.player.getCurrentTime(),this.state.roomID)
 
-      this.socket.emit("resyncTimeOnPause",timePausedAt,this.state.roomID)
-
-      checkTimeWhilePaused = setInterval( () => {
-        var currentTime = Math.round(this.player.getCurrentTime());
-        //check if a user changes timestamp while the video is paused, emit to backend to resync other users if time was changed
-
-        if( currentTime != timePausedAt) {
-          timePausedAt = currentTime
-          this.socket.emit("userChangedTimeWhilePaused",currentTime,this.state.roomID);
+      var timePausedAt = this.player.getCurrentTime()
+      var currentTimeWhilePaused = this.player.getCurrentTime()
+      checkTimeWhilePaused = setInterval(() => {
+        if(currentTimeWhilePaused != timePausedAt) {
+          this.socket.emit("userChangedTimeWhilePaused",currentTimeWhilePaused,this.state.roomID);
+          timePausedAt = currentTimeWhilePaused
         }
+        currentTimeWhilePaused = this.player.getCurrentTime();
       },1000)
     }
   }
 
   handleChange = (event) => {
     this.setState({[event.target.name] : event.target.value})
-  }
-
-  searchForYoutubePreviews = () => {
-    var url = 'https://www.googleapis.com/youtube/v3/search?q=test&key=' + key;
-    fetch(url,{
-
-    })
-    .then( res => res.json())
-    .then(data => {
-      console.log(data)
-    })
   }
 
   searchInputEnterPressed = (event) => {
