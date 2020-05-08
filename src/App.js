@@ -141,7 +141,7 @@ class App extends Component {
           timePausedAt = currentTimeWhilePaused
         }
         currentTimeWhilePaused = this.player.getCurrentTime();
-      },1000)
+      },100)
     }
   }
 
