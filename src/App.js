@@ -161,22 +161,30 @@ class App extends Component {
 
   searchInputEnterPressed = (event) => {
     if(event.which === 13) {
+      //url parameter object to extract information from
+      const URLParams = new URLSearchParams(this.state.searchTerm)
 
-      var videoID;
+      var videoID = "";
       var time = 0;
 
-      //extract video ID from pasted URL
-      if(this.state.searchTerm.includes(".be")) {
+      //if time parameter is present set this as video time
+      if(URLParams.has('t')) {
+        time = URLParams.get('t')
+      }
+
+      //if URL is standard youtube URL extract video ID from param
+      if(URLParams.has('https://www.youtube.com/watch?v')) {
+        videoID = URLParams.get('https://www.youtube.com/watch?v')
+      }
+
+      //if url is non-standard .be URL extract video ID and time from pasted URL
+      if(this.state.searchTerm.includes(".be") && URLParams.get('feature') != "youtu.be") {
         //if video is "be" format and contains timestamp do seperate split
         videoID = this.state.searchTerm.split("youtu.be/")[1];
         if(videoID.includes("?")) {
           time = videoID.split("?t=")[1];
           videoID = videoID.split("?")[0];
         }
-      }
-      //normal string split to get videoID
-      else {
-        videoID = this.state.searchTerm.split("=")[1];
       }
       this.setState({videoID : videoID},() => {
         this.player.loadVideoById(this.state.videoID,time,"large")
