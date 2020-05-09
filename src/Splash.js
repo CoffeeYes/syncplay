@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 class Splash extends Component {
     render = () => {
         return (
-            <div className="main">
+            <div className="main verticalCenter">
                 <button onClick={this.props.createNewRoom}>Create Room</button>
             </div>
         )

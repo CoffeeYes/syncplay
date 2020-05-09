@@ -6,22 +6,29 @@
   width: 100vw;
   height: 100vh;
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
   padding : 0;
   margin : 0;
 }
 
+.error {
+  color: red;
+  font-weight: bold;
+}
+
 #player {
-  height: 90vh;
+  height: 85vh;
   width: 95vw;
 }
 
 #searchBar {
   width: 50vw;
-  margin-top : -5vh;
-  margin-bottom : 1vh;
+  margin-bottom: 2vh;
+}
+
+.verticalCenter {
+  justify-content: center;
 }
 /*
 @media  screen and (max-width: 1920px) {

@@ -12,6 +12,7 @@ class Room extends Component {
     render = () => {
         return(
             <div className="main">
+                <p className="error">{this.props.error}</p>
                 <SearchBar handleChange={this.props.handleChange} searchInputEnterPressed={this.props.searchInputEnterPressed}/>
                 <Player videoSource={this.props.videoSource}/>
             </div>

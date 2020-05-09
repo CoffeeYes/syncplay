@@ -26,7 +26,8 @@ class App extends Component {
     this.state = {
       searchTerm : '',
       videoID : '',
-      currentTime : 0
+      currentTime : 0,
+      error : ""
     }
   }
 
@@ -49,6 +50,15 @@ class App extends Component {
     }
 
     /*--------------------- Sockets ------------------------*/
+
+    //receive errors from backend
+    this.socket.on("clientError",(message) => {
+      this.setState({error : message})
+      
+      setTimeout(() => {
+        this.setState({error : ""})
+      },5000)
+    })
 
     //change video locally when another client changed the video
       this.socket.on("anotherClientChangedVideoId",(videoID,time) => {
@@ -191,6 +201,7 @@ class App extends Component {
       <Switch>
           <Route exact path="/room/*" render={() => (
             <Room
+            error={this.state.error}
             handleChange={this.handleChange}
             searchInputEnterPressed={this.searchInputEnterPressed}
             videoSource={this.state.videoSource}

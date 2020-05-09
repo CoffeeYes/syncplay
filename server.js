@@ -44,6 +44,9 @@ io.on('connection', (client) => {
     })
 
     client.on("userJoinedRoom",(roomID) => {
+        if(roomMetaData[roomID] == undefined) {
+            return io.emit("clientError","Room does not exist")
+        }
         client.join(roomID);
 
         roomMetaData[roomID].newestUser = "";
@@ -91,12 +94,22 @@ io.on('connection', (client) => {
     })
 
     client.on("newUserRequestVideoIdAndTimeStamp",(roomID) => {
+        //send error if room doesnt exist
+        if(roomMetaData[roomID] == undefined) {
+            return io.to(client.id).emit("clientError","Room does not exist")
+        }
+        //get clients in room
         var clients = io.sockets.adapter.rooms[roomID].sockets;
         clients = Object.keys(clients);
 
+        //if other clients are already in the room request time from them
         if(clients.length > 1) {
             //request time from 1st user of room, pass execution to receiveCurrentTime
             io.to(clients[0]).emit("requestCurrentTimeStamp",client.id);
+        }
+        //if new user is first user to join room emit saved ID and 0 timestamp
+        else {
+            io.to(client.id).emit("newUserReceiveVideoAndTimeStamp",0,roomMetaData[roomID].currentVideoID)
         }
     })
 })
