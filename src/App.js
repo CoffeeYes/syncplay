@@ -27,7 +27,8 @@ class App extends Component {
       searchTerm : '',
       videoID : '',
       currentTime : 0,
-      error : ""
+      error : "",
+      allowPlay : true
     }
   }
 
@@ -101,11 +102,21 @@ class App extends Component {
       //resync with another user if they changed time while paused
       this.socket.on("anotherUserChangedTimeWhilePaused", (time) => {
         this.player.seekTo(time,true);
-        this.player.pauseVideo()
+        this.player.pauseVideo();
+
+        this.socket.emit("timeSyncedToOtherPausedUser",this.state.roomID)
       })
 
       this.socket.on("newUserReceiveVideoAndTimeStamp", (time,videoID) => {
         this.player.cueVideoById(videoID,time,"large"); 
+      })
+
+      this.socket.on("disallowPlaying",() => {
+        this.setState({allowPlay : false})
+      })
+
+      this.socket.on("allowPlaying",() => {
+        this.setState({allowPlay: true})
       })
     /*------------------------------------------------------*/
   }
@@ -131,6 +142,10 @@ class App extends Component {
     //emit messages to pause/play other users on local pause/play
     console.log(window.YT.PlayerState)
     if(event.data == window.YT.PlayerState.PLAYING) {
+      //pause video if playing is not allowed
+      if(this.state.allowPlay == false) {
+        this.player.pauseVideo();
+      }
       //clear paused timechange checker
       clearInterval(checkTimeWhilePaused)
       //tell other users to play video

@@ -34,9 +34,11 @@ io.on('connection', (client) => {
         var newRoomID = generateRandomRoomString();
         client.join(newRoomID);
 
+        //init roomMetadata for this room
         roomMetaData[newRoomID] = {};
         roomMetaData[newRoomID].newestUser = "";
         roomMetaData[newRoomID].owner = client.id;
+        roomMetaData[newRoomID].syncedUserlist = []
 
         roomMetaData[newRoomID].currentVideoID = "";
 
@@ -86,6 +88,28 @@ io.on('connection', (client) => {
             if(clients[item] != client.id) {
                 io.to(clients[item]).emit("anotherUserChangedTimeWhilePaused",time);
             }
+        }
+
+        //block users from playing while we wait for all clients to send back timeSyncedToOtherPausedUser signal
+        io.to(roomID).emit("disallowPlaying")
+        io.to(roomID).emit("clientError","Waiting for all users to synchronise")
+    })
+
+    client.on("timeSyncedToOtherPausedUser",(roomID) => {
+        //add client to response array for timesync
+        roomMetaData[roomID].syncedUserlist.push(client.id);
+
+        //get all clients connected in room
+        var clients = io.sockets.adapter.rooms[roomID].sockets;
+        clients = Object.keys(clients);
+
+        //check if we have responses from all users in room
+        if(roomMetaData[roomID].syncedUserlist.length == clients.length) {
+            //allow users to play video
+            io.to(roomID).emit("allowPlaying")
+            io.to(roomID).emit("clientError","")
+            //reset timesync array
+            roomMetaData[roomID].syncedUserlist = []
         }
     })
 
