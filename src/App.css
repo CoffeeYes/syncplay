@@ -15,6 +15,7 @@
 .error {
   color: red;
   font-weight: bold;
+  height: 1vh;
 }
 
 #player {

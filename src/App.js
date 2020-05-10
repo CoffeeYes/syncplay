@@ -108,7 +108,8 @@ class App extends Component {
       })
 
       this.socket.on("newUserReceiveVideoAndTimeStamp", (time,videoID) => {
-        this.player.cueVideoById(videoID,time,"large"); 
+        this.player.loadVideoById(videoID,time,"large"); 
+        this.player.pauseVideo();
       })
 
       this.socket.on("disallowPlaying",() => {
