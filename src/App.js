@@ -28,7 +28,9 @@ class App extends Component {
       videoID : '',
       currentTime : 0,
       error : "",
-      allowPlay : true
+      allowPlay : true,
+      localMessage : "",
+      messages : []
     }
   }
 
@@ -118,6 +120,10 @@ class App extends Component {
 
       this.socket.on("allowPlaying",() => {
         this.setState({allowPlay: true})
+      })
+
+      this.socket.on("receiveNewMessage",(message) => {
+        this.setState((prevState) => ({messages : [...prevState.messages,message]}))
       })
     /*------------------------------------------------------*/
   }
@@ -220,6 +226,14 @@ class App extends Component {
     })
   }
 
+  sendMessage = (event) => {
+    if(event.which == 13) {
+      console.log(this.state.localMessage)
+
+      this.socket.emit("newMessage",this.state.localMessage,this.state.roomID)
+    }
+  }
+
   render = () => {
     return(
       <Switch>
@@ -230,6 +244,8 @@ class App extends Component {
             searchInputEnterPressed={this.searchInputEnterPressed}
             videoSource={this.state.videoSource}
             setStateRoomCode={ (roomID) => {this.setStateRoomCode(roomID)}}
+            messages={this.state.messages}
+            sendMessage={this.sendMessage}
             />
           )} />
           <Route path="/" render={() => (

@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import Player from './Player.js'
 import SearchBar from './SearchBar.js'
 
+import ChatBox from './ChatBox.js'
+
 class Room extends Component {
 
     componentDidMount = () => {
@@ -14,7 +16,11 @@ class Room extends Component {
             <div className="main">
                 <p className="error">{this.props.error}</p>
                 <SearchBar handleChange={this.props.handleChange} searchInputEnterPressed={this.props.searchInputEnterPressed}/>
-                <Player videoSource={this.props.videoSource}/>
+                <div className="playerAndChatContainer">
+                    <Player videoSource={this.props.videoSource}/>
+                    <ChatBox messages={this.props.messages} sendMessage={this.props.sendMessage} handleChange={this.props.handleChange}/>
+                </div>
+                
             </div>
         )
     }

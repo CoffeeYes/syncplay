@@ -20,7 +20,8 @@
 
 #player {
   height: 85vh;
-  width: 95vw;
+  width: 75vw;
+  margin-left: 3vw;
 }
 
 #searchBar {
@@ -31,6 +32,60 @@
 .verticalCenter {
   justify-content: center;
 }
+
+.playerAndChatContainer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.chatContainer {
+  width: 20vw;
+  height: 85vh;
+  border : 1px solid black;
+}
+
+.messageBox {
+  width: 100%;
+  height: 96.4%;
+  overflow-y: scroll;
+}
+
+#chatInput {
+  height: 3%;
+  width: 98.8%;
+  border-right: none;
+  border-bottom : none
+}
+
+.message {
+  display : flex;
+  flex-direction: column;
+  width: 100%;
+  border-bottom : 1px solid black;
+}
+
+.messageHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.messageUser {
+  font-size: 12px;
+  margin-left: 1vw;
+}
+
+.messageTime {
+  margin-right: 1vw;
+  font-size: 12px;
+}
+
+.messageText {
+  margin-left: 1vw;
+}
+
+
 /*
 @media  screen and (max-width: 1920px) {
   #player {

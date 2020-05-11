@@ -8,9 +8,28 @@ const socketPort = 5001;
 
 var roomMetaData = {};
 
+getRandomColor = () => {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
 generateRandomRoomString = () => {
     let roomString = Math.random().toString(36).substring(5);
     return roomString
+}
+
+createMessage = (msg,clientID,clientColour) => {
+    var currentDate = new Date(Date.now())
+    return {
+        user : clientID,
+        text : msg,
+        time : currentDate.getHours() + ":" + currentDate.getMinutes(),
+        color : clientColour
+    }
 }
 
 app.get('/test', (req,res,next) => {
@@ -39,6 +58,7 @@ io.on('connection', (client) => {
         roomMetaData[newRoomID].newestUser = "";
         roomMetaData[newRoomID].owner = client.id;
         roomMetaData[newRoomID].syncedUserlist = []
+        roomMetaData[newRoomID].userColours = {};
 
         roomMetaData[newRoomID].currentVideoID = "";
 
@@ -54,6 +74,10 @@ io.on('connection', (client) => {
         roomMetaData[roomID].newestUser = "";
 
         io.to(client.id).emit("receiveCurrentVideoID",roomMetaData[roomID].currentVideoID)
+
+        roomMetaData[roomID].userColours[client.id] = getRandomColor();
+        var joinedMessage = client.id + " joined the room"
+        io.to(roomID).emit("receiveNewMessage",createMessage(joinedMessage,client.id,roomMetaData[roomID].userColours[client.id]))
     })
 
     client.on("userPlayedVideo",(roomID) => {
@@ -135,6 +159,14 @@ io.on('connection', (client) => {
         else {
             io.to(client.id).emit("newUserReceiveVideoAndTimeStamp",0,roomMetaData[roomID].currentVideoID)
         }
+    })
+
+    client.on("newMessage",(msg,roomID) => {
+        //create new message object to send to all users
+        //user colour is created when user joins the room and stored in roomMetadata
+        var message = createMessage(msg,client.id,roomMetaData[roomID].userColours[client.id])
+
+        io.to(roomID).emit("receiveNewMessage",message)
     })
 })
 
