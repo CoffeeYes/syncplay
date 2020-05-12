@@ -18,7 +18,7 @@ class Room extends Component {
                 <SearchBar handleChange={this.props.handleChange} searchInputEnterPressed={this.props.searchInputEnterPressed}/>
                 <div className="playerAndChatContainer">
                     <Player videoSource={this.props.videoSource}/>
-                    <ChatBox messages={this.props.messages} sendMessage={this.props.sendMessage} handleChange={this.props.handleChange}/>
+                    <ChatBox localMessage={this.props.localMessage} messages={this.props.messages} sendMessage={this.props.sendMessage} handleChange={this.props.handleChange}/>
                 </div>
                 
             </div>

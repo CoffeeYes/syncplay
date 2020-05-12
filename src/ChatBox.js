@@ -17,7 +17,7 @@ class ChatBox extends Component {
                         )
                     })}
                 </div>
-                <input id="chatInput" name="localMessage" onChange={this.props.handleChange} onKeyPress={this.props.sendMessage}/>
+                <input id="chatInput" name="localMessage" onChange={this.props.handleChange} onKeyPress={this.props.sendMessage} value={this.props.localMessage}/>
             </div>
         )
     }

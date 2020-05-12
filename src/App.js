@@ -231,6 +231,7 @@ class App extends Component {
       console.log(this.state.localMessage)
 
       this.socket.emit("newMessage",this.state.localMessage,this.state.roomID)
+      this.setState({localMessage : ""})
     }
   }
 
@@ -244,6 +245,7 @@ class App extends Component {
             searchInputEnterPressed={this.searchInputEnterPressed}
             videoSource={this.state.videoSource}
             setStateRoomCode={ (roomID) => {this.setStateRoomCode(roomID)}}
+            localMessage={this.state.localMessage}
             messages={this.state.messages}
             sendMessage={this.sendMessage}
             />
