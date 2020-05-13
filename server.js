@@ -69,6 +69,9 @@ io.on('connection', (client) => {
         roomMetaData[newRoomID].owner = client.id;
         roomMetaData[newRoomID].syncedUserlist = []
         roomMetaData[newRoomID].userColours = {};
+        roomMetaData[newRoomID].connectedUsers = [];
+
+        roomMetaData[newRoomID].connectedUsers.push(client.id)
 
         roomMetaData[newRoomID].currentVideoID = "";
 
@@ -80,6 +83,7 @@ io.on('connection', (client) => {
             return io.emit("clientError","Room does not exist")
         }
         client.join(roomID);
+        roomMetaData[roomID].connectedUsers.push(client.id)
 
         roomMetaData[roomID].newestUser = "";
 
@@ -179,6 +183,21 @@ io.on('connection', (client) => {
         io.to(roomID).emit("receiveNewMessage",message)
     })
     
+    client.on("disconnect",() => {
+        //find room user disconnected from 
+        var disconnectingUserRoom = ""
+        var index = 0;
+        for(var room in roomMetaData) {
+            if(roomMetaData[room].connectedUsers.indexOf(client.id) != -1) {
+                disconnectingUserRoom = room
+                index = roomMetaData[room].connectedUsers.indexOf(client.id)
+            }
+        }
+
+        var msg = createMessage([client.id + " Disconnected"],client.id,roomMetaData[disconnectingUserRoom].userColours[client.id])
+        io.to(disconnectingUserRoom).emit("receiveNewMessage",msg)
+        roomMetaData[disconnectingUserRoom].connectedUsers.splice(index,1)
+    })
 })
 
 
