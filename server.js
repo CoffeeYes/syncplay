@@ -22,7 +22,7 @@ generateRandomRoomString = () => {
     return roomString
 }
 
-createMessage = (msg,clientID,clientColour) => {
+createMessage = (msg,username,clientColour) => {
     var currentDate = new Date(Date.now())
     var hours = currentDate.getHours()
     var minutes = currentDate.getMinutes()
@@ -35,7 +35,7 @@ createMessage = (msg,clientID,clientColour) => {
         hours = "0" + hours
     }
     return {
-        user : clientID,
+        user : username,
         text : msg,
         time : hours + ":" + minutes,
         color : clientColour
@@ -69,9 +69,12 @@ io.on('connection', (client) => {
         roomMetaData[newRoomID].owner = client.id;
         roomMetaData[newRoomID].syncedUserlist = []
         roomMetaData[newRoomID].userColours = {};
-        roomMetaData[newRoomID].connectedUsers = [];
 
+        roomMetaData[newRoomID].connectedUsers = [];
         roomMetaData[newRoomID].connectedUsers.push(client.id)
+
+        roomMetaData[newRoomID].usernames = {};
+        roomMetaData[newRoomID].usernames[client.id] = client.id
 
         roomMetaData[newRoomID].currentVideoID = "";
 
@@ -79,17 +82,24 @@ io.on('connection', (client) => {
     })
 
     client.on("userJoinedRoom",(roomID) => {
+        //check if room exists
         if(roomMetaData[roomID] == undefined) {
             return io.emit("clientError","Room does not exist")
         }
+        //join passed room in sockets
         client.join(roomID);
+        //add user to connected users array
         roomMetaData[roomID].connectedUsers.push(client.id)
+        //set clients username as socketio client id, can be changed
+        roomMetaData[roomID].usernames[client.id] = client.id
 
         roomMetaData[roomID].newestUser = "";
-
+        //send videoID
         io.to(client.id).emit("receiveCurrentVideoID",roomMetaData[roomID].currentVideoID)
 
+        //give User a random colour for chat 
         roomMetaData[roomID].userColours[client.id] = getRandomColor();
+        //emit join message to users in room
         var joinedMessage = client.id + " joined the room"
         io.to(roomID).emit("receiveNewMessage",createMessage(joinedMessage,client.id,roomMetaData[roomID].userColours[client.id]))
     })
@@ -178,8 +188,17 @@ io.on('connection', (client) => {
     client.on("newMessage",(msg,roomID) => {
         //create new message object to send to all users
         //user colour is created when user joins the room and stored in roomMetadata
-        var message = createMessage(msg,client.id,roomMetaData[roomID].userColours[client.id])
+        var message = createMessage(msg,roomMetaData[roomID].usernames[client.id],roomMetaData[roomID].userColours[client.id])
 
+        io.to(roomID).emit("receiveNewMessage",message)
+    })
+
+    client.on("clientChangedUsername", (name,roomID) => {
+        //change users username in metadata
+        roomMetaData[roomID].usernames[client.id] = name;
+        //let other users know the user changed their username
+        var text = client.id + " Changed their name to " + roomMetaData[roomID].usernames[client.id]
+        var message = createMessage(text,roomMetaData[roomID].usernames[client.id],roomMetaData[roomID].userColours[client.id])
         io.to(roomID).emit("receiveNewMessage",message)
     })
     
@@ -194,7 +213,7 @@ io.on('connection', (client) => {
             }
         }
 
-        var msg = createMessage([client.id + " Disconnected"],client.id,roomMetaData[disconnectingUserRoom].userColours[client.id])
+        var msg = createMessage([client.id + " Disconnected"],roomMetaData[disconnectingUserRoom].usernames[client.id],roomMetaData[disconnectingUserRoom].userColours[client.id])
         io.to(disconnectingUserRoom).emit("receiveNewMessage",msg)
         roomMetaData[disconnectingUserRoom].connectedUsers.splice(index,1)
     })

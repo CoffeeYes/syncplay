@@ -41,7 +41,7 @@
 
 .chatContainer {
   width: 20vw;
-  height: 85vh;
+  height: 80vh;
   border : 1px solid black;
 }
 
@@ -85,6 +85,22 @@
   margin-left: 1vw;
 }
 
+.changeNameContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 3vh;
+  width: 100%;
+  margin-bottom: 0.5vh;
+}
+
+#changeUsernameInput {
+  width: 80%;
+}
+
+#changeUsernameSubmit {
+  width: 20%;
+}
 
 /*
 @media  screen and (max-width: 1920px) {

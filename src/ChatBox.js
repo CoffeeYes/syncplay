@@ -4,6 +4,10 @@ class ChatBox extends Component {
     render = () => {
         return(
             <div className="chatContainer">
+                <div className="changeNameContainer">
+                    <input id="changeUsernameInput" name="changeName" onChange={this.props.handleChange} placeholder="Change your Username..."/>
+                    <button onClick={this.props.changeUsername} id="changeUsernameSubmit">Submit</button>
+                </div>
                 <div className="messageBox">
                     {this.props.messages.map((item,index) => {
                         return(

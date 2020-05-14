@@ -30,7 +30,8 @@ class App extends Component {
       error : "",
       allowPlay : true,
       localMessage : "",
-      messages : []
+      messages : [],
+      changeName : ""
     }
   }
 
@@ -235,6 +236,10 @@ class App extends Component {
     }
   }
 
+  changeUsername = (event) => {
+    this.socket.emit("clientChangedUsername",this.state.changeName,this.state.roomID)
+  }
+
   render = () => {
     return(
       <Switch>
@@ -248,6 +253,7 @@ class App extends Component {
             localMessage={this.state.localMessage}
             messages={this.state.messages}
             sendMessage={this.sendMessage}
+            changeUsername={this.changeUsername}
             />
           )} />
           <Route path="/" render={() => (
