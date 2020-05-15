@@ -4,8 +4,9 @@ class ChatBox extends Component {
     render = () => {
         return(
             <div className="chatContainer">
+                <p className="error">{this.props.chatError}</p>
                 <div className="changeNameContainer">
-                    <input id="changeUsernameInput" name="changeName" onChange={this.props.handleChange} placeholder="Change your Username..."/>
+                    <input id="changeUsernameInput" name="changeName" onChange={this.props.handleChange} placeholder="Change your Username..." value={this.props.changeName}/>
                     <button onClick={this.props.changeUsername} id="changeUsernameSubmit">Submit</button>
                 </div>
                 <div className="messageBox">

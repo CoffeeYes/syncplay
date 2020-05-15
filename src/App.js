@@ -28,6 +28,7 @@ class App extends Component {
       videoID : '',
       currentTime : 0,
       error : "",
+      chatError : "",
       allowPlay : true,
       localMessage : "",
       messages : [],
@@ -125,6 +126,10 @@ class App extends Component {
 
       this.socket.on("receiveNewMessage",(message) => {
         this.setState((prevState) => ({messages : [...prevState.messages,message]}))
+      })
+
+      this.socket.on("chatError", (error) => {
+        this.setState({chatError : error})
       })
     /*------------------------------------------------------*/
   }
@@ -237,7 +242,14 @@ class App extends Component {
   }
 
   changeUsername = (event) => {
+    //reset chat error
+    this.setState({chatError : ""})
+    //empty check
+    if(this.state.changeName == "") {
+      return this.setState({chatError : "Username cannot be empty"})
+    }
     this.socket.emit("clientChangedUsername",this.state.changeName,this.state.roomID)
+    this.setState({changeName : ""})
   }
 
   render = () => {
@@ -253,7 +265,9 @@ class App extends Component {
             localMessage={this.state.localMessage}
             messages={this.state.messages}
             sendMessage={this.sendMessage}
+            changeName={this.state.changeName}
             changeUsername={this.changeUsername}
+            chatError={this.state.chatError}
             />
           )} />
           <Route path="/" render={() => (

@@ -194,6 +194,12 @@ io.on('connection', (client) => {
     })
 
     client.on("clientChangedUsername", (name,roomID) => {
+        //check if username is already taken
+        for(var username in roomMetaData[roomID].usernames) {
+            if(roomMetaData[roomID].usernames[username] == name) {
+                return io.to(client.id).emit("chatError","username is already taken")
+            }
+        }
         //change users username in metadata
         roomMetaData[roomID].usernames[client.id] = name;
         //let other users know the user changed their username

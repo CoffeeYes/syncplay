@@ -23,7 +23,9 @@ class Room extends Component {
                     messages={this.props.messages} 
                     sendMessage={this.props.sendMessage} 
                     handleChange={this.props.handleChange}
+                    changeName={this.props.changeName}
                     changeUsername={this.props.changeUsername}
+                    chatError={this.props.chatError}
                     />
                 </div>
                 
