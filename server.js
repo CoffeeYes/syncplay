@@ -11,6 +11,7 @@ var roomMetaData = {};
 getRandomColor = () => {
     //https://stackoverflow.com/questions/23601792/get-only-light-colors-randomly-using-javascript
     //code for generating random light color using hue,saturation,lightness (hsl) function
+    //0 DEG = red, 120 DEG = green, 240 DEG = blue, generate random degree number, 100% saturation, 75% lightness
     color = "hsl(" + Math.random() * 360 + ", 100%, 75%)";
     return color;
   }
