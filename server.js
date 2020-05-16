@@ -9,11 +9,9 @@ const socketPort = 5001;
 var roomMetaData = {};
 
 getRandomColor = () => {
-    var letters = '0123456789ABCDEF';
-    var color = '#';
-    for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
+    //https://stackoverflow.com/questions/23601792/get-only-light-colors-randomly-using-javascript
+    //code for generating random light color using hue,saturation,lightness (hsl) function
+    color = "hsl(" + Math.random() * 360 + ", 100%, 75%)";
     return color;
   }
 
