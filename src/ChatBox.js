@@ -1,6 +1,21 @@
 import React, {Component} from 'react'
 
 class ChatBox extends Component {
+    constructor(props) {
+        super(props)
+
+        this.msgEndRef = React.createRef();
+    }
+
+    componentDidUpdate = () => {
+        this.scrollToBottom();
+        console.log("update")
+    }
+
+    scrollToBottom = () => {
+        this.msgEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+    
     render = () => {
         return(
             <div className="chatContainer">
@@ -9,7 +24,7 @@ class ChatBox extends Component {
                     <input id="changeUsernameInput" name="changeName" onChange={this.props.handleChange} placeholder="Change your Username..." value={this.props.changeName}/>
                     <button onClick={this.props.changeUsername} id="changeUsernameSubmit">Submit</button>
                 </div>
-                <div className="messageBox">
+                <div className="messageBox" ref={this.msgBoxRef}>
                     {this.props.messages.map((item,index) => {
                         return(
                             <div className="message" style={{"background-color" : item.color}}>
@@ -21,6 +36,7 @@ class ChatBox extends Component {
                             </div>
                         )
                     })}
+                    <div ref={this.msgEndRef}/>
                 </div>
                 <input id="chatInput" name="localMessage" onChange={this.props.handleChange} onKeyPress={this.props.sendMessage} value={this.props.localMessage}/>
             </div>
