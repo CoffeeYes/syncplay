@@ -150,6 +150,12 @@ io.on('connection', (client) => {
         //block users from playing while we wait for all clients to send back timeSyncedToOtherPausedUser signal
         io.to(roomID).emit("disallowPlaying")
         io.to(roomID).emit("clientError","Waiting for all users to synchronise")
+
+        var username = roomMetaData[roomID].usernames[client.id];
+        var colour =roomMetaData[roomID].userColours[client.id];
+        var timeText = Math.floor(time/60) + ":" + Math.round(time % 60);
+        var msg = createMessage([username + " changed the time to " + timeText],username,colour)
+        client.to(roomID).emit("receiveNewMessage",msg)
     })
 
     client.on("timeSyncedToOtherPausedUser",(roomID) => {
