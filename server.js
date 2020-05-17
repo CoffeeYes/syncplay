@@ -105,10 +105,20 @@ io.on('connection', (client) => {
 
     client.on("userPlayedVideo",(roomID) => {
         client.to(roomID).emit("anotherUserPlayedVideo");
+        //let other users know who played the video through chat message
+        var username = roomMetaData[roomID].usernames[client.id];
+        var colour =roomMetaData[roomID].userColours[client.id];
+        var msg = createMessage([username + " played the video"],username,colour)
+        client.to(roomID).emit("receiveNewMessage",msg)
     })
 
     client.on("userPausedVideo", (time,roomID) => {
         client.to(roomID).emit("anotherUserPausedVideo",time);
+        //let other users know who paused the video through chat message
+        var username = roomMetaData[roomID].usernames[client.id];
+        var colour =roomMetaData[roomID].userColours[client.id];
+        var msg = createMessage([username + " paused the video"],username,colour)
+        client.to(roomID).emit("receiveNewMessage",msg)
     })
 
     client.on("newUserRequestTime",(roomID) => {
