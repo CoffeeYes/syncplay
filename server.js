@@ -233,11 +233,22 @@ io.on('connection', (client) => {
                 index = roomMetaData[room].connectedUsers.indexOf(client.id)
             }
         }
+        if(disconnectingUserRoom != "" ) {
+            //send disconnect message and remove user from metadata arrays
+            var msg = createMessage([client.id + " Disconnected"],roomMetaData[disconnectingUserRoom].usernames[client.id],roomMetaData[disconnectingUserRoom].userColours[client.id])
+            io.to(disconnectingUserRoom).emit("receiveNewMessage",msg)
+            roomMetaData[disconnectingUserRoom].connectedUsers.splice(index,1)
+            delete roomMetaData[disconnectingUserRoom].usernames[client.id]
 
-        var msg = createMessage([client.id + " Disconnected"],roomMetaData[disconnectingUserRoom].usernames[client.id],roomMetaData[disconnectingUserRoom].userColours[client.id])
-        io.to(disconnectingUserRoom).emit("receiveNewMessage",msg)
-        roomMetaData[disconnectingUserRoom].connectedUsers.splice(index,1)
-        delete roomMetaData[disconnectingUserRoom].usernames[client.id]
+            //if that user was the last user, delete Metadata value for room ID after 5 seconds to prevent room from being re-created
+            if(roomMetaData[disconnectingUserRoom].connectedUsers == "") {
+                setTimeout( () => {
+                    delete roomMetaData[disconnectingUserRoom]
+                },5000)
+            }
+        }
+        
+
     })
 })
 
