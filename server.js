@@ -75,7 +75,7 @@ io.on('connection', (client) => {
         roomMetaData[newRoomID].usernames = {};
         roomMetaData[newRoomID].usernames[client.id] = client.id
 
-        roomMetaData[newRoomID].currentVideoID = "";
+        roomMetaData[newRoomID].currentVideoID = "gGdGFtwCNBE";
 
         io.to(userID).emit("roomCreatedSuccesfully",newRoomID)
     })
@@ -243,7 +243,9 @@ io.on('connection', (client) => {
             //if that user was the last user, delete Metadata value for room ID after 5 seconds to prevent room from being re-created
             if(roomMetaData[disconnectingUserRoom].connectedUsers == "") {
                 setTimeout( () => {
-                    delete roomMetaData[disconnectingUserRoom]
+                    if(roomMetaData[disconnectingUserRoom].connectedUsers == "") {
+                        delete roomMetaData[disconnectingUserRoom]
+                    }
                 },5000)
             }
         }
