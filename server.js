@@ -75,6 +75,9 @@ io.on('connection', (client) => {
         roomMetaData[newRoomID].usernames = {};
         roomMetaData[newRoomID].usernames[client.id] = client.id
 
+        roomMetaData[newRoomID].playingUsers = [];
+        roomMetaData[newRoomID].pausedUsers = [];
+
         roomMetaData[newRoomID].currentVideoID = "gGdGFtwCNBE";
 
         io.to(userID).emit("roomCreatedSuccesfully",newRoomID)
@@ -104,21 +107,33 @@ io.on('connection', (client) => {
     })
 
     client.on("userPlayedVideo",(roomID) => {
-        client.to(roomID).emit("anotherUserPlayedVideo");
+        io.to(roomID).emit("anotherUserPlayedVideo");
+        //clear paused user array
+        roomMetaData[roomID].pausedUsers = []
+        //add user to playing array
+        roomMetaData[roomID].playingUsers.push(client.id)
         //let other users know who played the video through chat message
-        var username = roomMetaData[roomID].usernames[client.id];
-        var colour =roomMetaData[roomID].userColours[client.id];
-        var msg = createMessage([username + " played the video"],username,colour)
-        client.to(roomID).emit("receiveNewMessage",msg)
+        if(roomMetaData[roomID].playingUsers.length == 1) {
+            var username = roomMetaData[roomID].usernames[client.id];
+            var colour =roomMetaData[roomID].userColours[client.id];
+            var msg = createMessage([username + " played the video"],username,colour)
+            io.to(roomID).emit("receiveNewMessage",msg)
+        }
     })
 
     client.on("userPausedVideo", (time,roomID) => {
-        client.to(roomID).emit("anotherUserPausedVideo",time);
+        io.to(roomID).emit("anotherUserPausedVideo",time);
+        //clear playing users array
+        roomMetaData[roomID].playingUsers = [];
+        //add user to paused array
+        roomMetaData[roomID].pausedUsers.push(client.id)
         //let other users know who paused the video through chat message
-        var username = roomMetaData[roomID].usernames[client.id];
-        var colour =roomMetaData[roomID].userColours[client.id];
-        var msg = createMessage([username + " paused the video"],username,colour)
-        client.to(roomID).emit("receiveNewMessage",msg)
+        if(roomMetaData[roomID].pausedUsers.length == 1) {
+            var username = roomMetaData[roomID].usernames[client.id];
+            var colour =roomMetaData[roomID].userColours[client.id];
+            var msg = createMessage([username + " paused the video"],username,colour)
+            io.to(roomID).emit("receiveNewMessage",msg)
+        }
     })
 
     client.on("newUserRequestTime",(roomID) => {
