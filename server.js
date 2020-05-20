@@ -77,6 +77,7 @@ io.on('connection', (client) => {
 
         roomMetaData[newRoomID].playingUsers = [];
         roomMetaData[newRoomID].pausedUsers = [];
+        roomMetaData[newRoomID].timeChangeUsers = [];
 
         roomMetaData[newRoomID].currentVideoID = "gGdGFtwCNBE";
 
@@ -155,6 +156,9 @@ io.on('connection', (client) => {
         var clients = io.sockets.adapter.rooms[roomID].sockets;
         clients = Object.keys(clients);
 
+        //add user to timesync array
+        roomMetaData[roomID].timeChangeUsers.push(client.id);
+
         //emit new time to all users except the one who changed the timestamp while paused
         for(var item in clients) {
             if(clients[item] != client.id) {
@@ -165,12 +169,18 @@ io.on('connection', (client) => {
         //block users from playing while we wait for all clients to send back timeSyncedToOtherPausedUser signal
         io.to(roomID).emit("disallowPlaying")
         io.to(roomID).emit("clientError","Waiting for all users to synchronise")
-
-        var username = roomMetaData[roomID].usernames[client.id];
-        var colour =roomMetaData[roomID].userColours[client.id];
-        var timeText = Math.floor(time/60) + ":" + Math.round(time % 60);
-        var msg = createMessage([username + " changed the time to " + timeText],username,colour)
-        client.to(roomID).emit("receiveNewMessage",msg)
+        //let other users know who changed time
+        if(roomMetaData[roomID].timeChangeUsers.length == 1) {
+            var username = roomMetaData[roomID].usernames[client.id];
+            var colour =roomMetaData[roomID].userColours[client.id];
+            var timeText = Math.floor(time/60) + ":" + Math.round(time % 60);
+            var msg = createMessage([username + " changed the time to " + timeText],username,colour)
+            io.to(roomID).emit("receiveNewMessage",msg)
+        }
+        //clear time sync array when all users have synced their timestamp
+        else if (roomMetaData[roomID].timeChangeUsers.length == clients.length) {
+            roomMetaData[roomID].timeChangeUsers = []
+        }
     })
 
     client.on("timeSyncedToOtherPausedUser",(roomID) => {
