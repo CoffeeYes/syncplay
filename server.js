@@ -166,38 +166,43 @@ io.on('connection', (client) => {
             }
         }
 
-        //block users from playing while we wait for all clients to send back timeSyncedToOtherPausedUser signal
+        //block users from playing while we wait for all clients to synchronise their times
         io.to(roomID).emit("disallowPlaying")
         io.to(roomID).emit("clientError","Waiting for all users to synchronise")
         //let other users know who changed time
         if(roomMetaData[roomID].timeChangeUsers.length == 1) {
+            //get user data
             var username = roomMetaData[roomID].usernames[client.id];
             var colour =roomMetaData[roomID].userColours[client.id];
-            var timeText = Math.floor(time/60) + ":" + Math.round(time % 60);
+            //calculate time from seconds
+            var mins = Math.floor(time/60)
+            var seconds = Math.round(time % 60)
+            var timeText;
+            //format time
+            if(mins < 10) {
+                timeText = "0" + mins + ":";
+            }
+            else {
+                timeText = mins = ":"
+            }
+
+            if(seconds < 10 ) {
+                timeText += "0" + seconds;
+            }
+            else {
+                timeText += seconds;
+            }
+            //send timechange message
             var msg = createMessage([username + " changed the time to " + timeText],username,colour)
             io.to(roomID).emit("receiveNewMessage",msg)
         }
         //clear time sync array when all users have synced their timestamp
         else if (roomMetaData[roomID].timeChangeUsers.length == clients.length) {
             roomMetaData[roomID].timeChangeUsers = []
-        }
-    })
 
-    client.on("timeSyncedToOtherPausedUser",(roomID) => {
-        //add client to response array for timesync
-        roomMetaData[roomID].syncedUserlist.push(client.id);
-
-        //get all clients connected in room
-        var clients = io.sockets.adapter.rooms[roomID].sockets;
-        clients = Object.keys(clients);
-
-        //check if we have responses from all users in room
-        if(roomMetaData[roomID].syncedUserlist.length == clients.length) {
             //allow users to play video
             io.to(roomID).emit("allowPlaying")
             io.to(roomID).emit("clientError","")
-            //reset timesync array
-            roomMetaData[roomID].syncedUserlist = []
         }
     })
 

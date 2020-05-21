@@ -107,8 +107,6 @@ class App extends Component {
       this.socket.on("anotherUserChangedTimeWhilePaused", (time) => {
         this.player.seekTo(time,true);
         this.player.pauseVideo();
-
-        this.socket.emit("timeSyncedToOtherPausedUser",this.state.roomID)
       })
 
       this.socket.on("newUserReceiveVideoAndTimeStamp", (time,videoID) => {
