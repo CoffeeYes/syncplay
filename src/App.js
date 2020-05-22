@@ -32,10 +32,18 @@ class App extends Component {
       allowPlay : true,
       localMessage : "",
       messages : [],
-      changeName : ""
+      changeName : "",
+      searchResults : []
     }
   }
 
+  searchForVideoByString = () => {
+    fetch("https://www.googleapis.com/youtube/v3/search?part=snippet&videoSyndicated=true&type=video&q=" + this.state.searchTerm + "&maxResults=5&key=" + connect.youtubeAPI.key )
+    .then(res => res.json())
+    .then(data => {
+      this.setState({searchResults : data.items})
+    })
+  } 
   componentDidMount = () => {
     //check if youtube iframe API is loaded and if not, load it
     if(!window.YT) {
@@ -187,6 +195,11 @@ class App extends Component {
 
   searchInputEnterPressed = (event) => {
     if(event.which === 13) {
+      var ytRegex = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/
+      //check if typed text is a youtube link, if not perform a search 
+      if(ytRegex.test(this.state.searchTerm) == false) {
+        return this.searchForVideoByString()
+      }
       //url parameter object to extract information from
       const URLParams = new URLSearchParams(this.state.searchTerm)
 
@@ -250,6 +263,16 @@ class App extends Component {
     this.setState({changeName : ""})
   }
 
+  userClickedSearchResult = (videoID) => {
+    this.setState({videoID : videoID},() => {
+      //cue video and emit ID to other users
+      this.player.loadVideoById(this.state.videoID,0,"large")
+      this.socket.emit('videoIdWasChangedByClient',this.state.videoID,this.state.roomID,0)
+      //clear search results and search term
+      this.setState({searchResults : [],searchTerm : ""})
+    })
+  }
+
   render = () => {
     return(
       <Switch>
@@ -266,6 +289,9 @@ class App extends Component {
             changeName={this.state.changeName}
             changeUsername={this.changeUsername}
             chatError={this.state.chatError}
+            searchResults={this.state.searchResults}
+            searchTerm={this.state.searchTerm}
+            userClickedSearchResult={(videoID) => this.userClickedSearchResult(videoID)}
             />
           )} />
           <Route path="/" render={() => (

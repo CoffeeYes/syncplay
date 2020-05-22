@@ -15,7 +15,13 @@ class Room extends Component {
         return(
             <div className="main">
                 <p className="error">{this.props.error}</p>
-                <SearchBar handleChange={this.props.handleChange} searchInputEnterPressed={this.props.searchInputEnterPressed}/>
+                <SearchBar 
+                handleChange={this.props.handleChange} 
+                searchInputEnterPressed={this.props.searchInputEnterPressed} 
+                searchResults={this.props.searchResults}
+                searchTerm={this.props.searchTerm}
+                userClickedSearchResult={(videoID) => this.props.userClickedSearchResult(videoID)}
+                />
                 <div className="playerAndChatContainer">
                     <Player videoSource={this.props.videoSource}/>
                     <ChatBox 

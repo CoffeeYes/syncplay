@@ -24,9 +24,27 @@
   margin-left: 3vw;
 }
 
-#searchBar {
+.searchContainer {
   width: 50vw;
+}
+
+#searchBar {
+  width: 100%;
   margin-bottom: 2vh;
+}
+
+.searchResultsContainer {
+  border : 1px solid black;
+  position : absolute;
+  background : #f9f9f9;
+  width : inherit;
+  z-index : 999;
+}
+
+.searchResult {
+  border-bottom: 1px solid black;
+  display: flex;
+  flex-direction: row;
 }
 
 .verticalCenter {
@@ -103,6 +121,8 @@
 #changeUsernameSubmit {
   width: 20%;
 }
+
+
 
 /*
 @media  screen and (max-width: 1920px) {
