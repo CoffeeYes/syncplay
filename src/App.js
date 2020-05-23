@@ -148,6 +148,13 @@ class App extends Component {
       this.socket.on("anotherUserAddedVideoToPlaylist",(videoData) => {
         this.setState( (prevState) => ({playlistVideos : [...prevState.playlistVideos,videoData]}))
       })
+
+      this.socket.on("hydratePlaylistState", (playlist,index) => {
+        this.setState({
+          playlistVideos : playlist,
+          playlistCurrentVideoIndex : index
+        });
+      })
     /*------------------------------------------------------*/
   }
 
@@ -301,6 +308,7 @@ class App extends Component {
     this.setState({playlistCurrentVideoIndex : index})
 
     this.socket.emit('videoIdWasChangedByClient',videoID,this.state.roomID,0)
+    this.socket.emit("updatePlaylistIndex",index,this.state.roomID)
   }
 
   render = () => {

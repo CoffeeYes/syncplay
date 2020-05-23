@@ -79,6 +79,9 @@ io.on('connection', (client) => {
         roomMetaData[newRoomID].pausedUsers = [];
         roomMetaData[newRoomID].timeChangeUsers = [];
 
+        roomMetaData[newRoomID].playlist = [];
+        roomMetaData[newRoomID].playlistIndex = -1;
+
         roomMetaData[newRoomID].currentVideoID = "gGdGFtwCNBE";
 
         io.to(userID).emit("roomCreatedSuccesfully",newRoomID)
@@ -99,6 +102,7 @@ io.on('connection', (client) => {
         roomMetaData[roomID].newestUser = "";
         //send videoID
         io.to(client.id).emit("receiveCurrentVideoID",roomMetaData[roomID].currentVideoID)
+        io.to(client.id).emit("hydratePlaylistState",roomMetaData[roomID].playlist,roomMetaData[roomID].playlistIndex)
 
         //give User a random colour for chat 
         roomMetaData[roomID].userColours[client.id] = getRandomColor();
@@ -255,6 +259,11 @@ io.on('connection', (client) => {
 
     client.on("userAddedVideoToPlaylist",(videoData,roomID) => {
         client.to(roomID).emit("anotherUserAddedVideoToPlaylist",videoData)
+        roomMetaData[roomID].playlist.push(videoData)
+    })
+
+    client.on("updatePlaylistIndex",(index,roomID) => {
+        roomMetaData[roomID].playlistIndex = index
     })
     
     client.on("disconnect",() => {
