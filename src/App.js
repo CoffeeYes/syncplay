@@ -155,6 +155,10 @@ class App extends Component {
           playlistCurrentVideoIndex : index
         });
       })
+
+      this.socket.on("videoIndexWasUpdated", (index) => {
+        this.setState({playlistCurrentVideoIndex: index})
+      })
     /*------------------------------------------------------*/
   }
 
@@ -204,6 +208,16 @@ class App extends Component {
         }
         currentTimeWhilePaused = this.player.getCurrentTime();
       },100)
+    }
+    else if(event.data == window.YT.PlayerState.ENDED) {
+      //if there are videos in the playlist and were not at the last video of the playlist play the next one
+      if(this.state.playlistVideos != "" && this.state.playlistCurrentVideoIndex +1 <= this.state.playlistVideos.length -1) {
+        //increment playlist video index and then play the video
+        this.setState({playlistCurrentVideoIndex : this.state.playlistCurrentVideoIndex + 1},() => {
+          this.socket.emit("updatePlaylistIndex",this.state.playlistCurrentVideoIndex,this.state.roomID)
+          this.socket.emit("videoIdWasChangedByClient",this.state.playlistVideos[this.state.playlistCurrentVideoIndex].videoID,this.state.roomID,0);
+        })
+      }
     }
   }
 
@@ -305,10 +319,13 @@ class App extends Component {
   }
 
   videoFromPlaylistWasClicked = (videoID,index) => {
+    //update current playlist index locally and on backend
     this.setState({playlistCurrentVideoIndex : index})
-
-    this.socket.emit('videoIdWasChangedByClient',videoID,this.state.roomID,0)
     this.socket.emit("updatePlaylistIndex",index,this.state.roomID)
+
+    //tell all users to play video from playlist
+    this.socket.emit('videoIdWasChangedByClient',videoID,this.state.roomID,0)
+    
   }
 
   render = () => {

@@ -264,6 +264,7 @@ io.on('connection', (client) => {
 
     client.on("updatePlaylistIndex",(index,roomID) => {
         roomMetaData[roomID].playlistIndex = index
+        client.to(roomID).emit("videoIndexWasUpdated",index)
     })
     
     client.on("disconnect",() => {
