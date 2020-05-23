@@ -33,11 +33,17 @@ class App extends Component {
       localMessage : "",
       messages : [],
       changeName : "",
-      searchResults : []
+      searchResults : [],
+      playlistVideos : []
     }
   }
 
   searchForVideoByString = () => {
+    //allow clearing of search results by entering nothing
+    if(this.state.searchTerm == "") {
+      return this.setState({searchResults : []})
+    }
+
     fetch("https://www.googleapis.com/youtube/v3/search?part=snippet&videoSyndicated=true&type=video&q=" + this.state.searchTerm + "&maxResults=5&key=" + connect.youtubeAPI.key )
     .then(res => res.json())
     .then(data => {
@@ -136,6 +142,10 @@ class App extends Component {
 
       this.socket.on("chatError", (error) => {
         this.setState({chatError : error})
+      })
+
+      this.socket.on("anotherUserAddedVideoToPlaylist",(videoData) => {
+        this.setState( (prevState) => ({playlistVideos : [...prevState.playlistVideos,videoData]}))
       })
     /*------------------------------------------------------*/
   }
@@ -273,6 +283,19 @@ class App extends Component {
     })
   }
 
+  addVideoToPlaylist = (videoObj) => {
+    console.log(videoObj)
+
+    var videoData = {
+      title : videoObj.snippet.title,
+      videoID : videoObj.id.videoId,
+      imgURL : videoObj.snippet.thumbnails.default.url
+    }
+
+    this.setState(this.setState((prevState) => ({playlistVideos : [...prevState.playlistVideos,videoData]})))
+    this.socket.emit("userAddedVideoToPlaylist",videoData,this.state.roomID)
+  }
+
   render = () => {
     return(
       <Switch>
@@ -292,6 +315,8 @@ class App extends Component {
             searchResults={this.state.searchResults}
             searchTerm={this.state.searchTerm}
             userClickedSearchResult={(videoID) => this.userClickedSearchResult(videoID)}
+            playlistVideos={this.state.playlistVideos}
+            addVideoToPlaylist={(videoObj => this.addVideoToPlaylist(videoObj))}
             />
           )} />
           <Route path="/" render={() => (

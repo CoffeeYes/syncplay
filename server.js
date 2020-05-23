@@ -252,6 +252,10 @@ io.on('connection', (client) => {
         var message = createMessage(text,roomMetaData[roomID].usernames[client.id],roomMetaData[roomID].userColours[client.id])
         io.to(roomID).emit("receiveNewMessage",message)
     })
+
+    client.on("userAddedVideoToPlaylist",(videoData,roomID) => {
+        client.to(roomID).emit("anotherUserAddedVideoToPlaylist",videoData)
+    })
     
     client.on("disconnect",() => {
         //find room user disconnected from 

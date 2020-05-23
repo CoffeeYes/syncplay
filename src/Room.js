@@ -22,11 +22,12 @@ class Room extends Component {
                 searchResults={this.props.searchResults}
                 searchTerm={this.props.searchTerm}
                 userClickedSearchResult={(videoID) => this.props.userClickedSearchResult(videoID)}
+                addVideoToPlaylist={(videoObj => this.props.addVideoToPlaylist(videoObj))}
                 />
                 <div className="playerAndChatContainer">
                     <Player videoSource={this.props.videoSource}/>
                     <div className="playlistAndChatContainer">
-                        <Playlist/>
+                        <Playlist playlistVideos={this.props.playlistVideos}/>
                         <ChatBox 
                         localMessage={this.props.localMessage} 
                         messages={this.props.messages} 

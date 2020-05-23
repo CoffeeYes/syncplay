@@ -41,10 +41,18 @@
   z-index : 999;
 }
 
-.searchResult {
+.searchResultContainer {
+  display: flex;
+  flex-direction: row;
+  width: inherit;
+  border-bottom: 1px solid black;
+}
+
+.searchResultData {
   border-bottom: 1px solid black;
   display: flex;
   flex-direction: row;
+  width: inherit;
 }
 
 .verticalCenter {
@@ -70,6 +78,15 @@
 .playlistContainer {
   height: 40vh;
   width: 20vw;
+  overflow-y: scroll;
+}
+
+.playlistVideo {
+  display : flex;
+  flex-direction: row;
+  background : grey;
+  border-bottom : 1px solid black;
+  height: 10vh;
 }
 
 .chatContainer {

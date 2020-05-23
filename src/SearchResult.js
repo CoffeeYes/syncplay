@@ -6,10 +6,14 @@ class SearchResult extends Component {
             <div className="searchResultsContainer">
                 {this.props.searchResults.map((item,index) => {
                     return (
-                        <div className="searchResult" key={index} onClick={() => this.props.userClickedSearchResult(item.id.videoId)}>
-                            <img src={item.snippet.thumbnails.default.url}/>
-                            <p>{item.snippet.title}</p>
+                        <div className="searchResultContainer">
+                            <div className="searchResultData" key={index} onClick={() => this.props.userClickedSearchResult(item.id.videoId)}>
+                                <img src={item.snippet.thumbnails.default.url}/>
+                                <p>{item.snippet.title}</p>
+                            </div>
+                            <button onClick={() => this.props.addVideoToPlaylist(item)}>+</button>
                         </div>
+                        
                     )
                 })}
             </div>
