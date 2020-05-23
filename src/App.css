@@ -57,11 +57,28 @@
   width: 100%;
 }
 
+.playlistAndChatContainer {
+  width: 20vw;
+  height: 43vw;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  border-bottom : none;
+  margin-left: 1vw;
+}
+
+.playlistContainer {
+  height: 40vh;
+  width: 20vw;
+}
+
 .chatContainer {
   width: 20vw;
-  height: 85vh;
-  border : 1px solid black;
-  margin-left: 1vw;
+  height: 45vh;
+  border-top: 5px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .messageBox {
@@ -71,10 +88,10 @@
 }
 
 #chatInput {
-  height: 5%;
+  height: 4.5vh;
   width: 99%;
   border : none;
-  border-top: 1px solid grey;
+  border: 1px solid grey;
   font-size: 24px;
 }
 

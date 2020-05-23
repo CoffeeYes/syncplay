@@ -3,6 +3,7 @@ import Player from './Player.js'
 import SearchBar from './SearchBar.js'
 
 import ChatBox from './ChatBox.js'
+import Playlist from './Playlist'
 
 class Room extends Component {
 
@@ -24,15 +25,18 @@ class Room extends Component {
                 />
                 <div className="playerAndChatContainer">
                     <Player videoSource={this.props.videoSource}/>
-                    <ChatBox 
-                    localMessage={this.props.localMessage} 
-                    messages={this.props.messages} 
-                    sendMessage={this.props.sendMessage} 
-                    handleChange={this.props.handleChange}
-                    changeName={this.props.changeName}
-                    changeUsername={this.props.changeUsername}
-                    chatError={this.props.chatError}
-                    />
+                    <div className="playlistAndChatContainer">
+                        <Playlist/>
+                        <ChatBox 
+                        localMessage={this.props.localMessage} 
+                        messages={this.props.messages} 
+                        sendMessage={this.props.sendMessage} 
+                        handleChange={this.props.handleChange}
+                        changeName={this.props.changeName}
+                        changeUsername={this.props.changeUsername}
+                        chatError={this.props.chatError}
+                        />
+                    </div>
                 </div>
                 
             </div>
