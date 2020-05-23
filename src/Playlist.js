@@ -7,7 +7,7 @@ class Playlist extends Component {
                 <div className="playlistVideoContainer">
                     {this.props.playlistVideos.map( (item,index) => {
                         return (
-                            <div className="playlistVideo" key={index}>
+                            <div className="playlistVideo" key={index} onClick={() => this.props.videoFromPlaylistWasClicked(item.videoID,index)}>
                                 <img src={item.imgURL}/>
                                 <p>{item.title}</p>
                             </div>

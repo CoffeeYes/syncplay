@@ -34,7 +34,8 @@ class App extends Component {
       messages : [],
       changeName : "",
       searchResults : [],
-      playlistVideos : []
+      playlistVideos : [],
+      playlistCurrentVideoIndex : -1
     }
   }
 
@@ -296,6 +297,12 @@ class App extends Component {
     this.socket.emit("userAddedVideoToPlaylist",videoData,this.state.roomID)
   }
 
+  videoFromPlaylistWasClicked = (videoID,index) => {
+    this.setState({playlistCurrentVideoIndex : index})
+
+    this.socket.emit('videoIdWasChangedByClient',videoID,this.state.roomID,0)
+  }
+
   render = () => {
     return(
       <Switch>
@@ -317,6 +324,7 @@ class App extends Component {
             userClickedSearchResult={(videoID) => this.userClickedSearchResult(videoID)}
             playlistVideos={this.state.playlistVideos}
             addVideoToPlaylist={(videoObj => this.addVideoToPlaylist(videoObj))}
+            videoFromPlaylistWasClicked={(videoID,index) => this.videoFromPlaylistWasClicked(videoID,index)}
             />
           )} />
           <Route path="/" render={() => (

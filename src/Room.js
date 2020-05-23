@@ -27,7 +27,10 @@ class Room extends Component {
                 <div className="playerAndChatContainer">
                     <Player videoSource={this.props.videoSource}/>
                     <div className="playlistAndChatContainer">
-                        <Playlist playlistVideos={this.props.playlistVideos}/>
+                        <Playlist 
+                        playlistVideos={this.props.playlistVideos} 
+                        videoFromPlaylistWasClicked={(videoID,index) => this.props.videoFromPlaylistWasClicked(videoID,index)}
+                        />
                         <ChatBox 
                         localMessage={this.props.localMessage} 
                         messages={this.props.messages} 
