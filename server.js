@@ -112,7 +112,7 @@ io.on('connection', (client) => {
     })
 
     client.on("userPlayedVideo",(roomID) => {
-        io.to(roomID).emit("anotherUserPlayedVideo");
+        client.to(roomID).emit("anotherUserPlayedVideo");
         //clear paused user array
         roomMetaData[roomID].pausedUsers = []
         //add user to playing array
@@ -127,7 +127,7 @@ io.on('connection', (client) => {
     })
 
     client.on("userPausedVideo", (time,roomID) => {
-        io.to(roomID).emit("anotherUserPausedVideo",time);
+        client.to(roomID).emit("anotherUserPausedVideo",time);
         //clear playing users array
         roomMetaData[roomID].playingUsers = [];
         //add user to paused array
@@ -164,11 +164,7 @@ io.on('connection', (client) => {
         roomMetaData[roomID].timeChangeUsers.push(client.id);
 
         //emit new time to all users except the one who changed the timestamp while paused
-        for(var item in clients) {
-            if(clients[item] != client.id) {
-                io.to(clients[item]).emit("anotherUserChangedTimeWhilePaused",time);
-            }
-        }
+        client.to(roomID).emit("anotherUserChangedTimeWhilePaused",time);
 
         //block users from playing while we wait for all clients to synchronise their times
         io.to(roomID).emit("disallowPlaying")
