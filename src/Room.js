@@ -30,6 +30,7 @@ class Room extends Component {
                         <Playlist 
                         playlistVideos={this.props.playlistVideos} 
                         videoFromPlaylistWasClicked={(videoID,index) => this.props.videoFromPlaylistWasClicked(videoID,index)}
+                        removeVideoFromPlaylist={ (index) => this.props.removeVideoFromPlaylist(index)}
                         />
                         <ChatBox 
                         localMessage={this.props.localMessage} 

@@ -81,6 +81,16 @@
   overflow-y: scroll;
 }
 
+.playlistVideosContainer {
+  display : flex;
+  flex-direction: column;
+}
+
+.playlistVideoContainer {
+  display: flex;
+  flex-direction: row;
+}
+
 .playlistVideo {
   display : flex;
   flex-direction: row;

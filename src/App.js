@@ -159,6 +159,14 @@ class App extends Component {
       this.socket.on("videoIndexWasUpdated", (index) => {
         this.setState({playlistCurrentVideoIndex: index})
       })
+
+      this.socket.on("anotherUserRemovedVideoFromPlaylist", (index) => {
+        this.setState({playlistVideos : this.state.playlistVideos.filter( (item) => {
+          if(this.state.playlistVideos.indexOf(item) !== index) {
+            return item;
+          }
+        })})
+      })
     /*------------------------------------------------------*/
   }
 
@@ -328,6 +336,15 @@ class App extends Component {
     
   }
 
+  removeVideoFromPlaylist = (index) => {
+    this.setState({playlistVideos : this.state.playlistVideos.filter( (item) => {
+      if(this.state.playlistVideos.indexOf(item) !== index) {
+        return item;
+      }
+    })})
+    this.socket.emit("userRemovedVideoFromPlaylist",index,this.state.roomID)
+  }
+
   render = () => {
     return(
       <Switch>
@@ -350,6 +367,7 @@ class App extends Component {
             playlistVideos={this.state.playlistVideos}
             addVideoToPlaylist={(videoObj => this.addVideoToPlaylist(videoObj))}
             videoFromPlaylistWasClicked={(videoID,index) => this.videoFromPlaylistWasClicked(videoID,index)}
+            removeVideoFromPlaylist={ (index) => this.removeVideoFromPlaylist(index)}
             />
           )} />
           <Route path="/" render={() => (
