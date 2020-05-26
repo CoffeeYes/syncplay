@@ -13,7 +13,9 @@ var key = connect.youtubeAPI.key
 var checkTimeWhilePaused;
 var timeTracker;
 
-var timePausedAt
+var timePausedAt;
+
+var currentPlayerState;
 
 class App extends Component {
 
@@ -126,9 +128,11 @@ class App extends Component {
 
       this.socket.on("newUserReceiveVideoAndTimeStamp", (time,videoID) => {
         this.player.loadVideoById(videoID,time,"large");
-        setTimeout(() => {
-          this.player.pauseVideo();
-        },2000) 
+        this.socket.emit("newUserLoadedVideo",this.state.roomID)
+      })
+
+      this.socket.on("newUserJoinedRoom", () => {
+        this.player.pauseVideo()
       })
 
       this.socket.on("disallowPlaying",() => {
@@ -193,6 +197,7 @@ class App extends Component {
     //emit messages to pause/play other users on local pause/play
     console.log(window.YT.PlayerState)
     if(event.data == window.YT.PlayerState.PLAYING) {
+      currentPlayerState = "playing";
       //pause video if playing is not allowed
       if(this.state.allowPlay == false) {
         this.player.pauseVideo();
@@ -204,6 +209,7 @@ class App extends Component {
       
     }
     else if(event.data == window.YT.PlayerState.PAUSED) {
+      currentPlayerState = "paused";
       //clear old timechecker incase of re-pause
       clearInterval(checkTimeWhilePaused)
       //tell other users time is paused
@@ -220,6 +226,7 @@ class App extends Component {
       },100)
     }
     else if(event.data == window.YT.PlayerState.ENDED) {
+      currentPlayerState = "ended";
       //if there are videos in the playlist and were not at the last video of the playlist play the next one
       if(this.state.playlistVideos != "" && this.state.playlistCurrentVideoIndex +1 <= this.state.playlistVideos.length -1) {
         //increment playlist video index and then play the video

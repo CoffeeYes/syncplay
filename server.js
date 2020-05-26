@@ -151,6 +151,10 @@ io.on('connection', (client) => {
         }
     })
 
+    client.on("newUserLoadedVideo", (roomID) => {
+        io.to(roomMetaData[roomID].connectedUsers[0]).emit("newUserJoinedRoom")
+    })
+
     client.on("receiveCurrentTime",(time,roomID,newClientID) => {
         //io.to(roomID).emit("syncTimeWithNewUser",time,roomMetaData[roomID].currentVideoID);
         io.to(newClientID).emit("newUserReceiveVideoAndTimeStamp",time,roomMetaData[roomID].currentVideoID);
