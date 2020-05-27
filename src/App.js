@@ -15,8 +15,6 @@ var timeTracker;
 
 var timePausedAt;
 
-var currentPlayerState;
-
 class App extends Component {
 
 
@@ -37,7 +35,8 @@ class App extends Component {
       changeName : "",
       searchResults : [],
       playlistVideos : [],
-      playlistCurrentVideoIndex : -1
+      playlistCurrentVideoIndex : -1,
+      currentPlayerState : ""
     }
   }
 
@@ -197,7 +196,7 @@ class App extends Component {
     //emit messages to pause/play other users on local pause/play
     console.log(window.YT.PlayerState)
     if(event.data == window.YT.PlayerState.PLAYING) {
-      currentPlayerState = "playing";
+      this.setState({currentPlayerState : "playing"});
       //pause video if playing is not allowed
       if(this.state.allowPlay == false) {
         this.player.pauseVideo();
@@ -209,7 +208,7 @@ class App extends Component {
       
     }
     else if(event.data == window.YT.PlayerState.PAUSED) {
-      currentPlayerState = "paused";
+      this.setState({currentPlayerState : "paused"});
       //clear old timechecker incase of re-pause
       clearInterval(checkTimeWhilePaused)
       //tell other users time is paused
@@ -226,7 +225,7 @@ class App extends Component {
       },100)
     }
     else if(event.data == window.YT.PlayerState.ENDED) {
-      currentPlayerState = "ended";
+      this.setState({currentPlayerState : "ended"})
       //if there are videos in the playlist and were not at the last video of the playlist play the next one
       if(this.state.playlistVideos != "" && this.state.playlistCurrentVideoIndex +1 <= this.state.playlistVideos.length -1) {
         //increment playlist video index and then play the video
