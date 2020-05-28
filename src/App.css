@@ -48,6 +48,10 @@
   border-bottom: 1px solid black;
 }
 
+.searchResultContainer:hover {
+  cursor: pointer
+}
+
 .searchResultData {
   border-bottom: 1px solid black;
   display: flex;
@@ -89,14 +93,32 @@
 .playlistVideoContainer {
   display: flex;
   flex-direction: row;
+  background : grey;
+  border-bottom : 1px solid black;
 }
 
 .playlistVideo {
   display : flex;
   flex-direction: row;
-  background : grey;
-  border-bottom : 1px solid black;
   height: 10vh;
+}
+
+.playlistVideo:hover {
+  cursor: pointer
+}
+
+.addToPlaylistButton {
+  height: 3vh;
+  border: none;
+  box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 0.2);
+}
+
+.removeFromPlaylistButton {
+  height: 3vh;
+  border: none;
+  box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 0.2);
+  margin-right: 2px;
+  margin-top: 2px;
 }
 
 .chatContainer {

@@ -11,7 +11,7 @@ class SearchResult extends Component {
                                 <img src={item.snippet.thumbnails.default.url}/>
                                 <p>{item.snippet.title}</p>
                             </div>
-                            <button onClick={() => this.props.addVideoToPlaylist(item)}>+</button>
+                            <button className="addToPlaylistButton" onClick={() => this.props.addVideoToPlaylist(item)}>+</button>
                         </div>
                         
                     )

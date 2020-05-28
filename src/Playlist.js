@@ -12,7 +12,7 @@ class Playlist extends Component {
                                     <img src={item.imgURL}/>
                                     <p>{item.title}</p>
                                 </div>
-                                <button onClick={() => this.props.removeVideoFromPlaylist(index)}>X</button>
+                                <button className="removeFromPlaylistButton" onClick={() => this.props.removeVideoFromPlaylist(index)}>X</button>
                             </div>
                         )
                     })}
