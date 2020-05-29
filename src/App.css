@@ -6,8 +6,7 @@
   width: 100vw;
   height: 100vh;
   display: flex;
-  align-items: center;
-  flex-direction: column;
+  flex-wrap: wrap;
   padding : 0;
   margin : 0;
 }
@@ -15,37 +14,26 @@
 .error {
   color: red;
   font-weight: bold;
-  height: 1vh;
 }
 
 #player {
-  height: 85vh;
-  width: 75vw;
-  margin-left: 3vw;
+
 }
 
 .searchContainer {
-  width: 50vw;
+
 }
 
 #searchBar {
-  width: 100%;
-  margin-bottom: 2vh;
+
 }
 
 .searchResultsContainer {
-  border : 1px solid black;
-  position : absolute;
-  background : #f9f9f9;
-  width : inherit;
-  z-index : 999;
+
 }
 
 .searchResultContainer {
-  display: flex;
-  flex-direction: row;
-  width: inherit;
-  border-bottom: 1px solid black;
+
 }
 
 .searchResultContainer:hover {
@@ -53,10 +41,7 @@
 }
 
 .searchResultData {
-  border-bottom: 1px solid black;
-  display: flex;
-  flex-direction: row;
-  width: inherit;
+
 }
 
 .verticalCenter {
@@ -64,42 +49,27 @@
 }
 
 .playerAndChatContainer {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
+
 }
 
 .playlistAndChatContainer {
-  width: 20vw;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid black;
-  border-bottom : none;
-  margin-left: 1vw;
+
 }
 
 .playlistContainer {
-  height: 40vh;
-  width: 20vw;
-  overflow-y: scroll;
+
 }
 
 .playlistVideosContainer {
-  display : flex;
-  flex-direction: column;
+
 }
 
 .playlistVideoContainer {
-  display: flex;
-  flex-direction: row;
-  background : grey;
-  border-bottom : 1px solid black;
-  justify-content: space-between;
+
 }
 
 .playlistVideo {
-  display : flex;
-  flex-direction: row;
+
 }
 
 .playlistVideo:hover {
@@ -122,127 +92,55 @@
 }
 
 .addToPlaylistButton {
-  height: 3vh;
   border: none;
   box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 0.2);
 }
 
 .removeFromPlaylistButton {
-  height: 3vh;
   border: none;
   box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 0.2);
-  margin-right: 2px;
-  margin-top: 2px;
 }
 
 .chatContainer {
-  width: 20vw;
-  height: 45vh;
-  border-top: 5px solid black;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+
 }
 
 .messageBox {
-  width: 100%;
-  height: 85%;
-  overflow-y: scroll;
+
 }
 
 #chatInput {
-  height: 4.5vh;
-  width: 99%;
-  border : none;
-  border: 1px solid grey;
-  font-size: 24px;
+
 }
 
 .message {
-  display : flex;
-  flex-direction: column;
-  width: 100%;
-  border-bottom : 1px solid black;
+
 }
 
 .messageHeader {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+
 }
 
 .messageUser {
-  font-size: 12px;
-  margin-left: 1vw;
+
 }
 
 .messageTime {
-  margin-right: 1vw;
-  font-size: 12px;
+
 }
 
 .messageText {
-  margin-left: 1vw;
+
 }
 
 .changeNameContainer {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  height: 3vh;
-  width: 100%;
-  margin-bottom: 0.5vh;
+
 }
 
 #changeUsernameInput {
-  width: 80%;
+
 }
 
 #changeUsernameSubmit {
-  width: 20%;
+
 }
-
-
-
-/*
-@media  screen and (max-width: 1920px) {
-  #player {
-    width: 1800px;
-    height: 800px;
-  }
-
-  #searchBar {
-    width: 900px;
-    margin-bottom : 20px;
-    text-align: center;
-  }
-}
-
-@media screen and (min-width: 2560px) {
-  #player {
-    width: 2400px;
-    height: 800px;
-  }
-
-  #searchBar {
-    width: 1600px;
-    margin-bottom : 20px;
-    text-align: center;
-  }
-}
-
-
-@media screen and (min-width: 3440px) {
-  #player {
-    width: 3300px;
-    height: 1300px;
-  }
-
-  #searchBar {
-    width: 2500px;
-    margin-bottom : 30px;
-    text-align: center;
-  }
-}
-
-*/
