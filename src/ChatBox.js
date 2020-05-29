@@ -28,11 +28,13 @@ class ChatBox extends Component {
                     {this.props.messages.map((item,index) => {
                         return(
                             <div className="message" style={{"background-color" : item.color}}>
-                                <div className="messageHeader">
-                                    <p className="messageUser">{item.user}</p>
-                                    <p className="messageTime">{item.time}</p>
+                                <div className="messageContent">
+                                    <div className="messageHeader">
+                                        <p className="messageUser">{item.user}</p>
+                                        <p className="messageTime">{item.time}</p>
+                                    </div>
+                                    <p className="messageText">{item.text}</p>
                                 </div>
-                                <p className="messageText">{item.text}</p>
                             </div>
                         )
                     })}

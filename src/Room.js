@@ -24,25 +24,21 @@ class Room extends Component {
                 userClickedSearchResult={(videoID) => this.props.userClickedSearchResult(videoID)}
                 addVideoToPlaylist={(videoObj => this.props.addVideoToPlaylist(videoObj))}
                 />
-                <div className="playerAndChatContainer">
-                    <Player videoSource={this.props.videoSource}/>
-                    <div className="playlistAndChatContainer">
-                        <Playlist 
-                        playlistVideos={this.props.playlistVideos} 
-                        videoFromPlaylistWasClicked={(videoID,index) => this.props.videoFromPlaylistWasClicked(videoID,index)}
-                        removeVideoFromPlaylist={ (index) => this.props.removeVideoFromPlaylist(index)}
-                        />
-                        <ChatBox 
-                        localMessage={this.props.localMessage} 
-                        messages={this.props.messages} 
-                        sendMessage={this.props.sendMessage} 
-                        handleChange={this.props.handleChange}
-                        changeName={this.props.changeName}
-                        changeUsername={this.props.changeUsername}
-                        chatError={this.props.chatError}
-                        />
-                    </div>
-                </div>
+                <Player videoSource={this.props.videoSource}/>
+                <Playlist
+                playlistVideos={this.props.playlistVideos}
+                videoFromPlaylistWasClicked={(videoID, index) => this.props.videoFromPlaylistWasClicked(videoID, index)}
+                removeVideoFromPlaylist={(index) => this.props.removeVideoFromPlaylist(index)}
+                />
+                <ChatBox
+                localMessage={this.props.localMessage}
+                messages={this.props.messages}
+                sendMessage={this.props.sendMessage}
+                handleChange={this.props.handleChange}
+                changeName={this.props.changeName}
+                changeUsername={this.props.changeUsername}
+                chatError={this.props.chatError}
+                />
                 
             </div>
         )
