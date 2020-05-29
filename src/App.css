@@ -71,7 +71,6 @@
 
 .playlistAndChatContainer {
   width: 20vw;
-  height: 43vw;
   display: flex;
   flex-direction: column;
   border: 1px solid black;
@@ -95,16 +94,31 @@
   flex-direction: row;
   background : grey;
   border-bottom : 1px solid black;
+  justify-content: space-between;
 }
 
 .playlistVideo {
   display : flex;
   flex-direction: row;
-  height: 10vh;
 }
 
 .playlistVideo:hover {
   cursor: pointer
+}
+
+.playlistVideoTitle {
+  
+}
+
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3; /* or any other integer */
+}
+
+.playlistVideoImg {
+  height: 90px;
 }
 
 .addToPlaylistButton {
