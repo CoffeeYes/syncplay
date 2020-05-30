@@ -144,20 +144,25 @@
   grid-row-start: 3;
   grid-row-end: 4;
   border: 1px solid black;
+  display: grid;
+  grid-template-rows: 10% 80% 10%;
 }
 
 .messageBox {
   overflow-y: scroll;
-  height: 80%;
-  width: 100%;
+  grid-row-start: 2;
+  grid-row-end: 3;
 }
 
 #chatInput {
-  width: 100%;
+  grid-row-start: 3;
+  grid-row-end: 3;
+  font-size: 1.5rem;
 }
 
 .message {
   width: 100%;
+  border-bottom: 1px solid black;
 }
 
 .messageContent {
@@ -166,7 +171,10 @@
 }
 
 .messageHeader {
-
+  width: 95%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .messageUser {
@@ -182,13 +190,15 @@
 }
 
 .changeNameContainer {
-
+  grid-row-start: 1;
+  grid-row-end: 2;
 }
 
 #changeUsernameInput {
-
+  width: 81%;
+  height: 80%;
 }
 
 #changeUsernameSubmit {
-
+  height: 100%;
 }
