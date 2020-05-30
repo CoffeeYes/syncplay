@@ -13,7 +13,7 @@
   height: 95%;
   display: grid;
   grid-template-columns: 80% 20%;
-  grid-template-rows : 10% 45% 45%;
+  grid-template-rows : 10% 30% 60%;
   grid-column-gap : 0;
   grid-row-gap : 0;
   padding : 0;
@@ -97,15 +97,17 @@
 }
 
 .playlistVideosContainer {
-
+  overflow-y:scroll;
+  height: 100%;
 }
 
 .playlistVideoContainer {
-
-}
-
-.playlistVideo {
-
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  background: lightgray;
+  justify-content: space-between;
+  border-bottom: 1px solid black;
 }
 
 .playlistVideo:hover {
@@ -113,7 +115,7 @@
 }
 
 .playlistVideoTitle {
-  
+  width: 40%;
 }
 
 .line-clamp-3 {
