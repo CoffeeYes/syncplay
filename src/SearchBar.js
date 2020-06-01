@@ -6,7 +6,7 @@ class SearchBar extends Component {
         return (
             <div className="searchContainer">
                 <div className="searchBarAndResultsContainer">
-                    <p className="error">test</p>
+                    <p className="error">{this.props.error}</p>
                     <input id='searchBar' name='searchTerm' value={this.props.searchTerm} onChange={this.props.handleChange} onKeyPress={this.props.searchInputEnterPressed}/>
                     <SearchResult 
                     searchResults={this.props.searchResults} 

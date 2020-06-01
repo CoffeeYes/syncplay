@@ -22,6 +22,7 @@ class Room extends Component {
                 searchTerm={this.props.searchTerm}
                 userClickedSearchResult={(videoID) => this.props.userClickedSearchResult(videoID)}
                 addVideoToPlaylist={(videoObj => this.props.addVideoToPlaylist(videoObj))}
+                error={this.props.error}
                 />
                 <Player videoSource={this.props.videoSource}/>
                 <Playlist

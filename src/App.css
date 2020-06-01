@@ -19,6 +19,18 @@
   padding : 0;
 }
 
+.horizontalCenter {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.verticalCenter {
+  display: flex;
+  height: 100%;
+  align-items: center;
+}
+
 .error {
   color: red;
   font-weight: bold;
@@ -82,10 +94,6 @@
   display: flex;
   flex-direction: row;
   width: 100%;
-}
-
-.verticalCenter {
-  justify-content: center;
 }
 
 .playlistContainer {
