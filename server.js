@@ -152,7 +152,11 @@ io.on('connection', (client) => {
     })
 
     client.on("newUserLoadedVideo", (roomID) => {
-        io.to(roomMetaData[roomID].connectedUsers[0]).emit("newUserJoinedRoom")
+        io.to(roomMetaData[roomID].connectedUsers[0]).emit("newUserJoinedRoom",client.id)
+    })
+
+    client.on("newUserMustPause", (newUserID) => {
+        io.to(newUserID).emit("newUserMustPause");
     })
 
     client.on("receiveCurrentTime",(time,roomID,newClientID) => {

@@ -130,7 +130,18 @@ class App extends Component {
         this.socket.emit("newUserLoadedVideo",this.state.roomID)
       })
 
-      this.socket.on("newUserJoinedRoom", () => {
+      this.socket.on("newUserJoinedRoom", (newUserID) => {
+        console.log("playerstate : " + this.player.getPlayerState())
+        //video is playing
+        if(this.player.getPlayerState() == 1) {
+          this.player.pauseVideo()
+        }
+        else {
+          this.socket.emit("newUserMustPause",newUserID)
+        }
+      })
+
+      this.socket.on("newUserMustPause",() => {
         this.player.pauseVideo()
       })
 
