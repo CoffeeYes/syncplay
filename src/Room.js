@@ -38,6 +38,7 @@ class Room extends Component {
                 changeName={this.props.changeName}
                 changeUsername={this.props.changeUsername}
                 chatError={this.props.chatError}
+                connectedUsers={this.props.connectedUsers}
                 />
                 
             </div>

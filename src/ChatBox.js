@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import UserList from './UserList.js'
 
 class ChatBox extends Component {
     constructor(props) {
@@ -24,6 +25,7 @@ class ChatBox extends Component {
                     <input id="changeUsernameInput" name="changeName" onChange={this.props.handleChange} placeholder="Change your Username..." value={this.props.changeName}/>
                     <button onClick={this.props.changeUsername} id="changeUsernameSubmit">Submit</button>
                 </div>
+                <UserList connectedUsers={this.props.connectedUsers}/>
                 <div className="messageBox" ref={this.msgBoxRef}>
                     {this.props.messages.map((item,index) => {
                         return(

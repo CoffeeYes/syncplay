@@ -36,7 +36,8 @@ class App extends Component {
       searchResults : [],
       playlistVideos : [],
       playlistCurrentVideoIndex : -1,
-      currentPlayerState : ""
+      currentPlayerState : "",
+      connectedUsers : ["user1","user2"]
     }
   }
 
@@ -387,6 +388,7 @@ class App extends Component {
             addVideoToPlaylist={(videoObj => this.addVideoToPlaylist(videoObj))}
             videoFromPlaylistWasClicked={(videoID,index) => this.videoFromPlaylistWasClicked(videoID,index)}
             removeVideoFromPlaylist={ (index) => this.removeVideoFromPlaylist(index)}
+            connectedUsers={this.state.connectedUsers}
             />
           )} />
           <Route path="/" render={() => (
