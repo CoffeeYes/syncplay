@@ -184,6 +184,10 @@ class App extends Component {
           }
         })})
       })
+
+      this.socket.on("receiveConnectedUsers", (connectedUsers) => {
+        this.setState({connectedUsers : connectedUsers})
+      })
     /*------------------------------------------------------*/
   }
 

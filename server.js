@@ -41,6 +41,10 @@ createMessage = (msg,username,clientColour) => {
     }
 }
 
+emitConnectedUsers = (roomID) => {
+    io.to(roomID).emit("receiveConnectedUsers",Object.values(roomMetaData[roomID].usernames))
+}
+
 app.get('/test', (req,res,next) => {
     console.log("test received")
 })
@@ -103,6 +107,7 @@ io.on('connection', (client) => {
         //send videoID
         io.to(client.id).emit("receiveCurrentVideoID",roomMetaData[roomID].currentVideoID)
         io.to(client.id).emit("hydratePlaylistState",roomMetaData[roomID].playlist,roomMetaData[roomID].playlistIndex)
+        emitConnectedUsers(roomID)
 
         //give User a random colour for chat 
         roomMetaData[roomID].userColours[client.id] = getRandomColor();
@@ -259,6 +264,7 @@ io.on('connection', (client) => {
         var text = client.id + " Changed their name to " + roomMetaData[roomID].usernames[client.id]
         var message = createMessage(text,roomMetaData[roomID].usernames[client.id],roomMetaData[roomID].userColours[client.id])
         io.to(roomID).emit("receiveNewMessage",message)
+        emitConnectedUsers(roomID)
     })
 
     client.on("userAddedVideoToPlaylist",(videoData,roomID) => {
@@ -291,6 +297,7 @@ io.on('connection', (client) => {
             io.to(disconnectingUserRoom).emit("receiveNewMessage",msg)
             roomMetaData[disconnectingUserRoom].connectedUsers.splice(index,1)
             delete roomMetaData[disconnectingUserRoom].usernames[client.id]
+            emitConnectedUsers(disconnectingUserRoom)
 
             //if that user was the last user, delete Metadata value for room ID after 5 seconds to prevent room from being re-created
             if(roomMetaData[disconnectingUserRoom].connectedUsers == "") {
