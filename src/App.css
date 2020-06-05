@@ -106,7 +106,7 @@
 }
 
 .playlistVideosContainer {
-  overflow-y:scroll;
+  overflow-y: auto;
   height: 100%;
 }
 
@@ -160,7 +160,7 @@
 }
 
 .messageBox {
-  overflow-y: scroll;
+  overflow-y: auto;
   grid-row-start: 3;
   grid-row-end: 4;
 }
@@ -218,5 +218,10 @@
   grid-row-start: 2;
   grid-row-end: 3;
   border-bottom: 1px solid black;
-  display: flex;
+  max-width: 100%;
+  overflow-y: auto
+}
+
+.connectedUserText {
+  display: inline-block;
 }

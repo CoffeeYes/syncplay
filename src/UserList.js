@@ -6,7 +6,7 @@ class UserList extends Component {
             <div className="userListContainer">
                 <p>Connected Users :</p>
                 {this.props.connectedUsers.map((item,index) => {
-                    return <p key={index}>{item},</p>
+                    return <p key={index} className="connectedUserText">{item},</p>
                 })}
             </div>
         )
