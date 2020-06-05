@@ -71,15 +71,25 @@ class App extends Component {
       this.youtubeAPILoaded();
     }
 
+    //check if user doesnt have window open/visible
+    var prevhidden = false;
+    setInterval( () => {
+      if(document.hidden && prevhidden == false) {
+        console.log("minimized")
+        this.socket.emit("userMinimizedWindow",this.state.roomID)
+        this.player.pauseVideo()
+        prevhidden = true;
+      }
+      else if(prevhidden == true && !document.hidden) {
+        prevhidden = false;
+        this.socket.emit("userMaximizedWindow",this.state.roomID)
+      }
+    },1000)
     /*--------------------- Sockets ------------------------*/
 
     //receive errors from backend
     this.socket.on("clientError",(message) => {
       this.setState({error : message})
-      
-      setTimeout(() => {
-        this.setState({error : ""})
-      },5000)
     })
 
     //change video locally when another client changed the video
