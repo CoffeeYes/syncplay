@@ -244,8 +244,14 @@ class App extends Component {
       var currentTimeWhilePaused = this.player.getCurrentTime()
       checkTimeWhilePaused = setInterval(() => {
         if(currentTimeWhilePaused != timePausedAt) {
-          this.socket.emit("userChangedTimeWhilePaused",currentTimeWhilePaused,this.state.roomID);
-          timePausedAt = currentTimeWhilePaused
+          if(this.state.allowPlay) {
+            this.socket.emit("userChangedTimeWhilePaused",currentTimeWhilePaused,this.state.roomID);
+            timePausedAt = currentTimeWhilePaused
+          }
+          else {
+            //if playing is blocked reset the time change
+            this.player.seekTo(timePausedAt,true)
+          }
         }
         currentTimeWhilePaused = this.player.getCurrentTime();
       },100)
