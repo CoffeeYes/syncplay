@@ -170,47 +170,59 @@ io.on('connection', (client) => {
     })
 
     client.on("userChangedTimeWhilePaused", (time,roomID) => {
+        //only allow timechange signalling to take place for novel time changes, if condition prevents repeated timechanges from timechange signal receivers
+        if(Math.round(time) != Math.round(roomMetaData[roomID].currentTimeChange) ) {
+            roomMetaData[roomID].currentTimeChange = time;
+
+            //add user to timesync array
+            roomMetaData[roomID].timeChangeUsers.push(client.id);
+
+            //emit new time to all users except the one who changed the timestamp while paused
+            client.to(roomID).emit("anotherUserChangedTimeWhilePaused",time);
+
+            //block users from playing while we wait for all clients to synchronise their times
+            io.to(roomID).emit("disallowPlaying")
+            io.to(roomID).emit("clientError","Waiting for all users to synchronise")
+            //let other users know who changed time
+            if(roomMetaData[roomID].timeChangeUsers.length == 1) {
+                //get user data
+                var username = roomMetaData[roomID].usernames[client.id];
+                var colour =roomMetaData[roomID].userColours[client.id];
+                //calculate time from seconds
+                var mins = Math.floor(time/60)
+                var seconds = Math.round(time % 60)
+                var timeText;
+                //format time
+                if(mins < 10) {
+                    timeText = "0" + mins + ":";
+                }
+                else {
+                    timeText = mins = ":"
+                }
+
+                if(seconds < 10 ) {
+                    timeText += "0" + seconds;
+                }
+                else {
+                    timeText += seconds;
+                }
+                //send timechange message
+                var msg = createMessage([username + " changed the time to " + timeText],username,colour)
+                io.to(roomID).emit("receiveNewMessage",msg)
+            }
+        }
+        
+    })
+
+    client.on("synchronizedTimeChange",(roomID) => {
+        //get connected clients
         var clients = io.sockets.adapter.rooms[roomID].sockets;
         clients = Object.keys(clients);
-
         //add user to timesync array
         roomMetaData[roomID].timeChangeUsers.push(client.id);
 
-        //emit new time to all users except the one who changed the timestamp while paused
-        client.to(roomID).emit("anotherUserChangedTimeWhilePaused",time);
-
-        //block users from playing while we wait for all clients to synchronise their times
-        io.to(roomID).emit("disallowPlaying")
-        io.to(roomID).emit("clientError","Waiting for all users to synchronise")
-        //let other users know who changed time
-        if(roomMetaData[roomID].timeChangeUsers.length == 1) {
-            //get user data
-            var username = roomMetaData[roomID].usernames[client.id];
-            var colour =roomMetaData[roomID].userColours[client.id];
-            //calculate time from seconds
-            var mins = Math.floor(time/60)
-            var seconds = Math.round(time % 60)
-            var timeText;
-            //format time
-            if(mins < 10) {
-                timeText = "0" + mins + ":";
-            }
-            else {
-                timeText = mins = ":"
-            }
-
-            if(seconds < 10 ) {
-                timeText += "0" + seconds;
-            }
-            else {
-                timeText += seconds;
-            }
-            //send timechange message
-            var msg = createMessage([username + " changed the time to " + timeText],username,colour)
-            io.to(roomID).emit("receiveNewMessage",msg)
-        }
         //clear time sync array when all users have synced their timestamp
-        else if (roomMetaData[roomID].timeChangeUsers.length == clients.length) {
+        if (roomMetaData[roomID].timeChangeUsers.length == clients.length) {
             roomMetaData[roomID].timeChangeUsers = []
 
             //allow users to play video

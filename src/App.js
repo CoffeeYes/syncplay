@@ -133,7 +133,9 @@ class App extends Component {
       //resync with another user if they changed time while paused
       this.socket.on("anotherUserChangedTimeWhilePaused", (time) => {
         this.player.seekTo(time,true);
-        this.player.pauseVideo();
+        //this.player.pauseVideo();
+
+        this.socket.emit("synchronizedTimeChange",this.state.roomID)
       })
 
       this.socket.on("newUserReceiveVideoAndTimeStamp", (time,videoID) => {
