@@ -134,8 +134,10 @@ class App extends Component {
       this.socket.on("anotherUserChangedTimeWhilePaused", (time) => {
         this.player.seekTo(time,true);
         //this.player.pauseVideo();
-
-        this.socket.emit("synchronizedTimeChange",this.state.roomID)
+        //block playing while waiting to receive all user synced signal, emit own sync signal
+        this.setState({"allowPlay" : false,"error" : "Waiting for users to synchronise"},() => {
+          this.socket.emit("synchronizedTimeChange",this.state.roomID)
+        })
       })
 
       this.socket.on("newUserReceiveVideoAndTimeStamp", (time,videoID) => {

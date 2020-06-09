@@ -178,11 +178,8 @@ io.on('connection', (client) => {
             roomMetaData[roomID].timeChangeUsers.push(client.id);
 
             //emit new time to all users except the one who changed the timestamp while paused
-            client.to(roomID).emit("anotherUserChangedTimeWhilePaused",time);
+            io.to(roomID).emit("anotherUserChangedTimeWhilePaused",time);
 
-            //block users from playing while we wait for all clients to synchronise their times
-            io.to(roomID).emit("disallowPlaying")
-            io.to(roomID).emit("clientError","Waiting for all users to synchronise")
             //let other users know who changed time
             if(roomMetaData[roomID].timeChangeUsers.length == 1) {
                 //get user data
@@ -221,8 +218,8 @@ io.on('connection', (client) => {
         //add user to timesync array
         roomMetaData[roomID].timeChangeUsers.push(client.id);
 
-        //clear time sync array when all users have synced their timestamp
-        if (roomMetaData[roomID].timeChangeUsers.length == clients.length) {
+        //clear time sync array when all users have synced their timestamp, +1 because user who changed time will be in array twice
+        if (roomMetaData[roomID].timeChangeUsers.length == clients.length + 1) {
             roomMetaData[roomID].timeChangeUsers = []
 
             //allow users to play video
