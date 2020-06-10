@@ -105,6 +105,10 @@
   grid-row-end: 3;
 }
 
+.playlistHeader {
+  border-bottom: 1px solid black;
+}
+
 .playlistVideosContainer {
   overflow-y: auto;
   height: 100%;
