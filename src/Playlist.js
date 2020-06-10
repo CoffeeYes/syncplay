@@ -4,15 +4,17 @@ class Playlist extends Component {
     render = () => {
         return (
             <div className="playlistContainer">
-                <div className="playlistVideosContainer">
-                    <div className="playlistHeader">
+                <div className="playlistHeader">
                         <p>Playlist</p>
-                    </div>
+                </div>
+                <div className="playlistVideosContainer">
                     {this.props.playlistVideos.map( (item,index) => {
                         return (
-                            <div className="playlistVideoContainer" key={index} onClick={() => this.props.videoFromPlaylistWasClicked(item.videoID,index)}>
-                                <img className="playlistVideoImg" src={item.imgURL}/>
-                                <p className="playlistVideoTitle line-clamp-3">{item.title}</p>
+                            <div className="playlistVideoContainer" key={index}>
+                                <div className="playlistVideoDataContainer" onClick={() => this.props.videoFromPlaylistWasClicked(item.videoID,index)}>
+                                    <img className="playlistVideoImg" src={item.imgURL}/>
+                                    <p className="playlistVideoTitle line-clamp-3">{item.title}</p>
+                                </div>
                                 <button className="removeFromPlaylistButton" onClick={() => this.props.removeVideoFromPlaylist(index)}>X</button>
                             </div>
                         )

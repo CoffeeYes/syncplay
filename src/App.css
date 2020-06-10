@@ -123,6 +123,10 @@
   border-bottom: 1px solid black;
 }
 
+.playlistVideoDataContainer {
+  display: flex;
+}
+
 .playlistVideo:hover {
   cursor: pointer
 }
