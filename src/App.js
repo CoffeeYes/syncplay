@@ -141,8 +141,21 @@ class App extends Component {
       })
 
       this.socket.on("newUserReceiveVideoAndTimeStamp", (time,videoID) => {
-        this.player.loadVideoById(videoID,time,"large");
-        this.socket.emit("newUserLoadedVideo",this.state.roomID)
+        this.player.loadVideoById(videoID,time,"large")
+        var loadedCheck = setInterval(() => {
+          if(this.player.getPlayerState() != undefined) {
+            this.player.playVideo();
+            setTimeout(() => {
+              this.player.pauseVideo()
+              this.socket.emit("newUserLoadedVideo",this.state.roomID)
+              clearInterval(loadedCheck)
+            },1500)
+          }
+          else {
+            console.log("new player not undefined")
+          }
+        },100)
+        
       })
 
       this.socket.on("newUserJoinedRoom", (newUserID) => {
