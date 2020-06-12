@@ -4,7 +4,11 @@ class Splash extends Component {
     render = () => {
         return (
             <div className="verticalCenter horizontalCenter">
-                <button onClick={this.props.createNewRoom}>Create Room</button>
+                <div className="splashContentContainer">
+                    <h1>Create a room, Send the link to your friends and watch together!</h1>
+                    <button id="createRoomButton" onClick={this.props.createNewRoom}>Create Room</button>
+                </div>
+                
             </div>
         )
     }

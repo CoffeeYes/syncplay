@@ -14,7 +14,7 @@ class Room extends Component {
     }
     render = () => {
         return(
-            <div className="main">
+            <div className="mainContainerRoom">
                 <SearchBar 
                 handleChange={this.props.handleChange} 
                 searchInputEnterPressed={this.props.searchInputEnterPressed} 

@@ -7,7 +7,7 @@
   height: 100vh;
 }
 
-.main {
+.mainContainerRoom {
   width: 98%;
   margin-left: 1%;
   height: 95%;
@@ -17,6 +17,25 @@
   grid-column-gap : 0;
   grid-row-gap : 0;
   padding : 0;
+}
+
+.splashContentContainer {
+  width: 30%;
+  text-align: center;
+}
+
+#createRoomButton {
+  width: 20%;
+  padding: 2% 2% 2% 2%;
+  background-color: green;
+  border: 2px solid darkgreen;
+  border-radius : 5px;
+  box-shadow: -1px 2px  0px 0px darkgreen;
+  font-size: 15px;
+}
+
+#createRoomButton:active {
+  box-shadow: none;
 }
 
 .horizontalCenter {
