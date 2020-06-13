@@ -19,19 +19,27 @@
   padding : 0;
 }
 
+.splash {
+  width: 100%;
+  height: 100%;
+  background-color: #f4f7f6;
+}
+
 .splashContentContainer {
   width: 30%;
   text-align: center;
 }
 
 #createRoomButton {
-  width: 20%;
+  width: 25%;
   padding: 2% 2% 2% 2%;
   background-color: green;
   border: 2px solid darkgreen;
   border-radius : 5px;
   box-shadow: -1px 2px  0px 0px darkgreen;
   font-size: 15px;
+  color: #eeeeee;
+  font-weight: bold;
 }
 
 #createRoomButton:active {
