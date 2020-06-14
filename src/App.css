@@ -14,7 +14,7 @@
   display: grid;
   grid-template-columns: 80% 20%;
   grid-template-rows : 10% 30% 60%;
-  grid-column-gap : 0;
+  grid-column-gap : 10px;
   grid-row-gap : 0;
   padding : 0;
 }
@@ -204,8 +204,10 @@
 #chatInput {
   grid-row-start: 4;
   grid-row-end: 5;
-  font-size: 1.5rem;
+  font-size: 1rem;
   border-bottom: none;
+  border-left: none;
+  padding: 0px 0px 0px 10px;
 }
 
 .message {
@@ -240,7 +242,8 @@
 .changeNameContainer {
   grid-row-start: 1;
   grid-row-end: 2;
-  margin-top: 10px
+  margin-top: 10px;
+  margin-left: 5px;
 }
 
 #changeUsernameInput {
