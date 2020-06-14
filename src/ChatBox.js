@@ -32,8 +32,8 @@ class ChatBox extends Component {
                             <div className="message" style={{"background-color" : item.color}}>
                                 <div className="messageContent">
                                     <div className="messageHeader">
-                                        <p className="messageUser">{item.user}</p>
-                                        <p className="messageTime">{item.time}</p>
+                                        <p className="messageUser"><b>{item.user}</b></p>
+                                        <p className="messageTime"><b>{item.time}</b></p>
                                     </div>
                                     <p className="messageText">{item.text}</p>
                                 </div>
