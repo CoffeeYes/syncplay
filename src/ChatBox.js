@@ -22,7 +22,7 @@ class ChatBox extends Component {
             <div className="chatContainer">
                 <p className="error">{this.props.chatError}</p>
                 <div className="changeNameContainer">
-                    <input id="changeUsernameInput" name="changeName" onChange={this.props.handleChange} placeholder="Change your Username..." value={this.props.changeName}/>
+                    <input className="changeUsernameInput inputFocus" name="changeName" onChange={this.props.handleChange} placeholder="Change your Username..." value={this.props.changeName}/>
                     <button onClick={this.props.changeUsername} id="changeUsernameSubmit">Submit</button>
                 </div>
                 <UserList connectedUsers={this.props.connectedUsers}/>

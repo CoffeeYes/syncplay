@@ -7,7 +7,7 @@ class SearchBar extends Component {
             <div className="searchContainer">
                 <div className="searchBarAndResultsContainer">
                     <p className="error">{this.props.error}</p>
-                    <input id='searchBar' name='searchTerm' value={this.props.searchTerm} onChange={this.props.handleChange} onKeyPress={this.props.searchInputEnterPressed}
+                    <input className='searchBar inputFocus' name='searchTerm' value={this.props.searchTerm} onChange={this.props.handleChange} onKeyPress={this.props.searchInputEnterPressed}
                     placeholder="Search or paste a youtube url here ..."
                     />
                     <SearchResult 
