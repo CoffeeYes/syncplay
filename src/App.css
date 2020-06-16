@@ -17,6 +17,11 @@
   grid-column-gap : 10px;
   grid-row-gap : 0;
   padding : 0;
+  background-color: #f4f7f6;
+}
+
+.showPointerOnHover:hover {
+  cursor: pointer;
 }
 
 .splash {
@@ -253,7 +258,7 @@
   margin-right: 5px;
 }
 
-#changeUsernameSubmit {
+.changeUsernameSubmit {
   width: 15%;
   padding: 15px 0px 15px 0px;
   background-color: green;
