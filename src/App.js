@@ -215,6 +215,11 @@ class App extends Component {
       this.socket.on("receiveConnectedUsers", (connectedUsers) => {
         this.setState({connectedUsers : connectedUsers})
       })
+
+      this.socket.on("kickUser",()=> {
+        console.log("receive kick")
+        window.location.href = "/"
+      })
     /*------------------------------------------------------*/
   }
 

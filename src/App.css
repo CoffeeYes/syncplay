@@ -35,7 +35,7 @@
   text-align: center;
 }
 
-#createRoomButton {
+.createRoomButton {
   width: 25%;
   padding: 2% 2% 2% 2%;
   background-color: green;
@@ -47,7 +47,7 @@
   font-weight: bold;
 }
 
-#createRoomButton:active {
+.createRoomButton:active {
   box-shadow: none;
 }
 

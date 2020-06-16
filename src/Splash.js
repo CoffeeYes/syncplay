@@ -6,7 +6,7 @@ class Splash extends Component {
             <div className="verticalCenter horizontalCenter splash">
                 <div className="splashContentContainer">
                     <h1>Create a room, Send the link to your friends and watch together!</h1>
-                    <button id="createRoomButton showPointerOnHover" onClick={this.props.createNewRoom}>Create Room</button>
+                    <button class="createRoomButton showPointerOnHover" onClick={this.props.createNewRoom}>Create Room</button>
                 </div>
                 
             </div>
