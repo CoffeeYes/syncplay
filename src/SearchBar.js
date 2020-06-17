@@ -5,6 +5,7 @@ class SearchBar extends Component {
     render = () => {
         return (
             <div className="searchContainer">
+                <p>logo</p>
                 <div className="searchBarAndResultsContainer">
                     <p className="error">{this.props.error}</p>
                     <input className='searchBar inputFocus' name='searchTerm' value={this.props.searchTerm} onChange={this.props.handleChange} onKeyPress={this.props.searchInputEnterPressed}
@@ -16,6 +17,8 @@ class SearchBar extends Component {
                     addVideoToPlaylist={(videoObj => this.props.addVideoToPlaylist(videoObj))}
                     />
                 </div>
+
+                <button className="defaultButton bugButton">Submit a Bug Report</button>
             </div>
         )
     }

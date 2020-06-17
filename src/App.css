@@ -8,6 +8,24 @@
   background-color: #f4f7f6;
 }
 
+.defaultButton {
+  background-color: green;
+  border: 2px solid darkgreen;
+  border-radius : 5px;
+  box-shadow: -1px 2px  0px 0px darkgreen;
+  font-size: 15px;
+  color: #eeeeee;
+  font-weight: bold;
+}
+
+.defaultButton:active {
+  box-shadow: none;
+}
+
+.defaultButton:hover {
+  cursor: pointer
+}
+
 .mainContainerRoom {
   width: 98%;
   margin-left: 1%;
@@ -89,7 +107,7 @@
   grid-row-start: 1;
   grid-row-end: 1;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .searchBarAndResultsContainer {
@@ -299,4 +317,11 @@
 .inputFocus:focus {
   border: 1px solid #42C0FB;
   box-shadow : 0px 0px  1px 1px #42C0FB;
+}
+
+.bugButton {
+  width: 10%;
+  height: 0;
+  margin-top: 0.5%;
+  padding: 0.5% 1% 2.5% 1%;
 }
