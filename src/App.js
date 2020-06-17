@@ -292,7 +292,12 @@ class App extends Component {
   }
 
   handleChange = (event) => {
-    this.setState({[event.target.name] : event.target.value})
+    this.setState({[event.target.name] : event.target.value},() => {
+      //clear searchresults if user deleted searchterm
+      if(this.state.searchTerm == "") {
+        this.setState({searchResults : []})
+      }
+    })
   }
 
   searchInputEnterPressed = (event) => {
