@@ -2,7 +2,7 @@ import React, { Component} from 'react';
 import './App.css';
 import {Route,Switch} from 'react-router-dom';
 
-import connect from './connect.js'
+
 import socketClient from 'socket.io-client'
 
 import Splash from './Splash.js'
@@ -20,8 +20,7 @@ class App extends Component {
 
   constructor(props) {
     super(props)
-    console.log(connect.serverData.url)
-    this.socket = socketClient(connect.serverData.url + ':5001')
+    this.socket = socketClient('localhost:5001')
 
     this.state = {
       searchTerm : '',
