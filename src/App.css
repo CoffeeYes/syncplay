@@ -5,6 +5,7 @@
 #root {
   width: 100vw;
   height: 100vh;
+  background-color: #f4f7f6;
 }
 
 .mainContainerRoom {
@@ -116,6 +117,7 @@
   display: flex;
   flex-direction: row;
   width: 100%;
+  border-bottom: 1px solid black;
 }
 
 .searchResultContainer:hover {
@@ -125,7 +127,12 @@
 .searchResultData {
   display: flex;
   flex-direction: row;
-  width: 100%;
+  width: 90%;
+}
+
+.searchResultTitle {
+  width: 60%;
+  margin-left: 15px;
 }
 
 .playlistContainer {
@@ -140,6 +147,7 @@
 
 .playlistHeader {
   border-bottom: 1px solid black;
+  padding-left : 5px;
 }
 
 .playlistVideosContainer {
@@ -182,6 +190,8 @@
 .addToPlaylistButton {
   border: none;
   box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 0.2);
+  width: 10%;
+  font-weight: bold;
 }
 
 .removeFromPlaylistButton {
@@ -278,7 +288,8 @@
   grid-row-end: 3;
   border-bottom: 1px solid black;
   max-width: 100%;
-  overflow-y: auto
+  overflow-y: auto;
+  padding-left: 5px;
 }
 
 .connectedUserText {
