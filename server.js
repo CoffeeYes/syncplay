@@ -8,6 +8,9 @@ const socketPort = 5001;
 
 var roomMetaData = {};
 
+//use build folder
+app.use( express.static( `${__dirname}/../build` ) );
+
 getRandomColor = () => {
     //https://stackoverflow.com/questions/23601792/get-only-light-colors-randomly-using-javascript
     //code for generating random light color using hue,saturation,lightness (hsl) function

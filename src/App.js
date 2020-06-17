@@ -8,7 +8,7 @@ import socketClient from 'socket.io-client'
 import Splash from './Splash.js'
 import Room from './Room.js'
 
-var key = connect.youtubeAPI.key
+var key = process.env.YOUTUBE_API_KEY
 
 var checkTimeWhilePaused;
 var timeTracker;
