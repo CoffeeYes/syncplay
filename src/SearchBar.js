@@ -1,11 +1,15 @@
 import React,{ Component } from 'react';
 import SearchResult from './SearchResult'
 
+import Logo from './assets/Logo.png'
+
 class SearchBar extends Component {
     render = () => {
         return (
             <div className="searchContainer">
-                <p>logo</p>
+                <a href="/">
+                    <img src={Logo} id="logoImg"/>
+                </a>
                 <div className="searchBarAndResultsContainer">
                     <p className="error">{this.props.error}</p>
                     <input className='searchBar inputFocus' name='searchTerm' value={this.props.searchTerm} onChange={this.props.handleChange} onKeyPress={this.props.searchInputEnterPressed}
