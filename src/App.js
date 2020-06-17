@@ -37,7 +37,8 @@ class App extends Component {
       playlistVideos : [],
       playlistCurrentVideoIndex : -1,
       currentPlayerState : "",
-      connectedUsers : ["user1","user2"]
+      connectedUsers : ["user1","user2"],
+      showBugReport : false
     }
   }
 
@@ -412,6 +413,14 @@ class App extends Component {
     this.socket.emit("userRemovedVideoFromPlaylist",index,this.state.roomID)
   }
 
+  triggerBugReport = () => {
+    this.setState({showBugReport : true})
+  }
+
+  closeBugReport = () => {
+    this.setState({showBugReport : false})
+  }
+
   render = () => {
     return(
       <Switch>
@@ -436,6 +445,9 @@ class App extends Component {
             videoFromPlaylistWasClicked={(videoID,index) => this.videoFromPlaylistWasClicked(videoID,index)}
             removeVideoFromPlaylist={ (index) => this.removeVideoFromPlaylist(index)}
             connectedUsers={this.state.connectedUsers}
+            triggerBugReport={this.triggerBugReport}
+            showBugReport={this.state.showBugReport}
+            closeBugReport={this.closeBugReport}
             />
           )} />
           <Route path="/" render={() => (

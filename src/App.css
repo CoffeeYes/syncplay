@@ -325,3 +325,48 @@
   margin-top: 0.5%;
   padding: 0.5% 1% 2.5% 1%;
 }
+
+.bugReportCoverPage {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0,0,0,0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bugReportContainer {
+  width: 30%;
+  height: 50%;
+  border-radius: 5px;
+  display: grid;
+  grid-template-columns: 10% 80% 10%;
+  grid-template-rows: 5% 80% 10%;
+  background-color: #f4f7f6; 
+}
+
+.closeBugReportButton {
+  width: 50%;
+  margin-left: 50%;
+  grid-row: 1;
+  grid-column-start: 3;
+  grid-column-end: 4;
+}
+
+#bugReportText {
+  resize : none;
+  grid-column: 2;
+  grid-row-start: 2;
+  grid-row-end: 3;
+}
+
+.submitBugReportButton {
+  grid-row-start: 3;
+  grid-row-end: 4;
+  grid-column: 2;
+  width: 50%;
+  margin-left: 25%;
+}

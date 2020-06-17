@@ -18,7 +18,7 @@ class SearchBar extends Component {
                     />
                 </div>
 
-                <button className="defaultButton bugButton">Submit a Bug Report</button>
+                <button className="defaultButton bugButton" onClick={this.props.triggerBugReport}>Submit a Bug Report</button>
             </div>
         )
     }

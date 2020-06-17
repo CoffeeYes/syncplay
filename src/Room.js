@@ -4,7 +4,7 @@ import SearchBar from './SearchBar.js'
 
 import ChatBox from './ChatBox.js'
 import Playlist from './Playlist'
-
+import BugReport from './BugReport'
 class Room extends Component {
 
     componentDidMount = () => {
@@ -23,6 +23,7 @@ class Room extends Component {
                 userClickedSearchResult={(videoID) => this.props.userClickedSearchResult(videoID)}
                 addVideoToPlaylist={(videoObj => this.props.addVideoToPlaylist(videoObj))}
                 error={this.props.error}
+                triggerBugReport={this.props.triggerBugReport}
                 />
                 <Player videoSource={this.props.videoSource}/>
                 <Playlist
@@ -40,7 +41,7 @@ class Room extends Component {
                 chatError={this.props.chatError}
                 connectedUsers={this.props.connectedUsers}
                 />
-                
+                {this.props.showBugReport && <BugReport closeBugReport={this.props.closeBugReport}/>}
             </div>
         )
     }
