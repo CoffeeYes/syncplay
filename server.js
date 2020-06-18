@@ -6,10 +6,12 @@ const app = express();
 const io = require('socket.io')();
 const socketPort = 5001;
 
+const path = require('path');
+
 var roomMetaData = {};
 
 //use build folder
-app.use( express.static( `${__dirname}/../build` ) );
+app.use( express.static( `${__dirname}/build` ) );
 
 getRandomColor = () => {
     //https://stackoverflow.com/questions/23601792/get-only-light-colors-randomly-using-javascript
@@ -52,9 +54,7 @@ app.get('/test', (req,res,next) => {
     console.log("test received")
 })
 
-+app.get('/*', function (req, res) {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
-  });
+app.get('*', (req, res)=>{  res.sendFile(path.join(__dirname, './build/index.html'));})
 
 io.on('connection', (client) => {
 

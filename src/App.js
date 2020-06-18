@@ -229,6 +229,9 @@ class App extends Component {
       events : {
         onReady : this.onPlayerReady,
         onStateChange : this.onPlayerStateChange
+      },
+      playerVars : {
+        origin : "http://www.youtube.com"
       }
     });
   }
