@@ -64,7 +64,7 @@ io.on('connection', (client) => {
         roomMetaData[roomID].currentVideoID = videoID;
     })
 
-    client.on("requestCreateNewRoom",(userID) => {
+    client.on("/socket/requestCreateNewRoom",(userID) => {
         //create random room string and join it
         var newRoomID = generateRandomRoomString();
         client.join(newRoomID);
@@ -94,7 +94,7 @@ io.on('connection', (client) => {
         io.to(userID).emit("roomCreatedSuccesfully",newRoomID)
     })
 
-    client.on("userJoinedRoom",(roomID) => {
+    client.on("/socket/userJoinedRoom",(roomID) => {
         //check if room exists
         if(roomMetaData[roomID] == undefined) {
             return io.emit("clientError","Room does not exist")
@@ -119,7 +119,7 @@ io.on('connection', (client) => {
         io.to(roomID).emit("receiveNewMessage",createMessage(joinedMessage,client.id,roomMetaData[roomID].userColours[client.id]))
     })
 
-    client.on("userPlayedVideo",(roomID) => {
+    client.on("/socket/userPlayedVideo",(roomID) => {
         client.to(roomID).emit("anotherUserPlayedVideo");
         //clear paused user array
         roomMetaData[roomID].pausedUsers = []
@@ -134,7 +134,7 @@ io.on('connection', (client) => {
         }
     })
 
-    client.on("userPausedVideo", (time,roomID) => {
+    client.on("/socket/userPausedVideo", (time,roomID) => {
         client.to(roomID).emit("anotherUserPausedVideo",time);
         //clear playing users array
         roomMetaData[roomID].playingUsers = [];
@@ -149,7 +149,7 @@ io.on('connection', (client) => {
         }
     })
 
-    client.on("newUserRequestTime",(roomID) => {
+    client.on("/socket/newUserRequestTime",(roomID) => {
         //get clients currently connected to room
         var clients = io.sockets.adapter.rooms[roomID].sockets;
         clients = Object.keys(clients);
@@ -159,20 +159,20 @@ io.on('connection', (client) => {
         }
     })
 
-    client.on("newUserLoadedVideo", (roomID) => {
+    client.on("/socket/newUserLoadedVideo", (roomID) => {
         io.to(roomMetaData[roomID].connectedUsers[0]).emit("newUserJoinedRoom",client.id)
     })
 
-    client.on("newUserMustPause", (newUserID) => {
+    client.on("/socket/newUserMustPause", (newUserID) => {
         io.to(newUserID).emit("newUserMustPause");
     })
 
-    client.on("receiveCurrentTime",(time,roomID,newClientID) => {
+    client.on("/socket/receiveCurrentTime",(time,roomID,newClientID) => {
         //io.to(roomID).emit("syncTimeWithNewUser",time,roomMetaData[roomID].currentVideoID);
         io.to(newClientID).emit("newUserReceiveVideoAndTimeStamp",time,roomMetaData[roomID].currentVideoID);
     })
 
-    client.on("userChangedTimeWhilePaused", (time,roomID) => {
+    client.on("/socket/userChangedTimeWhilePaused", (time,roomID) => {
         //only allow timechange signalling to take place for novel time changes, if condition prevents repeated timechanges from timechange signal receivers
         if(Math.round(time) != Math.round(roomMetaData[roomID].currentTimeChange) ) {
             roomMetaData[roomID].currentTimeChange = time;
@@ -214,7 +214,7 @@ io.on('connection', (client) => {
         
     })
 
-    client.on("synchronizedTimeChange",(roomID) => {
+    client.on("/socket/synchronizedTimeChange",(roomID) => {
         //get connected clients
         var clients = io.sockets.adapter.rooms[roomID].sockets;
         clients = Object.keys(clients);
@@ -231,11 +231,11 @@ io.on('connection', (client) => {
         }
     })
 
-    client.on("resyncTimeOnPause", (time,roomID) => {
+    client.on("/socket/resyncTimeOnPause", (time,roomID) => {
         io.to(roomID).emit("anotherUserChangedTimeWhilePaused",time);
     })
 
-    client.on("newUserRequestVideoIdAndTimeStamp",(roomID) => {
+    client.on("/socket/newUserRequestVideoIdAndTimeStamp",(roomID) => {
         //send error if room doesnt exist
         if(roomMetaData[roomID] == undefined) {
             return io.to(client.id).emit("clientError","Room does not exist")
@@ -255,7 +255,7 @@ io.on('connection', (client) => {
         }
     })
 
-    client.on("newMessage",(msg,roomID) => {
+    client.on("/socket/newMessage",(msg,roomID) => {
         //create new message object to send to all users
         //user colour is created when user joins the room and stored in roomMetadata
         var message = createMessage(msg,roomMetaData[roomID].usernames[client.id],roomMetaData[roomID].userColours[client.id])
@@ -263,7 +263,7 @@ io.on('connection', (client) => {
         io.to(roomID).emit("receiveNewMessage",message)
     })
 
-    client.on("clientChangedUsername", (name,roomID) => {
+    client.on("/socket/clientChangedUsername", (name,roomID) => {
         //check if username is already taken
         for(var username in roomMetaData[roomID].usernames) {
             if(roomMetaData[roomID].usernames[username] == name) {
@@ -279,33 +279,33 @@ io.on('connection', (client) => {
         emitConnectedUsers(roomID)
     })
 
-    client.on("userAddedVideoToPlaylist",(videoData,roomID) => {
+    client.on("/socket/userAddedVideoToPlaylist",(videoData,roomID) => {
         client.to(roomID).emit("anotherUserAddedVideoToPlaylist",videoData)
         roomMetaData[roomID].playlist.push(videoData)
     })
 
-    client.on("updatePlaylistIndex",(index,roomID) => {
+    client.on("/socket/updatePlaylistIndex",(index,roomID) => {
         roomMetaData[roomID].playlistIndex = index
         client.to(roomID).emit("videoIndexWasUpdated",index)
     })
     
-    client.on("userRemovedVideoFromPlaylist", (index,roomID) => {
+    client.on("/socket/userRemovedVideoFromPlaylist", (index,roomID) => {
         roomMetaData[roomID].playlist.splice(index,1)
         client.to(roomID).emit("anotherUserRemovedVideoFromPlaylist",index)
     })
 
-    client.on("userMinimizedWindow", (roomID) => {
+    client.on("/socket/userMinimizedWindow", (roomID) => {
         //stop other users from playing video and display message stating which user is minimized
         io.to(roomID).emit("disallowPlaying")
         var string = "User " + roomMetaData[roomID].usernames[client.id] + " has Minimized the window, blocking playback"
         io.to(roomID).emit("clientError",string)
     })
 
-    client.on("userMaximizedWindow", (roomID) => {
+    client.on("/socket/userMaximizedWindow", (roomID) => {
         io.to(roomID).emit("allowPlaying");
         io.to(roomID).emit("clientError","")
     })
-    client.on("disconnect",() => {
+    client.on("/socket/disconnect",() => {
         //find room user disconnected from 
         var disconnectingUserRoom = ""
         var index = 0;
