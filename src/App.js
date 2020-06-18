@@ -2,13 +2,13 @@ import React, { Component} from 'react';
 import './App.css';
 import {Route,Switch} from 'react-router-dom';
 
-
+import connect from './connect.js'
 import socketClient from 'socket.io-client'
 
 import Splash from './Splash.js'
 import Room from './Room.js'
 
-var key = process.env.YOUTUBE_API_KEY
+var key = connect.youtubeAPI.key
 
 var checkTimeWhilePaused;
 var timeTracker;
@@ -20,7 +20,7 @@ class App extends Component {
 
   constructor(props) {
     super(props)
-    this.socket = socketClient('localhost:5001')
+    this.socket = socketClient(connect.serverData.url + ':5001')
 
     this.state = {
       searchTerm : '',
@@ -47,7 +47,7 @@ class App extends Component {
       return this.setState({searchResults : []})
     }
 
-    fetch("https://www.googleapis.com/youtube/v3/search?part=snippet&videoSyndicated=true&type=video&q=" + this.state.searchTerm + "&maxResults=5&key=" + connect.youtubeAPI.key )
+    fetch("https://www.googleapis.com/youtube/v3/search?part=snippet&videoSyndicated=true&type=video&q=" + this.state.searchTerm + "&maxResults=5&key=" + key )
     .then(res => res.json())
     .then(data => {
       this.setState({searchResults : data.items})
