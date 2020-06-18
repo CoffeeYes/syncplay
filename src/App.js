@@ -76,13 +76,13 @@ class App extends Component {
     setInterval( () => {
       if(document.hidden && prevhidden == false) {
         console.log("minimized")
-        this.socket.emit("/socket/userMinimizedWindow",this.state.roomID)
+        this.socket.emit("userMinimizedWindow",this.state.roomID)
         this.player.pauseVideo()
         prevhidden = true;
       }
       else if(prevhidden == true && !document.hidden) {
         prevhidden = false;
-        this.socket.emit("/socket/userMaximizedWindow",this.state.roomID)
+        this.socket.emit("userMaximizedWindow",this.state.roomID)
       }
     },1000)
     /*--------------------- Sockets ------------------------*/
@@ -127,7 +127,7 @@ class App extends Component {
 
       this.socket.on("requestCurrentTimeStamp",(newClientID) => {
         var time = Math.round(this.player.getCurrentTime());
-        this.socket.emit("/socket/receiveCurrentTime",time,this.state.roomID,newClientID);
+        this.socket.emit("receiveCurrentTime",time,this.state.roomID,newClientID);
       })
 
       //resync with another user if they changed time while paused
@@ -136,7 +136,7 @@ class App extends Component {
         //this.player.pauseVideo();
         //block playing while waiting to receive all user synced signal, emit own sync signal
         this.setState({"allowPlay" : false,"error" : "Waiting for users to synchronise"},() => {
-          this.socket.emit("/socket/synchronizedTimeChange",this.state.roomID)
+          this.socket.emit("synchronizedTimeChange",this.state.roomID)
         })
       })
 
@@ -147,7 +147,7 @@ class App extends Component {
             this.player.playVideo();
             setTimeout(() => {
               this.player.pauseVideo()
-              this.socket.emit("/socket/newUserLoadedVideo",this.state.roomID)
+              this.socket.emit("newUserLoadedVideo",this.state.roomID)
               clearInterval(loadedCheck)
             },1500)
           }
@@ -165,7 +165,7 @@ class App extends Component {
           this.player.pauseVideo()
         }
         else {
-          this.socket.emit("/socket/newUserMustPause",newUserID)
+          this.socket.emit("newUserMustPause",newUserID)
         }
       })
 
@@ -238,7 +238,7 @@ class App extends Component {
 
   onPlayerReady = event => {
     //emit ready event to receive id and timestamp from backend
-    this.socket.emit("/socket/newUserRequestVideoIdAndTimeStamp",this.state.roomID);
+    this.socket.emit("newUserRequestVideoIdAndTimeStamp",this.state.roomID);
   }
 
   onPlayerStateChange = (event) => {
@@ -255,7 +255,7 @@ class App extends Component {
       //clear paused timechange checker
       clearInterval(checkTimeWhilePaused)
       //tell other users to play video
-      this.socket.emit("/socket/userPlayedVideo",this.state.roomID)
+      this.socket.emit("userPlayedVideo",this.state.roomID)
       
     }
     else if(event.data == window.YT.PlayerState.PAUSED) {
@@ -263,14 +263,14 @@ class App extends Component {
       //clear old timechecker incase of re-pause
       clearInterval(checkTimeWhilePaused)
       //tell other users time is paused
-      this.socket.emit("/socket/userPausedVideo",this.player.getCurrentTime(),this.state.roomID)
+      this.socket.emit("userPausedVideo",this.player.getCurrentTime(),this.state.roomID)
 
       var timePausedAt = this.player.getCurrentTime()
       var currentTimeWhilePaused = this.player.getCurrentTime()
       checkTimeWhilePaused = setInterval(() => {
         if(currentTimeWhilePaused != timePausedAt) {
           if(this.state.allowPlay) {
-            this.socket.emit("/socket/userChangedTimeWhilePaused",currentTimeWhilePaused,this.state.roomID);
+            this.socket.emit("userChangedTimeWhilePaused",currentTimeWhilePaused,this.state.roomID);
             timePausedAt = currentTimeWhilePaused
           }
           else {
@@ -287,8 +287,8 @@ class App extends Component {
       if(this.state.playlistVideos != "" && this.state.playlistCurrentVideoIndex +1 <= this.state.playlistVideos.length -1) {
         //increment playlist video index and then play the video
         this.setState({playlistCurrentVideoIndex : this.state.playlistCurrentVideoIndex + 1},() => {
-          this.socket.emit("/socket/updatePlaylistIndex",this.state.playlistCurrentVideoIndex,this.state.roomID)
-          this.socket.emit("/socket/videoIdWasChangedByClient",this.state.playlistVideos[this.state.playlistCurrentVideoIndex].videoID,this.state.roomID,0);
+          this.socket.emit("updatePlaylistIndex",this.state.playlistCurrentVideoIndex,this.state.roomID)
+          this.socket.emit("videoIdWasChangedByClient",this.state.playlistVideos[this.state.playlistCurrentVideoIndex].videoID,this.state.roomID,0);
         })
       }
     }
@@ -344,12 +344,12 @@ class App extends Component {
 
   createNewRoom = (event) => {
     event.preventDefault();
-    this.socket.emit("/socket/requestCreateNewRoom",this.socket.id)
+    this.socket.emit("requestCreateNewRoom",this.socket.id)
   }
 
   setStateRoomCode = (roomID) => {
     this.setState({roomID : roomID},() => {
-      this.socket.emit("/socket/userJoinedRoom",roomID)
+      this.socket.emit("userJoinedRoom",roomID)
     })
   }
 
@@ -357,7 +357,7 @@ class App extends Component {
     if(event.which == 13) {
       console.log(this.state.localMessage)
 
-      this.socket.emit("/socket/newMessage",this.state.localMessage,this.state.roomID)
+      this.socket.emit("newMessage",this.state.localMessage,this.state.roomID)
       this.setState({localMessage : ""})
     }
   }
@@ -369,7 +369,7 @@ class App extends Component {
     if(this.state.changeName == "") {
       return this.setState({chatError : "Username cannot be empty"})
     }
-    this.socket.emit("/socket/clientChangedUsername",this.state.changeName,this.state.roomID)
+    this.socket.emit("clientChangedUsername",this.state.changeName,this.state.roomID)
     this.setState({changeName : ""})
   }
 
@@ -393,13 +393,13 @@ class App extends Component {
     }
 
     this.setState(this.setState((prevState) => ({playlistVideos : [...prevState.playlistVideos,videoData]})))
-    this.socket.emit("/socket/userAddedVideoToPlaylist",videoData,this.state.roomID)
+    this.socket.emit("userAddedVideoToPlaylist",videoData,this.state.roomID)
   }
 
   videoFromPlaylistWasClicked = (videoID,index) => {
     //update current playlist index locally and on backend
     this.setState({playlistCurrentVideoIndex : index})
-    this.socket.emit("/socket/updatePlaylistIndex",index,this.state.roomID)
+    this.socket.emit("updatePlaylistIndex",index,this.state.roomID)
 
     //tell all users to play video from playlist
     this.socket.emit('videoIdWasChangedByClient',videoID,this.state.roomID,0)
@@ -412,7 +412,7 @@ class App extends Component {
         return item;
       }
     })})
-    this.socket.emit("/socket/userRemovedVideoFromPlaylist",index,this.state.roomID)
+    this.socket.emit("userRemovedVideoFromPlaylist",index,this.state.roomID)
   }
 
   triggerBugReport = () => {
