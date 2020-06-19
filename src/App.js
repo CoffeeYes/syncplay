@@ -20,7 +20,7 @@ class App extends Component {
 
   constructor(props) {
     super(props)
-    this.socket = socketClient('http://157.230.127.196')
+    this.socket = socketClient('https://youtubeparty.net')
 
     this.state = {
       searchTerm : '',
