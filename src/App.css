@@ -393,3 +393,15 @@ html {
   grid-row-end: 4;
   grid-column: 2;
 }
+
+@media (min-width: 3440px) {
+  .playerContainer {
+    padding-bottom: 42.85%;
+  }
+}
+
+@media (min-width: 2560px) {
+  .playerContainer {
+    padding-bottom: 42.85%;
+  }
+}
