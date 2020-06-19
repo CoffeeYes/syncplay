@@ -16,6 +16,7 @@ html {
   width: 90px;
   height: 90px;
   align-self: center;
+  max-height: 100%;
 }
 
 .defaultButton {
@@ -110,8 +111,8 @@ html {
 	overflow: hidden;
 }
 
-.playerContainer iframe,  
-.playerContainer object,  
+.playerContainer iframe,
+.playerContainer object,
 .playerContainer embed {
 	position: absolute;
 	top: 0;
@@ -350,7 +351,7 @@ html {
 
 .bugButton {
   align-self: center;
-  padding: 20px
+  padding: 20px;
 }
 
 .bugReportCoverPage {
@@ -372,7 +373,7 @@ html {
   display: grid;
   grid-template-columns: 10% 80% 10%;
   grid-template-rows: 5% 80% 10%;
-  background-color: #f4f7f6; 
+  background-color: #f4f7f6;
 }
 
 .closeBugReportButton {
