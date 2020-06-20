@@ -10,6 +10,8 @@ html {
   width: 100vw;
   height: 100vh;
   background-color: #f4f7f6;
+  display: flex;
+  justify-content: center;
 }
 
 #logoImg {
@@ -236,7 +238,6 @@ html {
 .addToPlaylistButton {
   border: none;
   box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 0.2);
-  width: 10%;
   font-weight: bold;
 }
 
@@ -404,5 +405,21 @@ html {
 @media (min-width: 2560px) {
   .playerContainer {
     padding-bottom: 42.85%;
+  }
+}
+
+@media (max-width : 1280px) and (max-height : 720px){
+  .mainContainerRoom {
+    width : 1216px;
+    grid-template-columns: 800px 416px;
+    grid-template-rows : 72px 216px 250px;
+  }
+
+  .chatContainer {
+    grid-template-rows: 1.5fr 1.5fr 6fr 1fr;
+  }
+
+  .changeUsernameInput {
+    padding : 0px;
   }
 }
