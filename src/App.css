@@ -460,3 +460,27 @@ html {
     padding : 0px 0px 0px 0px;
   }
 }
+
+@media (max-width : 768px) and (max-height : 1024px) and (orientation : portrait) {
+  .mainContainerRoom {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: minmax(0,1fr) minmax(0,5fr) minmax(0,4fr);
+  }
+
+  .playerContainer {
+    grid-column-start: 1;
+    grid-column-end : 3; 
+    grid-row : 2;
+  }
+
+  .chatContainer {
+    grid-row : 3;
+    grid-column: 1;
+  }
+  
+  .playlistContainer {
+    grid-row : 3;
+    grid-column: 2;
+    border-bottom : 1px solid black;
+  }
+}
