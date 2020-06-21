@@ -396,6 +396,7 @@ html {
   grid-column: 2;
 }
 
+/*21 : 9 aspect ratio on video for ultrawide monitors */
 @media (min-width: 3440px) {
   .playerContainer {
     padding-bottom: 42.85%;
@@ -408,6 +409,7 @@ html {
   }
 }
 
+/* 14 inch laptop styling */
 @media (max-width : 1280px) and (max-height : 720px){
   .mainContainerRoom {
     width : 1216px;
@@ -421,5 +423,40 @@ html {
 
   .changeUsernameInput {
     padding : 0px;
+  }
+}
+
+/* landscape IPAD */
+@media (max-width : 1024px) and (max-height : 768px) and (orientation : landscape) {
+  .mainContainerRoom {
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows : 1fr minmax(0,4fr) minmax(0,2fr);
+  }
+
+  .playerContainer {
+    grid-column-start : 1;
+    grid-column-end : 2;
+    grid-row: 2;
+  }
+
+  .playlistContainer {
+    grid-row : 2;
+    grid-column : 2;
+    min-width: 0;
+    min-height: 0;
+    border-bottom : 1px solid black;
+  }
+
+  .chatContainer {
+    grid-row : 3;
+    grid-column-start: 1;
+    grid-column-end : 2;
+    border: 1px solid black;
+    display: grid;
+    grid-template-rows: 1fr 1fr 7fr 1fr;
+  }
+
+  .changeUsernameInput {
+    padding : 0px 0px 0px 0px;
   }
 }
