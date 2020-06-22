@@ -41,7 +41,7 @@ class Room extends Component {
                 chatError={this.props.chatError}
                 connectedUsers={this.props.connectedUsers}
                 />
-                {this.props.showBugReport && <BugReport closeBugReport={this.props.closeBugReport}/>}
+                {this.props.showBugReport && <BugReport closeBugReport={this.props.closeBugReport} submitBugReport={this.props.submitBugReport}/>}
             </div>
         )
     }

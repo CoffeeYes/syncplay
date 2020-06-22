@@ -1,6 +1,7 @@
 import React, { Component} from 'react';
 import './App.css';
 import {Route,Switch} from 'react-router-dom';
+import reactGA from 'react-ga'
 
 import connect from './connect.js'
 import socketClient from 'socket.io-client'
@@ -39,6 +40,8 @@ class App extends Component {
       connectedUsers : ["user1","user2"],
       showBugReport : false
     }
+
+    reactGA.initialize(connect.ga.TID,{debug : true});
   }
 
   searchForVideoByString = () => {
@@ -54,6 +57,8 @@ class App extends Component {
     })
   } 
   componentDidMount = () => {
+    //google analytics
+    reactGA.pageview('/')
     //check if youtube iframe API is loaded and if not, load it
     if(!window.YT) {
       const tag = document.createElement('script');
@@ -417,16 +422,30 @@ class App extends Component {
 
   triggerBugReport = () => {
     this.setState({showBugReport : true})
+    reactGA.event({
+      category : "bug report",
+      action : "User opened bug report window"
+    })
   }
 
   closeBugReport = () => {
     this.setState({showBugReport : false})
   }
 
+  submitBugReport = () => {
+    this.setState({showBugReport : false})
+    reactGA.event({
+      category: "bug report",
+      action : "User submitted bug report"
+    })
+  }
+
   render = () => {
     return(
       <Switch>
-          <Route exact path="/room/*" render={() => (
+          <Route exact path="/room/*" render={() => {
+            reactGA.pageview('/room/')
+            return (
             <Room
             error={this.state.error}
             handleChange={this.handleChange}
@@ -450,8 +469,9 @@ class App extends Component {
             triggerBugReport={this.triggerBugReport}
             showBugReport={this.state.showBugReport}
             closeBugReport={this.closeBugReport}
+            submitBugReport={this.submitBugReport}
             />
-          )} />
+          )}} />
           <Route path="/" render={() => (
             <Splash createNewRoom={this.createNewRoom}/>
           )}/>
