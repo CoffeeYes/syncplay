@@ -80,7 +80,6 @@ class App extends Component {
     var prevhidden = false;
     setInterval( () => {
       if(document.hidden && prevhidden == false) {
-        console.log("minimized")
         this.socket.emit("userMinimizedWindow",this.state.roomID)
         this.player.pauseVideo()
         prevhidden = true;
@@ -164,7 +163,6 @@ class App extends Component {
       })
 
       this.socket.on("newUserJoinedRoom", (newUserID) => {
-        console.log("playerstate : " + this.player.getPlayerState())
         //video is playing
         if(this.player.getPlayerState() == 1) {
           this.player.pauseVideo()
@@ -222,7 +220,6 @@ class App extends Component {
       })
 
       this.socket.on("kickUser",()=> {
-        console.log("receive kick")
         window.location.href = "/"
       })
     /*------------------------------------------------------*/
@@ -247,10 +244,8 @@ class App extends Component {
   }
 
   onPlayerStateChange = (event) => {
-    console.log("player state changed : " + event.data)
 
     //emit messages to pause/play other users on local pause/play
-    console.log(window.YT.PlayerState)
     if(event.data == window.YT.PlayerState.PLAYING) {
       this.setState({currentPlayerState : "playing"});
       //pause video if playing is not allowed
@@ -360,8 +355,6 @@ class App extends Component {
 
   sendMessage = (event) => {
     if(event.which == 13) {
-      console.log(this.state.localMessage)
-
       this.socket.emit("newMessage",this.state.localMessage,this.state.roomID)
       this.setState({localMessage : ""})
     }
@@ -389,9 +382,7 @@ class App extends Component {
   }
 
   addVideoToPlaylist = (videoObj) => {
-    console.log(videoObj)
-
-    var videoData = {
+      var videoData = {
       title : videoObj.snippet.title,
       videoID : videoObj.id.videoId,
       imgURL : videoObj.snippet.thumbnails.default.url
