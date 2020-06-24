@@ -327,7 +327,7 @@ io.on('connection', (client) => {
             }
         }
         //check if user was minimized when they disconnected and remove them from minimized array
-        if(roomMetaData[disconnectingUserRoom].minimizedUsers) {
+        if(roomMetaData[disconnectingUserRoom]) {
             var minUsers = roomMetaData[disconnectingUserRoom].minimizedUsers
             for(var item in minUsers) {
                 if(minUsers[item] == client.id) {
