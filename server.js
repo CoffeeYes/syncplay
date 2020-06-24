@@ -327,17 +327,20 @@ io.on('connection', (client) => {
             }
         }
         //check if user was minimized when they disconnected and remove them from minimized array
-        var minUsers = roomMetaData[disconnectingUserRoom].minimizedUsers
-        for(var item in minUsers) {
-            if(minUsers[item] == client.id) {
-                minUsers.splice(minUsers.indexOf(minUsers[item]),1)
-                roomMetaData[disconnectingUserRoom].minimizedUsers = minUsers;
+        if(roomMetaData[disconnectingUserRoom].minimizedUsers) {
+            var minUsers = roomMetaData[disconnectingUserRoom].minimizedUsers
+            for(var item in minUsers) {
+                if(minUsers[item] == client.id) {
+                    minUsers.splice(minUsers.indexOf(minUsers[item]),1)
+                    roomMetaData[disconnectingUserRoom].minimizedUsers = minUsers;
+                }
+            }
+            if(roomMetaData[disconnectingUserRoom].minimizedUsers == "") {
+                io.to(disconnectingUserRoom).emit("allowPlaying")
+                io.to(disconnectingUserRoom).emit("clientError","")
             }
         }
-        if(roomMetaData[disconnectingUserRoom].minimizedUsers == "") {
-            io.to(disconnectingUserRoom).emit("allowPlaying")
-            io.to(disconnectingUserRoom).emit("clientError","")
-        }
+        
         if(disconnectingUserRoom != "" ) {
             //send disconnect message and remove user from metadata arrays
             var msg = createMessage([client.id + " Disconnected"],roomMetaData[disconnectingUserRoom].usernames[client.id],roomMetaData[disconnectingUserRoom].userColours[client.id])
