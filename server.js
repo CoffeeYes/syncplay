@@ -85,7 +85,7 @@ io.on('connection', (client) => {
         roomMetaData[newRoomID].playingUsers = [];
         roomMetaData[newRoomID].pausedUsers = [];
         roomMetaData[newRoomID].timeChangeUsers = [];
-        roomMetaData[newRoomID].minimizedUsers = [];
+        roomMetaData[roomID].minimizedUsers = []
 
         roomMetaData[newRoomID].playlist = [];
         roomMetaData[newRoomID].playlistIndex = -1;
@@ -306,7 +306,7 @@ io.on('connection', (client) => {
     client.on("userMaximizedWindow", (roomID) => {
         io.to(roomID).emit("allowPlaying");
         io.to(roomID).emit("clientError","")
-        //remove user from minimized array
+
         var minUsers = roomMetaData[roomID].minimizedUsers
         for(var item in minUsers) {
             if(minUsers[item] == client.id) {
@@ -326,20 +326,7 @@ io.on('connection', (client) => {
                 index = roomMetaData[room].connectedUsers.indexOf(client.id)
             }
         }
-        //check if user was minimized when they disconnected and remove them from minimized array
-        if(roomMetaData[disconnectingUserRoom]) {
-            var minUsers = roomMetaData[disconnectingUserRoom].minimizedUsers
-            for(var item in minUsers) {
-                if(minUsers[item] == client.id) {
-                    minUsers.splice(minUsers.indexOf(minUsers[item]),1)
-                    roomMetaData[disconnectingUserRoom].minimizedUsers = minUsers;
-                }
-            }
-            if(roomMetaData[disconnectingUserRoom].minimizedUsers == "") {
-                io.to(disconnectingUserRoom).emit("allowPlaying")
-                io.to(disconnectingUserRoom).emit("clientError","")
-            }
-
+        if(disconnectingUserRoom != "" ) {
             //send disconnect message and remove user from metadata arrays
             var msg = createMessage([client.id + " Disconnected"],roomMetaData[disconnectingUserRoom].usernames[client.id],roomMetaData[disconnectingUserRoom].userColours[client.id])
             io.to(disconnectingUserRoom).emit("receiveNewMessage",msg)
@@ -356,6 +343,8 @@ io.on('connection', (client) => {
                 },5000)
             }
         }
+        
+
     })
 })
 
