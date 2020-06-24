@@ -339,9 +339,7 @@ io.on('connection', (client) => {
                 io.to(disconnectingUserRoom).emit("allowPlaying")
                 io.to(disconnectingUserRoom).emit("clientError","")
             }
-        }
-        
-        if(disconnectingUserRoom != "" ) {
+
             //send disconnect message and remove user from metadata arrays
             var msg = createMessage([client.id + " Disconnected"],roomMetaData[disconnectingUserRoom].usernames[client.id],roomMetaData[disconnectingUserRoom].userColours[client.id])
             io.to(disconnectingUserRoom).emit("receiveNewMessage",msg)
@@ -358,8 +356,6 @@ io.on('connection', (client) => {
                 },5000)
             }
         }
-        
-
     })
 })
 
