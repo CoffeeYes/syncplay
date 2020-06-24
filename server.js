@@ -85,7 +85,7 @@ io.on('connection', (client) => {
         roomMetaData[newRoomID].playingUsers = [];
         roomMetaData[newRoomID].pausedUsers = [];
         roomMetaData[newRoomID].timeChangeUsers = [];
-        roomMetaData[roomID].minimizedUsers = []
+        roomMetaData[newRoomID].minimizedUsers = []
 
         roomMetaData[newRoomID].playlist = [];
         roomMetaData[newRoomID].playlistIndex = -1;
