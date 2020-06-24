@@ -335,9 +335,9 @@ io.on('connection', (client) => {
             emitConnectedUsers(disconnectingUserRoom)
 
             //if that user was the last user, delete Metadata value for room ID after 5 seconds to prevent room from being re-created
-            if(roomMetaData[disconnectingUserRoom].connectedUsers == "") {
+            if(roomMetaData[disconnectingUserRoom] && roomMetaData[disconnectingUserRoom].connectedUsers == "") {
                 setTimeout( () => {
-                    if(roomMetaData[disconnectingUserRoom].connectedUsers == "") {
+                    if(roomMetaData[disconnectingUserRoom]  && roomMetaData[disconnectingUserRoom].connectedUsers == "") {
                         delete roomMetaData[disconnectingUserRoom]
                     }
                 },5000)
