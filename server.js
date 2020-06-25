@@ -326,6 +326,21 @@ io.on('connection', (client) => {
                 index = roomMetaData[room].connectedUsers.indexOf(client.id)
             }
         }
+        if(roomMetaData[disconnectingUserRoom]) {
+            var index = roomMetaData[disconnectingUserRoom].minimizedUsers.indexOf(client.id)
+            if(index != -1) {
+                //remove disconnecting user from minimized users array
+                roomMetaData[disconnectingUserRoom].minimizedUsers.splice(index,1)
+                //check if disconnecting user was last minimized user, if so allow playback otherwise change frontend error display for other minimized users
+                if(roomMetaData[disconnectingUserRoom].minimizedUsers == "") {
+                    io.to(disconnectingUserRoom).emit("allowPlaying");
+                    io.to(disconnectingUserRoom).emit("clientError","")
+                }
+                else {
+                    io.to(disconnectingUserRoom).emit("clientError", roomMetaData[disconnectingUserRoom].minimizedUsers[0] + " has Minimized the window, blocking playback")
+                }
+            }
+        }
         if(disconnectingUserRoom != "" ) {
             //send disconnect message and remove user from metadata arrays
             var msg = createMessage([client.id + " Disconnected"],roomMetaData[disconnectingUserRoom].usernames[client.id],roomMetaData[disconnectingUserRoom].userColours[client.id])
