@@ -21,7 +21,7 @@ class App extends Component {
 
   constructor(props) {
     super(props)
-    this.socket = socketClient(connect.serverData.sockerURL)
+    this.socket = socketClient(connect.serverData.socketURL)
 
     this.state = {
       searchTerm : '',
