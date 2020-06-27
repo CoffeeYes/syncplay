@@ -196,8 +196,12 @@ html {
 }
 
 .playlistHeader {
-  border-bottom: 1px solid black;
   padding-left : 5px;
+  background-color: #E8E8E8;
+  padding-top : 1px;
+  padding-bottom: 1px;
+  font-size : 1.1rem;
+  text-align: center;
 }
 
 .playlistVideosContainer {
@@ -317,7 +321,7 @@ html {
 
 .changeUsernameInput {
   width: 100%;
-  padding : 15px 0px 15px 0px;
+  padding : 15px 0px 15px 5px;
   border-radius: 5px;
   margin-right: 5px;
 }
