@@ -41,7 +41,7 @@ class App extends Component {
       showBugReport : false
     }
 
-    reactGA.initialize(connect.ga.TID,{debug : true});
+    reactGA.initialize(connect.ga.TID);
   }
 
   searchForVideoByString = () => {
@@ -111,6 +111,7 @@ class App extends Component {
       this.socket.on("roomCreatedSuccesfully", (roomID) => {
         this.setState({roomID : roomID}, () => {
           window.location = '/room/' + roomID
+          reactGA.pageview('/room/')
         })
       })
 
@@ -434,9 +435,7 @@ class App extends Component {
   render = () => {
     return(
       <Switch>
-          <Route exact path="/room/*" render={() => {
-            reactGA.pageview('/room/')
-            return (
+          <Route exact path="/room/*" render={() => (
             <Room
             error={this.state.error}
             handleChange={this.handleChange}
@@ -462,7 +461,7 @@ class App extends Component {
             closeBugReport={this.closeBugReport}
             submitBugReport={this.submitBugReport}
             />
-          )}} />
+          )}/>
           <Route path="/" render={() => (
             <Splash createNewRoom={this.createNewRoom}/>
           )}/>
