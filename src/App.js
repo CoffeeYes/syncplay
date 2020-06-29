@@ -38,7 +38,9 @@ class App extends Component {
       playlistCurrentVideoIndex : -1,
       currentPlayerState : "",
       connectedUsers : ["user1","user2"],
-      showBugReport : false
+      showBugReport : false,
+      chooseUsername : "",
+      showUsernameModal : true
     }
 
     reactGA.initialize(connect.ga.TID);
@@ -369,7 +371,7 @@ class App extends Component {
       return this.setState({chatError : "Username cannot be empty"})
     }
     this.socket.emit("clientChangedUsername",this.state.changeName,this.state.roomID)
-    this.setState({changeName : ""})
+    this.setState({changeName : "",showUsernameModal : false})
   }
 
   userClickedSearchResult = (videoID) => {
@@ -460,6 +462,7 @@ class App extends Component {
             showBugReport={this.state.showBugReport}
             closeBugReport={this.closeBugReport}
             submitBugReport={this.submitBugReport}
+            showUsernameModal={this.state.showUsernameModal}
             />
           )}/>
           <Route path="/" render={() => (

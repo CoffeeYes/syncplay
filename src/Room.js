@@ -5,6 +5,7 @@ import SearchBar from './SearchBar.js'
 import ChatBox from './ChatBox.js'
 import Playlist from './Playlist'
 import BugReport from './BugReport'
+import UsernameModal from './UsernameModal'
 class Room extends Component {
 
     componentDidMount = () => {
@@ -15,6 +16,14 @@ class Room extends Component {
     render = () => {
         return(
             <div className="mainContainerRoom">
+                
+                { this.props.showUsernameModal &&
+                    <UsernameModal
+                    changeName={this.props.changeName}
+                    handleChange={this.props.handleChange}
+                    changeUsername={this.props.changeUsername}
+                    />
+                } 
                 <SearchBar 
                 handleChange={this.props.handleChange} 
                 searchInputEnterPressed={this.props.searchInputEnterPressed} 

@@ -404,6 +404,35 @@ html {
   grid-column: 2;
 }
 
+.usernameModalFullscreen {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.5);
+  position: absolute;
+  top : 0;
+  left: 0;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.usernameModalChoice {
+  background-color: white;
+  box-shadow: -1px 2px  0px 0px black;
+  border-radius: 5px;
+  padding: 0px 10px 20px 10px;
+  text-align: center;
+}
+
+.usernameChoiceInput {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.changeNameButton {
+  display: inline-block;
+}
 /*21 : 9 aspect ratio on video for ultrawide monitors */
 @media (min-width: 3440px) {
   .playerContainer {
