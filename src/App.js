@@ -32,7 +32,7 @@ class App extends Component {
       allowPlay : true,
       localMessage : "",
       messages : [],
-      changeName : "",
+      changeName : sessionStorage.getItem("username") || "",
       searchResults : [],
       playlistVideos : [],
       playlistCurrentVideoIndex : -1,
@@ -350,9 +350,15 @@ class App extends Component {
     this.socket.emit("requestCreateNewRoom",this.socket.id)
   }
 
-  setStateRoomCode = (roomID) => {
+  initializeRoom = (roomID) => {
     this.setState({roomID : roomID},() => {
       this.socket.emit("userJoinedRoom",roomID)
+      //check if the joining user already had a username (reloaded the page) and update it on the backend
+      if(this.state.changeName != "") {
+        this.setState({showUsernameModal : false})
+        this.socket.emit("clientChangedUsername",this.state.changeName,this.state.roomID)
+        this.setState({changeName : ""})
+      }
     })
   }
 
@@ -370,6 +376,7 @@ class App extends Component {
     if(this.state.changeName == "") {
       return this.setState({chatError : "Username cannot be empty"})
     }
+    sessionStorage.setItem("username",this.state.changeName)
     this.socket.emit("clientChangedUsername",this.state.changeName,this.state.roomID)
     this.setState({changeName : "",showUsernameModal : false})
   }
@@ -443,7 +450,7 @@ class App extends Component {
             handleChange={this.handleChange}
             searchInputEnterPressed={this.searchInputEnterPressed}
             videoSource={this.state.videoSource}
-            setStateRoomCode={ (roomID) => {this.setStateRoomCode(roomID)}}
+            initializeRoom={ (roomID) => {this.initializeRoom(roomID)}}
             localMessage={this.state.localMessage}
             messages={this.state.messages}
             sendMessage={this.sendMessage}

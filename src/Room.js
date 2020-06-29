@@ -11,7 +11,7 @@ class Room extends Component {
     componentDidMount = () => {
         //re-hydrate room state after losing on redirect
         let roomID = window.location.href.split("/room/")[1]
-        this.props.setStateRoomCode(roomID)
+        this.props.initializeRoom(roomID)
     }
     render = () => {
         return(
