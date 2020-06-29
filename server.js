@@ -300,9 +300,11 @@ io.on('connection', (client) => {
     client.on("userMinimizedWindow", (roomID) => {
         //stop other users from playing video and display message stating which user is minimized
         io.to(roomID).emit("disallowPlaying")
-        var string = "User " + roomMetaData[roomID].usernames[client.id] + " has Minimized the window, blocking playback"
-        io.to(roomID).emit("clientError",string)
-        roomMetaData[roomID].minimizedUsers.push(client.id)
+        if(roomMetaData[roomID]) {
+            var string = "User " + roomMetaData[roomID].usernames[client.id] + " has Minimized the window, blocking playback"
+            io.to(roomID).emit("clientError",string)
+            roomMetaData[roomID].minimizedUsers.push(client.id)
+        }
     })
 
     client.on("userMaximizedWindow", (roomID) => {
