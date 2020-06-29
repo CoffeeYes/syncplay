@@ -308,25 +308,27 @@ io.on('connection', (client) => {
     client.on("userMaximizedWindow", (roomID) => {
         io.to(roomID).emit("allowPlaying");
         io.to(roomID).emit("clientError","")
-
-        var minUsers = roomMetaData[roomID].minimizedUsers
-        for(var item in minUsers) {
-            //remove user from minimized user array
-            if(minUsers[item] == client.id) {
-                minUsers.splice(minUsers.indexOf(minUsers[item]),1)
-                roomMetaData[roomID].minimizedUsers = minUsers;
-            }
-            
-            //if user was last minimized user, allow playback and clear error, otherwise emit other minimized user error to frontend
-            if(roomMetaData[roomID].minimizedUsers == "") {
-                io.to(roomID).emit("allowPlaying");
-                io.to(roomID).emit("clientError","");
-            }
-            else {
-                var username = roomMetaData[roomID].usernames[roomMetaData[roomID].minimizedUsers[0]]
-                io.to(roomID).emit("clientError", "User " + username + " has Minimized the window, blocking playback")
+        if(roomMetaData[roomID]) {
+            var minUsers = roomMetaData[roomID].minimizedUsers
+            for(var item in minUsers) {
+                //remove user from minimized user array
+                if(minUsers[item] == client.id) {
+                    minUsers.splice(minUsers.indexOf(minUsers[item]),1)
+                    roomMetaData[roomID].minimizedUsers = minUsers;
+                }
+                
+                //if user was last minimized user, allow playback and clear error, otherwise emit other minimized user error to frontend
+                if(roomMetaData[roomID].minimizedUsers == "") {
+                    io.to(roomID).emit("allowPlaying");
+                    io.to(roomID).emit("clientError","");
+                }
+                else {
+                    var username = roomMetaData[roomID].usernames[roomMetaData[roomID].minimizedUsers[0]]
+                    io.to(roomID).emit("clientError", "User " + username + " has Minimized the window, blocking playback")
+                }
             }
         }
+        
     })
     client.on("disconnect",() => {
         //find room user disconnected from 
