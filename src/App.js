@@ -40,7 +40,9 @@ class App extends Component {
       connectedUsers : ["user1","user2"],
       showBugReport : false,
       chooseUsername : "",
-      showUsernameModal : true
+      showUsernameModal : true,
+      showCacheDialogue : true,
+      cacheAcceptance : localStorage.getItem("cacheAcceptance") || false
     }
 
     reactGA.initialize(connect.ga.TID);
@@ -59,6 +61,10 @@ class App extends Component {
     })
   } 
   componentDidMount = () => {
+    //check if user has already accepted cache conditions and hide window
+    if(this.state.cacheAcceptance) {
+      this.setState({showCacheDialogue: false})
+    }
     //google analytics
     reactGA.pageview('/')
     //check if youtube iframe API is loaded and if not, load it
@@ -441,6 +447,17 @@ class App extends Component {
     })
   }
 
+  handleCacheChoice = (choice) => {
+    if(choice === "reject") {
+      localStorage.setItem("cacheAcceptance",false)
+      window.location = "http://www.google.com"
+    }
+    else if (choice === "accept") {
+      localStorage.setItem("cacheAcceptance",true)
+      this.setState({showCacheDialogue : false})
+    }
+  }
+
   render = () => {
     return(
       <Switch>
@@ -470,6 +487,8 @@ class App extends Component {
             closeBugReport={this.closeBugReport}
             submitBugReport={this.submitBugReport}
             showUsernameModal={this.state.showUsernameModal}
+            handleCacheChoice={this.handleCacheChoice}
+            showCacheDialogue={this.state.showCacheDialogue}
             />
           )}/>
           <Route path="/" render={() => (

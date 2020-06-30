@@ -6,6 +6,7 @@ import ChatBox from './ChatBox.js'
 import Playlist from './Playlist'
 import BugReport from './BugReport'
 import UsernameModal from './UsernameModal'
+import CacheAccept from './CacheAccept.js';
 class Room extends Component {
 
     componentDidMount = () => {
@@ -16,7 +17,11 @@ class Room extends Component {
     render = () => {
         return(
             <div className="mainContainerRoom">
-                
+                {this.props.showCacheDialogue &&
+                <CacheAccept
+                handleCacheChoice={(choice) => this.props.handleCacheChoice(choice)}
+                />
+                }
                 { this.props.showUsernameModal &&
                     <UsernameModal
                     changeName={this.props.changeName}

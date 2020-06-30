@@ -433,6 +433,28 @@ html {
 .changeNameButton {
   display: inline-block;
 }
+
+.cacheAcceptModal {
+  z-index : 1000;
+  width: 100vw;
+  height: 100vh;
+  top : 0;
+  left: 0;
+  display: flex;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.cacheAcceptContent {
+  background-color: white;
+  border-radius: 5px;
+  padding: 10px 10px 10px 10px;
+}
+.cacheAcceptText {
+   width: 300px;
+}
 /*21 : 9 aspect ratio on video for ultrawide monitors */
 @media (min-width: 3440px) {
   .playerContainer {
