@@ -21,10 +21,6 @@ class ChatBox extends Component {
         return(
             <div className="chatContainer">
                 <p className="error">{this.props.chatError}</p>
-                <div className="changeNameContainer">
-                    <input className="changeUsernameInput inputFocus" name="changeName" onChange={this.props.handleChange} placeholder="Change your Username..." value={this.props.changeName}/>
-                    <button onClick={this.props.changeUsername} className="changeUsernameSubmit showPointerOnHover">Submit</button>
-                </div>
                 <UserList connectedUsers={this.props.connectedUsers}/>
                 <div className="messageBox" ref={this.msgBoxRef}>
                     {this.props.messages.map((item,index) => {
