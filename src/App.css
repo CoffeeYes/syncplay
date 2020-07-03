@@ -1,3 +1,12 @@
+@keyframes modalFadeIn {
+  from {
+    background-color : rgba(0,0,0,0)
+  }
+  to {
+    background-color : rgba(0,0,0,0.3)
+  }
+}
+
 html {
   font-size: 100%;
 }
@@ -336,6 +345,7 @@ html {
   color: #eeeeee;
   font-weight: bold;
 }
+
 #changeUsernameSubmit:active {
   box-shadow: none;
 }
@@ -369,10 +379,12 @@ html {
   position: absolute;
   top: 0;
   left: 0;
-  background-color: rgba(0,0,0,0.3);
   display: flex;
   justify-content: center;
   align-items: center;
+  animation-fill-mode: forwards;
+  animation-name : modalFadeIn;
+  animation-duration: 1s;
 }
 
 .bugReportContainer {
@@ -415,6 +427,9 @@ html {
   display: flex;
   justify-content: center;
   align-items: center;
+  animation-name : modalFadeIn;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
 }
 
 .usernameModalChoice {
@@ -444,7 +459,9 @@ html {
   position: absolute;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0,0,0,0.5);
+  animation-name : modalFadeIn;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
 }
 
 .cacheAcceptContent {
@@ -452,9 +469,11 @@ html {
   border-radius: 5px;
   padding: 10px 10px 10px 10px;
 }
+
 .cacheAcceptText {
    width: 300px;
 }
+
 /*21 : 9 aspect ratio on video for ultrawide monitors */
 @media (min-width: 3440px) {
   .playerContainer {
