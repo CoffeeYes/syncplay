@@ -468,10 +468,19 @@ html {
   background-color: white;
   border-radius: 5px;
   padding: 10px 10px 10px 10px;
+  display : flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .cacheAcceptText {
    width: 300px;
+}
+
+.cacheRejectButton {
+  margin-right: 10px;
+  border-radius: 5px;
+  padding : 2px 5px 2px 5px;
 }
 
 /*21 : 9 aspect ratio on video for ultrawide monitors */
