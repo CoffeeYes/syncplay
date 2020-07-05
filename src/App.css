@@ -491,6 +491,9 @@ html {
 }
 
 @media (min-width: 2560px) {
+  .mainContainerRoom {
+    grid-template-rows: 10% 30% 60%;
+  }
   .playerContainer {
     padding-bottom: 42.85%;
   }
@@ -554,7 +557,7 @@ html {
 
   .playerContainer {
     grid-column-start: 1;
-    grid-column-end : 3; 
+    grid-column-end : 3;
     grid-row : 2;
   }
 
@@ -562,7 +565,7 @@ html {
     grid-row : 3;
     grid-column: 1;
   }
-  
+
   .playlistContainer {
     grid-row : 3;
     grid-column: 2;
