@@ -258,7 +258,15 @@ html {
 
 .removeFromPlaylistButton {
   border: none;
-  box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 2px 2px 0px 0px rgba(255,0,0,0.2);
+  border-radius : 3px;
+  background-color: red;
+  height: 20px;
+  color : white;
+}
+
+.removeFromPlaylistButton:hover {
+  cursor: pointer;
 }
 
 .chatContainer {
