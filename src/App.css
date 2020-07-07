@@ -579,3 +579,14 @@ html {
     grid-column: 2;
   }
 }
+
+@media (max-width : 740px) {
+
+  .chatContainer {
+    display : none;
+  }
+
+  .playerContainer {
+    padding-bottom : 45%;
+  }
+}
