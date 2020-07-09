@@ -155,6 +155,7 @@ html {
   flex-direction: column;
   align-items: center;
   height: 0;
+  margin-right: auto;
 }
 
 .searchBar {
@@ -489,6 +490,12 @@ html {
   margin-right: 10px;
   border-radius: 5px;
   padding : 2px 5px 2px 5px;
+}
+
+.copyLinkContainer {
+  align-self: center;
+  text-align: center;
+  margin-right: auto
 }
 
 /*21 : 9 aspect ratio on video for ultrawide monitors */

@@ -42,7 +42,8 @@ class App extends Component {
       chooseUsername : "",
       showUsernameModal : true,
       showCacheDialogue : true,
-      cacheAcceptance : localStorage.getItem("cacheAcceptance") || false
+      cacheAcceptance : localStorage.getItem("cacheAcceptance") || false,
+      linkCopied : false
     }
 
     reactGA.initialize(connect.ga.TID);
@@ -458,6 +459,16 @@ class App extends Component {
     }
   }
 
+  copyLink = () => {
+    var link = window.location.href;
+    navigator.clipboard.writeText(link);
+    this.setState({linkCopied : true});
+
+    setTimeout(() => {
+      this.setState({linkCopied: false});
+    },400)
+  }
+
   render = () => {
     return(
       <Switch>
@@ -489,6 +500,8 @@ class App extends Component {
             showUsernameModal={this.state.showUsernameModal}
             handleCacheChoice={this.handleCacheChoice}
             showCacheDialogue={this.state.showCacheDialogue}
+            copyLink={this.copyLink}
+            linkCopied={this.state.linkCopied}
             />
           )}/>
           <Route path="/" render={() => (

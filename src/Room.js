@@ -38,6 +38,8 @@ class Room extends Component {
                 addVideoToPlaylist={(videoObj => this.props.addVideoToPlaylist(videoObj))}
                 error={this.props.error}
                 triggerBugReport={this.props.triggerBugReport}
+                copyLink={this.props.copyLink}
+                linkCopied={this.props.linkCopied}
                 />
                 <Player videoSource={this.props.videoSource}/>
                 <Playlist
