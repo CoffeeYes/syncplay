@@ -43,7 +43,8 @@ class App extends Component {
       showUsernameModal : true,
       showCacheDialogue : true,
       cacheAcceptance : localStorage.getItem("cacheAcceptance") || false,
-      linkCopied : false
+      linkCopied : false,
+      nameError : ""
     }
 
     reactGA.initialize(connect.ga.TID);
@@ -232,6 +233,24 @@ class App extends Component {
       this.socket.on("kickUser",()=> {
         window.location.href = "/"
       })
+
+      //continuation from changeName function, server response to check if username was already taken
+      this.socket.on("clientChangeNameReturn",confirmation => {
+        //display backend error
+        if(confirmation.error && !confirmation.success) {
+          this.setState({nameError : confirmation.error})
+        }
+        //no errors with username choice
+        else if (confirmation.success) {
+          this.setState({
+            nameError : "",
+            changeName : "",
+            showUsernameModal: false
+          })
+          //save username for reloads and other sessions
+          sessionStorage.setItem("username",this.state.changeName)
+        }
+      })
     /*------------------------------------------------------*/
   }
 
@@ -376,16 +395,15 @@ class App extends Component {
     }
   }
 
+  //this function is continued with the server socket message clientChangeNameReturn
   changeUsername = (event) => {
     //reset chat error
-    this.setState({chatError : ""})
+    this.setState({nameError : ""})
     //empty check
     if(this.state.changeName == "") {
-      return this.setState({chatError : "Username cannot be empty"})
+      return this.setState({nameError : "Username cannot be empty"})
     }
-    sessionStorage.setItem("username",this.state.changeName)
     this.socket.emit("clientChangedUsername",this.state.changeName,this.state.roomID)
-    this.setState({changeName : "",showUsernameModal : false})
   }
 
   userClickedSearchResult = (videoID) => {
@@ -502,6 +520,7 @@ class App extends Component {
             showCacheDialogue={this.state.showCacheDialogue}
             copyLink={this.copyLink}
             linkCopied={this.state.linkCopied}
+            nameError={this.state.nameError}
             />
           )}/>
           <Route path="/" render={() => (

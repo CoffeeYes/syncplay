@@ -27,6 +27,7 @@ class Room extends Component {
                     changeName={this.props.changeName}
                     handleChange={this.props.handleChange}
                     changeUsername={this.props.changeUsername}
+                    nameError={this.props.nameError}
                     />
                 } 
                 <SearchBar 
