@@ -113,11 +113,13 @@ io.on('connection', (client) => {
         io.to(client.id).emit("hydratePlaylistState",roomMetaData[roomID].playlist,roomMetaData[roomID].playlistIndex)
         emitConnectedUsers(roomID)
 
-        //give User a random colour for chat 
+        //give User a random colour for chat
         roomMetaData[roomID].userColours[client.id] = getRandomColor();
         //emit join message to users in room
+        /*
         var joinedMessage = client.id + " joined the room"
         io.to(roomID).emit("receiveNewMessage",createMessage(joinedMessage,client.id,roomMetaData[roomID].userColours[client.id]))
+        */
     })
 
     client.on("userPlayedVideo",(roomID) => {
@@ -212,7 +214,7 @@ io.on('connection', (client) => {
                 io.to(roomID).emit("receiveNewMessage",msg)
             }
         }
-        
+
     })
 
     client.on("synchronizedTimeChange",(roomID) => {
@@ -276,11 +278,11 @@ io.on('connection', (client) => {
             //change users username in metadata
             roomMetaData[roomID].usernames[client.id] = name;
             //let other users know the user changed their username
-            var text = client.id + " Changed their name to " + roomMetaData[roomID].usernames[client.id]
+            var text = roomMetaData[roomID].usernames[client.id] + " joined the room"
             var message = createMessage(text,roomMetaData[roomID].usernames[client.id],roomMetaData[roomID].userColours[client.id])
             io.to(roomID).emit("receiveNewMessage",message)
             emitConnectedUsers(roomID)
-        } 
+        }
     })
 
     client.on("userAddedVideoToPlaylist",(videoData,roomID) => {
@@ -292,7 +294,7 @@ io.on('connection', (client) => {
         roomMetaData[roomID].playlistIndex = index
         client.to(roomID).emit("videoIndexWasUpdated",index)
     })
-    
+
     client.on("userRemovedVideoFromPlaylist", (index,roomID) => {
         roomMetaData[roomID].playlist.splice(index,1)
         client.to(roomID).emit("anotherUserRemovedVideoFromPlaylist",index)
@@ -319,7 +321,7 @@ io.on('connection', (client) => {
                     minUsers.splice(minUsers.indexOf(minUsers[item]),1)
                     roomMetaData[roomID].minimizedUsers = minUsers;
                 }
-                
+
                 //if user was last minimized user, allow playback and clear error, otherwise emit other minimized user error to frontend
                 if(roomMetaData[roomID].minimizedUsers == "") {
                     io.to(roomID).emit("allowPlaying");
@@ -331,10 +333,10 @@ io.on('connection', (client) => {
                 }
             }
         }
-        
+
     })
     client.on("disconnect",() => {
-        //find room user disconnected from 
+        //find room user disconnected from
         var disconnectingUserRoom = ""
         var index = 0;
         for(var room in roomMetaData) {
@@ -376,7 +378,7 @@ io.on('connection', (client) => {
                 },5000)
             }
         }
-        
+
 
     })
 })
