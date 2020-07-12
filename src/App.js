@@ -61,7 +61,7 @@ class App extends Component {
     .then(data => {
       this.setState({searchResults : data.items})
     })
-  } 
+  }
   componentDidMount = () => {
     //check if user has already accepted cache conditions and hide window
     if(this.state.cacheAcceptance) {
@@ -158,21 +158,18 @@ class App extends Component {
       this.socket.on("newUserReceiveVideoAndTimeStamp", (time,videoID) => {
         this.player.loadVideoById(videoID,time,"large")
         var loadedCheck = setInterval(() => {
-          if(this.player.getPlayerState() != undefined) {
-            this.player.playVideo();
-            setTimeout(() => {
-              this.player.pauseVideo()
+          if(this.player.getPlayerState() != undefined && this.player.getPlayerState() == window.YT.PlayerState.PLAYING) {
               this.socket.emit("newUserLoadedVideo",this.state.roomID)
               clearInterval(loadedCheck)
-            },1500)
           }
           else {
             console.log("new player not undefined")
           }
         },100)
-        
+
       })
 
+      //pause decision when a new user joins, either room head pauses or joining user must pause
       this.socket.on("newUserJoinedRoom", (newUserID) => {
         //video is playing
         if(this.player.getPlayerState() == 1) {
@@ -285,7 +282,7 @@ class App extends Component {
       clearInterval(checkTimeWhilePaused)
       //tell other users to play video
       this.socket.emit("userPlayedVideo",this.state.roomID)
-      
+
     }
     else if(event.data == window.YT.PlayerState.PAUSED) {
       this.setState({currentPlayerState : "paused"});
@@ -335,7 +332,7 @@ class App extends Component {
   searchInputEnterPressed = (event) => {
     if(event.which === 13) {
       var ytRegex = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/
-      //check if typed text is a youtube link, if not perform a search 
+      //check if typed text is a youtube link, if not perform a search
       if(ytRegex.test(this.state.searchTerm) == false) {
         return this.searchForVideoByString()
       }
@@ -434,7 +431,7 @@ class App extends Component {
 
     //tell all users to play video from playlist
     this.socket.emit('videoIdWasChangedByClient',videoID,this.state.roomID,0)
-    
+
   }
 
   removeVideoFromPlaylist = (index) => {
