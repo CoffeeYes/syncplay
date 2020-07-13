@@ -10,13 +10,12 @@ class ChatBox extends Component {
 
     componentDidUpdate = () => {
         this.scrollToBottom();
-        console.log("update")
     }
 
     scrollToBottom = () => {
         this.msgEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
-    
+
     render = () => {
         return(
             <div className="chatContainer">
@@ -44,6 +43,6 @@ class ChatBox extends Component {
         )
     }
 }
-    
+
 
 export default ChatBox

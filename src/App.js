@@ -156,14 +156,12 @@ class App extends Component {
       })
 
       this.socket.on("newUserReceiveVideoAndTimeStamp", (time,videoID) => {
+        //check for player to be loaded, once it is loaded and playin pause playback
         this.player.loadVideoById(videoID,time,"large")
         var loadedCheck = setInterval(() => {
           if(this.player.getPlayerState() != undefined && this.player.getPlayerState() == window.YT.PlayerState.PLAYING) {
               this.socket.emit("newUserLoadedVideo",this.state.roomID)
               clearInterval(loadedCheck)
-          }
-          else {
-            console.log("new player not undefined")
           }
         },100)
 
