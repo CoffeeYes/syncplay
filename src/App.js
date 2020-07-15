@@ -191,6 +191,19 @@ class App extends Component {
       })
 
       this.socket.on("receiveNewMessage",(message) => {
+        //get local client timestamp and add it to message
+        var currentDate = new Date(Date.now())
+        var hours = currentDate.getHours()
+        var minutes = currentDate.getMinutes()
+
+        if(minutes < 10) {
+            minutes = "0" + minutes
+        }
+
+        if(hours < 10) {
+            hours = "0" + hours
+        }
+        message.time = hours + ":" + minutes
         this.setState((prevState) => ({messages : [...prevState.messages,message]}))
       })
 
