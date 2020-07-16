@@ -565,6 +565,8 @@ html {
   .changeUsernameInput {
     padding : 0px 0px 0px 0px;
   }
+
+
 }
 
 @media (max-width : 768px) and (max-height : 1024px) and (orientation : portrait) {
@@ -587,6 +589,10 @@ html {
   .playlistContainer {
     grid-row : 3;
     grid-column: 2;
+  }
+
+  .bugReportContainer {
+    width: 50%;
   }
 }
 
