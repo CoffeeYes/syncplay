@@ -102,8 +102,19 @@ io.on('connection', (client) => {
         io.to(client.id).emit("hydratePlaylistState",roomMetaData[roomID].playlist,roomMetaData[roomID].playlistIndex)
         emitConnectedUsers(roomID)
 
-        //give User a random colour for chat
-        roomMetaData[roomID].userColours[client.id] = getRandomColor();
+        //assign new user a random color for messages, repeat until color is unique
+        var usedColor = true;
+        while(usedColor) {
+          var color = getRandomColor();
+          usedColor = false
+          roomMetaData[roomID].userColours[client.id] = color;
+          for(var key in Object.keys(roomMetaData[roomID].userColours)) {
+            if(roomMetaData[roomID].userColours[key] == color) {
+              usedColor = true;
+            }
+          }
+        }
+
         //emit join message to users in room
         /*
         var joinedMessage = client.id + " joined the room"
