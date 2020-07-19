@@ -133,7 +133,9 @@ io.on('connection', (client) => {
             var username = roomMetaData[roomID].usernames[client.id];
             var colour =roomMetaData[roomID].userColours[client.id];
             var msg = createMessage([username + " played the video"],username,colour)
-            io.to(roomID).emit("receiveNewMessage",msg)
+            if(roomMetaData[roomID].usernames[client.id] != client.id) {
+              io.to(roomID).emit("receiveNewMessage",msg)
+            }
         }
     })
 
@@ -148,7 +150,9 @@ io.on('connection', (client) => {
             var username = roomMetaData[roomID].usernames[client.id];
             var colour =roomMetaData[roomID].userColours[client.id];
             var msg = createMessage([username + " paused the video"],username,colour)
-            io.to(roomID).emit("receiveNewMessage",msg)
+            if(roomMetaData[roomID].usernames[client.id] != client.id) {
+              io.to(roomID).emit("receiveNewMessage",msg)
+            }
         }
     })
 
