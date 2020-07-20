@@ -411,6 +411,10 @@ class App extends Component {
     if(this.state.changeName == "") {
       return this.setState({nameError : "Username cannot be empty"})
     }
+
+    if(this.state.changeName.length > 20) {
+      return this.setState({nameError : "Name must be shorter than 20 characters"})
+    }
     this.socket.emit("clientChangedUsername",this.state.changeName,this.state.roomID)
   }
 
