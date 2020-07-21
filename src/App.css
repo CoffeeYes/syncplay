@@ -163,6 +163,7 @@ html {
   padding: 20px 10px 20px 10px;
   border-radius: 5px;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .searchResultsContainer {
@@ -596,7 +597,7 @@ html {
     width: 50%;
   }
 }
-
+/*
 @media (max-width : 740px) {
 
   .chatContainer {
@@ -605,5 +606,42 @@ html {
 
   .playerContainer {
     padding-bottom : 45%;
+  }
+}
+*/
+/*mobile devices */
+@media (max-width: 414px) and (orientation : portrait) {
+  .playerContainer {
+    padding-bottom : 75%;
+  }
+  .playlistContainer {
+    display : none;
+  }
+
+  #logoImg {
+    display: none;
+  }
+
+  .mainContainerRoom {
+    width: 90%;
+    margin : auto;
+    align-self: center;
+    grid-template-rows : 1fr minmax(0,4.5fr) minmax(0,4.5fr);
+    grid-template-columns: 100%;
+  }
+
+  .bugButton {
+    display: none;
+  }
+
+  .copyLinkButton {
+    display : none;
+  }
+
+  .searchBarAndResultsContainer {
+    margin-left: auto;
+    grid-column: 1;
+    width: 90%;
+    margin-top: none;
   }
 }
