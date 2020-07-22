@@ -383,7 +383,7 @@ html {
 
 .bugButton {
   align-self: center;
-  padding: 20px;
+  padding: 10px;
 }
 
 .bugReportCoverPage {
@@ -597,18 +597,7 @@ html {
     width: 50%;
   }
 }
-/*
-@media (max-width : 740px) {
 
-  .chatContainer {
-    display : none;
-  }
-
-  .playerContainer {
-    padding-bottom : 45%;
-  }
-}
-*/
 /*mobile devices */
 @media (max-width: 414px) and (orientation : portrait) {
   .playerContainer {
@@ -643,5 +632,11 @@ html {
     grid-column: 1;
     width: 90%;
     margin-top: none;
+  }
+}
+
+@media (max-width : 896px) and (orientation : landscape) {
+  .playerContainer {
+    padding-bottom : 40%;
   }
 }
