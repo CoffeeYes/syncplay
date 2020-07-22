@@ -77,7 +77,6 @@ html {
 }
 
 .createRoomButton {
-  width: 25%;
   padding: 2% 2% 2% 2%;
   background-color: green;
   border: 2px solid darkgreen;
@@ -632,6 +631,10 @@ html {
     grid-column: 1;
     width: 90%;
     margin-top: none;
+  }
+
+  .splashContentContainer {
+    width: 90%;
   }
 }
 
