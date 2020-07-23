@@ -154,7 +154,6 @@ html {
   flex-direction: column;
   align-items: center;
   height: 0;
-  margin-right: auto;
 }
 
 .searchBar {
@@ -163,6 +162,21 @@ html {
   border-radius: 5px;
   width: 100%;
   box-sizing: border-box;
+  display: inline-block;
+}
+
+.addFromURLButton {
+  margin-right: auto;
+  font-weight: bold;
+  border: 1px solid #ffffff;
+  align-self: center;
+  margin-bottom: 10px;
+  margin-left: 2px;
+  padding: 5px;
+}
+
+.addFromURLButton:hover {
+  cursor: pointer;
 }
 
 .searchResultsContainer {

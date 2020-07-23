@@ -29,10 +29,10 @@ class Room extends Component {
                     changeUsername={this.props.changeUsername}
                     nameError={this.props.nameError}
                     />
-                } 
-                <SearchBar 
-                handleChange={this.props.handleChange} 
-                searchInputEnterPressed={this.props.searchInputEnterPressed} 
+                }
+                <SearchBar
+                handleChange={this.props.handleChange}
+                searchInputEnterPressed={this.props.searchInputEnterPressed}
                 searchResults={this.props.searchResults}
                 searchTerm={this.props.searchTerm}
                 userClickedSearchResult={(videoID) => this.props.userClickedSearchResult(videoID)}
@@ -41,6 +41,8 @@ class Room extends Component {
                 triggerBugReport={this.props.triggerBugReport}
                 copyLink={this.props.copyLink}
                 linkCopied={this.props.linkCopied}
+                showAddToPlaylistFromURLButton={this.props.showAddToPlaylistFromURLButton}
+                addToPlaylistFromURL={this.props.addToPlaylistFromURL}
                 />
                 <Player videoSource={this.props.videoSource}/>
                 <Playlist

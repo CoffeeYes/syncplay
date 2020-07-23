@@ -42,6 +42,7 @@ class App extends Component {
       chooseUsername : "",
       showUsernameModal : true,
       showCacheDialogue : true,
+      showAddToPlaylistFromURLButton : false,
       cacheAcceptance : localStorage.getItem("cacheAcceptance") || false,
       linkCopied : false,
       nameError : ""
@@ -337,6 +338,15 @@ class App extends Component {
       if(this.state.searchTerm == "") {
         this.setState({searchResults : []})
       }
+      else {
+        //check if user pasted in a youtube video URL, if so show the "add to playlist from url" button
+        var ytRegex = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/
+        if(ytRegex.test(this.state.searchTerm) == true) {
+          return this.setState({showAddToPlaylistFromURLButton : true,searchResults : []})
+        }
+      }
+      //if return wasnt fired hide the add to playlist from url button
+      this.setState({showAddToPlaylistFromURLButton : false})
     })
   }
 
@@ -499,6 +509,29 @@ class App extends Component {
     },400)
   }
 
+  addToPlaylistFromURL = () => {
+    //url parameter object to extract information from
+    const URLParams = new URLSearchParams(this.state.searchTerm)
+
+    var videoID = "";
+
+    //if URL is standard youtube URL extract video ID from param
+    if(URLParams.has('https://www.youtube.com/watch?v')) {
+      videoID = URLParams.get('https://www.youtube.com/watch?v')
+    }
+    //if url is non-standard .be URL extract video ID and time from pasted URL
+    if(this.state.searchTerm.includes(".be") && URLParams.get('feature') != "youtu.be") {
+      videoID = this.state.searchTerm.split("youtu.be/")[1];
+    }
+
+    //fetch image and title from videoID and add to playlist
+    fetch("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" + videoID + "&key=" + key )
+    .then(res => res.json())
+    .then(data => {
+      this.addVideoToPlaylist(data.items[0])
+    })
+  }
+
   render = () => {
     return(
       <Switch>
@@ -533,6 +566,8 @@ class App extends Component {
             copyLink={this.copyLink}
             linkCopied={this.state.linkCopied}
             nameError={this.state.nameError}
+            showAddToPlaylistFromURLButton={this.state.showAddToPlaylistFromURLButton}
+            addToPlaylistFromURL={this.addToPlaylistFromURL}
             />
           )}/>
           <Route path="/" render={() => (

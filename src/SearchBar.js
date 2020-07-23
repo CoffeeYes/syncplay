@@ -14,7 +14,7 @@ class SearchBar extends Component {
                     {this.props.linkCopied && <p>Copied!</p>}
                     <button className="defaultButton" onClick={this.props.copyLink}>Copy Link</button>
                 </div>
-                <div className="searchBarAndResultsContainer">
+                <div className="searchBarAndResultsContainer" style={this.props.showAddToPlaylistFromURLButton ? {"marginRight" : undefined} : {"marginRight" : "auto" }}>
                     <p className="error">{this.props.error}</p>
                     <input className='searchBar inputFocus'
                     name='searchTerm' value={this.props.searchTerm}
@@ -28,7 +28,9 @@ class SearchBar extends Component {
                     addVideoToPlaylist={(videoObj => this.props.addVideoToPlaylist(videoObj))}
                     />
                 </div>
-
+                {this.props.showAddToPlaylistFromURLButton &&
+                  <button className="addFromURLButton" onClick={this.props.addToPlaylistFromURL}>Add to Playist</button>
+                }
                 <button className="defaultButton bugButton" onClick={this.props.triggerBugReport}>Submit a Bug Report</button>
             </div>
         )
