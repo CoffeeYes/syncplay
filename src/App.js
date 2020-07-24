@@ -272,7 +272,7 @@ class App extends Component {
         onStateChange : this.onPlayerStateChange
       },
       playerVars : {
-        origin : "http://www.youtubeparty.net"
+        origin : "http://www.youtube.com"
       }
     });
   }
