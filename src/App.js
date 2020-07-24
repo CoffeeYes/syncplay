@@ -529,7 +529,12 @@ class App extends Component {
     fetch("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" + videoID + "&key=" + key )
     .then(res => res.json())
     .then(data => {
-      this.addVideoToPlaylist(data.items[0])
+      var videoData = {
+      title : data.items[0].snippet.title,
+      videoID : data.items[0].id,
+      imgURL : data.items[0].snippet.thumbnails.default.url
+      }
+      this.setState(this.setState((prevState) => ({playlistVideos : [...prevState.playlistVideos,videoData]})))
       this.setState({searchTerm : ""})
     })
   }
