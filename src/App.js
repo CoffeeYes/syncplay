@@ -197,6 +197,7 @@ class App extends Component {
         var hours = currentDate.getHours()
         var minutes = currentDate.getMinutes()
 
+        //format time to 24-hour format
         if(minutes < 10) {
             minutes = "0" + minutes
         }
@@ -271,7 +272,7 @@ class App extends Component {
         onStateChange : this.onPlayerStateChange
       },
       playerVars : {
-        origin : "http://www.youtube.com"
+        origin : "http://www.youtubeparty.net"
       }
     });
   }
@@ -302,7 +303,7 @@ class App extends Component {
       clearInterval(checkTimeWhilePaused)
       //tell other users time is paused
       this.socket.emit("userPausedVideo",this.player.getCurrentTime(),this.state.roomID)
-
+      //monitor players timestamp to detect changes
       var timePausedAt = this.player.getCurrentTime()
       var currentTimeWhilePaused = this.player.getCurrentTime()
       checkTimeWhilePaused = setInterval(() => {
@@ -529,6 +530,7 @@ class App extends Component {
     .then(res => res.json())
     .then(data => {
       this.addVideoToPlaylist(data.items[0])
+      this.setState({searchTerm : ""})
     })
   }
 
