@@ -26,12 +26,13 @@ generateRandomRoomString = () => {
     return roomString
 }
 
-createMessage = (msg,username,clientColour) => {
+createMessage = (msg,clientID,roomID) => {
     return {
-        user : username,
+        user : roomMetaData[roomID].usernames[clientID],
         text : msg,
         time : "0:0",
-        color : clientColour
+        color : roomMetaData[roomID].userColours[clientID],
+        messageSender : clientID
     }
 }
 
@@ -46,6 +47,10 @@ app.get('/test', (req,res,next) => {
 app.get('*', (req, res)=>{  res.sendFile(path.join(__dirname, './build/index.html'));})
 
 io.on('connection', (client) => {
+    //send client their ID so that they can identify message origin for conditional rendering
+    client.on("clientGetSocketID",() => {
+      io.to(client.id).emit("clientReceiveSocketID",client.id)
+    })
 
     client.on('videoIdWasChangedByClient', (videoID,roomID,time) => {
         io.to(roomID).emit("anotherClientChangedVideoId",videoID,time)
@@ -132,7 +137,7 @@ io.on('connection', (client) => {
         if(roomMetaData[roomID].playingUsers.length == 1) {
             var username = roomMetaData[roomID].usernames[client.id];
             var colour =roomMetaData[roomID].userColours[client.id];
-            var msg = createMessage([username + " played the video"],username,colour)
+            var msg = createMessage([username + " played the video"],client.id,roomID)
             if(roomMetaData[roomID].usernames[client.id] != client.id) {
               io.to(roomID).emit("receiveNewMessage",msg)
             }
@@ -149,7 +154,7 @@ io.on('connection', (client) => {
         if(roomMetaData[roomID].pausedUsers.length == 1) {
             var username = roomMetaData[roomID].usernames[client.id];
             var colour =roomMetaData[roomID].userColours[client.id];
-            var msg = createMessage([username + " paused the video"],username,colour)
+            var msg = createMessage([username + " paused the video"],client.id,roomID)
             if(roomMetaData[roomID].usernames[client.id] != client.id) {
               io.to(roomID).emit("receiveNewMessage",msg)
             }
@@ -214,7 +219,7 @@ io.on('connection', (client) => {
                     timeText += seconds;
                 }
                 //send timechange message
-                var msg = createMessage([username + " changed the time to " + timeText],username,colour)
+                var msg = createMessage([username + " changed the time to " + timeText],client.id,roomID)
                 io.to(roomID).emit("receiveNewMessage",msg)
             }
         }
@@ -265,8 +270,7 @@ io.on('connection', (client) => {
     client.on("newMessage",(msg,roomID) => {
         //create new message object to send to all users
         //user colour is created when user joins the room and stored in roomMetadata
-        var message = createMessage(msg,roomMetaData[roomID].usernames[client.id],roomMetaData[roomID].userColours[client.id])
-
+        var message = createMessage(msg,client.id,roomID)
         io.to(roomID).emit("receiveNewMessage",message)
     })
 
@@ -283,7 +287,7 @@ io.on('connection', (client) => {
             roomMetaData[roomID].usernames[client.id] = name;
             //let other users know the user changed their username
             var text = roomMetaData[roomID].usernames[client.id] + " joined the room"
-            var message = createMessage(text,roomMetaData[roomID].usernames[client.id],roomMetaData[roomID].userColours[client.id])
+            var message = createMessage(text,client.id,roomID)
             io.to(roomID).emit("receiveNewMessage",message)
             emitConnectedUsers(roomID)
         }
@@ -367,7 +371,7 @@ io.on('connection', (client) => {
         }
         if(disconnectingUserRoom != "" ) {
             //send disconnect message and remove user from metadata arrays
-            var msg = createMessage([client.id + " Disconnected"],roomMetaData[disconnectingUserRoom].usernames[client.id],roomMetaData[disconnectingUserRoom].userColours[client.id])
+            var msg = createMessage([roomMetaData[disconnectingUserRoom].usernames[client.id] + " Disconnected"],client.id,disconnectingUserRoom)
             io.to(disconnectingUserRoom).emit("receiveNewMessage",msg)
             roomMetaData[disconnectingUserRoom].connectedUsers.splice(index,1)
             delete roomMetaData[disconnectingUserRoom].usernames[client.id]

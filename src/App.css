@@ -305,9 +305,21 @@ html {
 }
 
 .message {
-  width: 100%;
-  border-bottom: 1px solid black;
+  width: 50%;
   overflow-wrap : break-word;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  padding: 5px;
+}
+
+.messageFromHere {
+  align-self: flex-end;
+  margin-left: auto;
+  margin-right: 5px;
+}
+
+.messageFromOther {
+  margin-left: 5px;
 }
 
 .messageContent {

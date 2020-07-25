@@ -24,6 +24,7 @@ class App extends Component {
     this.socket = socketClient(connect.serverData.socketURL)
 
     this.state = {
+      socketID : "",
       searchTerm : '',
       videoID : '',
       currentTime : 0,
@@ -101,6 +102,11 @@ class App extends Component {
       }
     },1000)
     /*--------------------- Sockets ------------------------*/
+    //get backend socket identifier to determine whether messages are of local or remote origin
+    this.socket.emit("clientGetSocketID");
+    this.socket.on("clientReceiveSocketID",(clientID) => {
+      this.setState({socketID : clientID});
+    })
 
     //receive errors from backend
     this.socket.on("clientError",(message) => {
@@ -206,6 +212,16 @@ class App extends Component {
             hours = "0" + hours
         }
         message.time = hours + ":" + minutes
+        
+        //identify if message origin is this client(for conditional message styling), then delete the messageSenders socketID
+        if(message.messageSender == this.state.socketID) {
+          message.sentFromHere = true
+        }
+        else {
+          message.sentFromHere = false
+        }
+        delete message.messageSender;
+
         this.setState((prevState) => ({messages : [...prevState.messages,message]}))
       })
 
