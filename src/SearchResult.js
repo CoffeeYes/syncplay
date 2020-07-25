@@ -6,14 +6,14 @@ class SearchResult extends Component {
             <div className="searchResultsContainer">
                 {this.props.searchResults.map((item,index) => {
                     return (
-                        <div className="searchResultContainer">
+                        <div className="searchResultContainer showPointerOnHover">
                             <div className="searchResultData" key={index} onClick={() => this.props.userClickedSearchResult(item.id.videoId)}>
                                 <img src={item.snippet.thumbnails.default.url}/>
                                 <p className="searchResultTitle">{item.snippet.title}</p>
                             </div>
                             <button className="addToPlaylistButton" onClick={() => this.props.addVideoToPlaylist(item)}>Add to Playlist</button>
                         </div>
-                        
+
                     )
                 })}
             </div>

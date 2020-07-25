@@ -175,10 +175,6 @@ html {
   padding: 5px;
 }
 
-.addFromURLButton:hover {
-  cursor: pointer;
-}
-
 .searchResultsContainer {
   z-index: 999;
   background-color: white;
@@ -190,10 +186,6 @@ html {
   flex-direction: row;
   width: 100%;
   border-bottom: 1px solid black;
-}
-
-.searchResultContainer:hover {
-  cursor: pointer
 }
 
 .searchResultData {
@@ -237,7 +229,7 @@ html {
   width: 100%;
   display: flex;
   flex-direction: row;
-  background: lightgray;
+  background: #F5F5F5;
   justify-content: space-between;
   border-bottom: 1px solid black;
 }
@@ -246,12 +238,9 @@ html {
   display: flex;
 }
 
-.playlistVideo:hover {
-  cursor: pointer
-}
-
 .playlistVideoTitle {
   width: 40%;
+  margin-left: 10px;
 }
 
 .line-clamp-3 {
@@ -278,10 +267,11 @@ html {
   background-color: red;
   height: 20px;
   color : white;
+  transition: background-color 0.2s ease;
 }
 
 .removeFromPlaylistButton:hover {
-  cursor: pointer;
+  background-color: darkred;
 }
 
 .chatContainer {

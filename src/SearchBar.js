@@ -14,7 +14,7 @@ class SearchBar extends Component {
                     {this.props.linkCopied && <p>Copied!</p>}
                     <button className="defaultButton" onClick={this.props.copyLink}>Copy Link</button>
                 </div>
-                <div className="searchBarAndResultsContainer" style={this.props.showAddToPlaylistFromURLButton ? {"marginRight" : undefined} : {"marginRight" : "auto" }}>
+                <div className="searchBarAndResultsContainer showPointerOnHover" style={this.props.showAddToPlaylistFromURLButton ? {"marginRight" : undefined} : {"marginRight" : "auto" }}>
                     <p className="error">{this.props.error}</p>
                     <input className='searchBar inputFocus'
                     name='searchTerm' value={this.props.searchTerm}
