@@ -212,7 +212,7 @@ class App extends Component {
             hours = "0" + hours
         }
         message.time = hours + ":" + minutes
-        
+
         //identify if message origin is this client(for conditional message styling), then delete the messageSenders socketID
         if(message.messageSender == this.state.socketID) {
           message.sentFromHere = true
@@ -424,7 +424,7 @@ class App extends Component {
   }
 
   sendMessage = (event) => {
-    if(event.which == 13) {
+    if(event.which == 13 && this.state.localMessage.trim() != "") {
       this.socket.emit("newMessage",this.state.localMessage,this.state.roomID)
       this.setState({localMessage : ""})
     }
