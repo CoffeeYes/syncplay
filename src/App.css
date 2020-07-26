@@ -308,8 +308,12 @@ html {
   width: 50%;
   overflow-wrap : break-word;
   border-radius: 20px;
-  margin-top: 5px;
+  margin-bottom: 5px;
   padding: 5px;
+}
+
+.message:first-child {
+  margin-top: 5px;
 }
 
 .messageFromHere {

@@ -354,10 +354,10 @@ io.on('connection', (client) => {
             }
         }
         if(roomMetaData[disconnectingUserRoom]) {
-            var index = roomMetaData[disconnectingUserRoom].minimizedUsers.indexOf(client.id)
-            if(index != -1) {
+            var minimizedIndex = roomMetaData[disconnectingUserRoom].minimizedUsers.indexOf(client.id)
+            if(minimizedIndex != -1) {
                 //remove disconnecting user from minimized users array
-                roomMetaData[disconnectingUserRoom].minimizedUsers.splice(index,1)
+                roomMetaData[disconnectingUserRoom].minimizedUsers.splice(minimizedIndex,1)
                 //check if disconnecting user was last minimized user, if so allow playback otherwise change frontend error display for other minimized users
                 if(roomMetaData[disconnectingUserRoom].minimizedUsers == "") {
                     io.to(disconnectingUserRoom).emit("allowPlaying");
