@@ -185,7 +185,7 @@ html {
   display: flex;
   flex-direction: row;
   width: 100%;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid grey;
 }
 
 .searchResultData {
@@ -339,7 +339,7 @@ html {
 }
 
 .messageUser {
-
+  max-width: 70%;
 }
 
 .messageTime {
