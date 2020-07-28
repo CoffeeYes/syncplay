@@ -530,6 +530,26 @@ class App extends Component {
     //url parameter object to extract information from
     const URLParams = new URLSearchParams(this.state.searchTerm)
 
+    //if pasted link is a playlist, add first 20 items from youtube playlist to youtubeparty playlist and return out of addToPlaylistFromURL
+    var playlistID = ""
+    if(URLParams.has("list")) {
+      playlistID = URLParams.get("list");
+      fetch("https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=20&playlistId=" + playlistID + "&key=" + key)
+      .then(res => res.json())
+      .then(data => {
+        for(var item in data.items) {
+          var videoData = {
+            title : data.items[item].snippet.title,
+            videoID : data.items[item].snippet.resourceId.videoId,
+            imgURL : data.items[item].snippet.thumbnails.default.url
+          }
+          this.setState(this.setState((prevState) => ({playlistVideos : [...prevState.playlistVideos,videoData]})))
+        }
+
+      })
+      return this.setState({searchTerm : ""});
+    }
+
     var videoID = "";
 
     //if URL is standard youtube URL extract video ID from param
