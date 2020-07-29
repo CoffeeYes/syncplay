@@ -402,6 +402,7 @@ class App extends Component {
       this.setState({videoID : videoID},() => {
         this.player.loadVideoById(this.state.videoID,time,"large")
         this.socket.emit('videoIdWasChangedByClient',this.state.videoID,this.state.roomID,time)
+        this.setState({searchTerm : "",showAddToPlaylistFromURLButton : false})
       })
     }
   }
