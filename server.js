@@ -343,6 +343,10 @@ io.on('connection', (client) => {
         }
 
     })
+    //synchronise block playback state with all users
+    client.on("userChangedBlockMinimize",(roomID,blockState) => {
+      io.to(roomID).emit("anotherUserChangedBlockMinimize",blockState)
+    })
     client.on("disconnect",() => {
         //find room user disconnected from
         var disconnectingUserRoom = ""

@@ -1,5 +1,6 @@
 import React,{ Component } from 'react';
 import SearchResult from './SearchResult'
+import ToggleOptions from './ToggleOptions'
 
 import Logo from './assets/Logo.png'
 
@@ -31,6 +32,7 @@ class SearchBar extends Component {
                 {this.props.showAddToPlaylistFromURLButton &&
                   <button className="addFromURLButton" onClick={this.props.addToPlaylistFromURL}>Add to Playist</button>
                 }
+                <ToggleOptions toggleBlockMinimize={this.props.toggleBlockMinimize} blockMinimize={this.props.blockMinimize}/>
                 <button className="defaultButton bugButton" onClick={this.props.triggerBugReport}>Submit a Bug Report</button>
             </div>
         )

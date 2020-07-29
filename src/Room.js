@@ -43,6 +43,8 @@ class Room extends Component {
                 linkCopied={this.props.linkCopied}
                 showAddToPlaylistFromURLButton={this.props.showAddToPlaylistFromURLButton}
                 addToPlaylistFromURL={this.props.addToPlaylistFromURL}
+                toggleBlockMinimize={this.props.toggleBlockMinimize}
+                blockMinimize={this.props.blockMinimize}
                 />
                 <Player videoSource={this.props.videoSource}/>
                 <Playlist

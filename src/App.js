@@ -13,6 +13,7 @@ var key = connect.youtubeAPI.key
 
 var checkTimeWhilePaused;
 var timeTracker;
+var checkMinimize;
 
 var timePausedAt;
 
@@ -46,7 +47,8 @@ class App extends Component {
       showAddToPlaylistFromURLButton : false,
       cacheAcceptance : localStorage.getItem("cacheAcceptance") || false,
       linkCopied : false,
-      nameError : ""
+      nameError : "",
+      blockMinimize : true
     }
 
     reactGA.initialize(connect.ga.TID);
@@ -88,19 +90,21 @@ class App extends Component {
       this.youtubeAPILoaded();
     }
 
-    //check if user doesnt have window open/visible
-    var prevhidden = false;
-    setInterval( () => {
-      if(document.hidden && prevhidden == false) {
-        this.socket.emit("userMinimizedWindow",this.state.roomID)
-        this.player.pauseVideo()
-        prevhidden = true;
-      }
-      else if(prevhidden == true && !document.hidden) {
-        prevhidden = false;
-        this.socket.emit("userMaximizedWindow",this.state.roomID)
-      }
-    },1000)
+    if(this.state.blockMinimize) {
+      //check if user doesnt have window open/visible
+      var prevhidden = false;
+      checkMinimize = setInterval( () => {
+        if(document.hidden && prevhidden == false) {
+          this.socket.emit("userMinimizedWindow",this.state.roomID)
+          this.player.pauseVideo()
+          prevhidden = true;
+        }
+        else if(prevhidden == true && !document.hidden) {
+          prevhidden = false;
+          this.socket.emit("userMaximizedWindow",this.state.roomID)
+        }
+      },1000)
+    }
     /*--------------------- Sockets ------------------------*/
     //get backend socket identifier to determine whether messages are of local or remote origin
     this.socket.emit("clientGetSocketID");
@@ -275,6 +279,28 @@ class App extends Component {
           })
           //save username for reloads and other sessions
           sessionStorage.setItem("username",this.state.changeName)
+        }
+      })
+
+      this.socket.on("anotherUserChangedBlockMinimize", (blockState) => {
+        this.setState({blockMinimize : blockState})
+        this.setState({error : "",allowPlay : true})
+        if(blockState) {
+          var prevhidden = blockState;
+          checkMinimize = setInterval( () => {
+            if(document.hidden && prevhidden == false) {
+              this.socket.emit("userMinimizedWindow",this.state.roomID)
+              this.player.pauseVideo()
+              prevhidden = true;
+            }
+            else if(prevhidden == true && !document.hidden) {
+              prevhidden = false;
+              this.socket.emit("userMaximizedWindow",this.state.roomID)
+            }
+          },1000)
+        }
+        else {
+          clearInterval(checkMinimize)
         }
       })
     /*------------------------------------------------------*/
@@ -576,6 +602,10 @@ class App extends Component {
     })
   }
 
+  toggleBlockMinimize = () => {
+    this.socket.emit("userChangedBlockMinimize",this.state.roomID,!this.state.blockMinimize)
+  }
+
   render = () => {
     return(
       <Switch>
@@ -612,6 +642,8 @@ class App extends Component {
             nameError={this.state.nameError}
             showAddToPlaylistFromURLButton={this.state.showAddToPlaylistFromURLButton}
             addToPlaylistFromURL={this.addToPlaylistFromURL}
+            toggleBlockMinimize={this.toggleBlockMinimize}
+            blockMinimize={this.state.blockMinimize}
             />
           )}/>
           <Route path="/" render={() => (
