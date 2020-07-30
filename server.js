@@ -86,6 +86,8 @@ io.on('connection', (client) => {
 
         roomMetaData[newRoomID].currentVideoID = "gGdGFtwCNBE";
 
+        roomMetaData[newRoomID].blockState = true;
+
         io.to(userID).emit("roomCreatedSuccesfully",newRoomID)
     })
 
@@ -105,6 +107,7 @@ io.on('connection', (client) => {
         //send videoID
         io.to(client.id).emit("receiveCurrentVideoID",roomMetaData[roomID].currentVideoID)
         io.to(client.id).emit("hydratePlaylistState",roomMetaData[roomID].playlist,roomMetaData[roomID].playlistIndex)
+        io.to(client.id).emit("receiveCurrentBlockState",roomMetaData[roomID].blockState)
         emitConnectedUsers(roomID)
 
         //assign new user a random color for messages, repeat until color is unique
@@ -346,6 +349,7 @@ io.on('connection', (client) => {
     //synchronise block playback state with all users
     client.on("userChangedBlockMinimize",(roomID,blockState) => {
       io.to(roomID).emit("anotherUserChangedBlockMinimize",blockState)
+      roomMetaData[roomID].blockState = blockState;
     })
     client.on("disconnect",() => {
         //find room user disconnected from

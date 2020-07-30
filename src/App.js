@@ -90,21 +90,7 @@ class App extends Component {
       this.youtubeAPILoaded();
     }
 
-    if(this.state.blockMinimize) {
-      //check if user doesnt have window open/visible
-      var prevhidden = false;
-      checkMinimize = setInterval( () => {
-        if(document.hidden && prevhidden == false) {
-          this.socket.emit("userMinimizedWindow",this.state.roomID)
-          this.player.pauseVideo()
-          prevhidden = true;
-        }
-        else if(prevhidden == true && !document.hidden) {
-          prevhidden = false;
-          this.socket.emit("userMaximizedWindow",this.state.roomID)
-        }
-      },1000)
-    }
+
     /*--------------------- Sockets ------------------------*/
     //get backend socket identifier to determine whether messages are of local or remote origin
     this.socket.emit("clientGetSocketID");
@@ -302,6 +288,26 @@ class App extends Component {
         else {
           clearInterval(checkMinimize)
         }
+      })
+
+      this.socket.on("receiveCurrentBlockState",(blockState) => {
+        this.setState({blockMinimize : blockState},() => {
+          if(this.state.blockMinimize) {
+            //check if user doesnt have window open/visible
+            var prevhidden = false;
+            checkMinimize = setInterval( () => {
+              if(document.hidden && prevhidden == false) {
+                this.socket.emit("userMinimizedWindow",this.state.roomID)
+                this.player.pauseVideo()
+                prevhidden = true;
+              }
+              else if(prevhidden == true && !document.hidden) {
+                prevhidden = false;
+                this.socket.emit("userMaximizedWindow",this.state.roomID)
+              }
+            },1000)
+          }
+        })
       })
     /*------------------------------------------------------*/
   }
