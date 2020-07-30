@@ -272,14 +272,24 @@ class App extends Component {
         this.setState({blockMinimize : blockState})
         this.setState({error : "",allowPlay : true})
         if(blockState) {
-          var prevhidden = blockState;
+          //check if user is currently minimized when another user turns on minimize block
+          var prevhidden;
+          if(document.hidden) {
+            prevhidden = true;
+            this.socket.emit("userMinimizedWindow",this.state.roomID)
+            this.player.pauseVideo()
+          }
+          else {
+            prevhidden = false
+          }
+          //interval to check if a user minimizes
           checkMinimize = setInterval( () => {
-            if(document.hidden && prevhidden == false) {
+            if(document.hidden && !prevhidden) {
               this.socket.emit("userMinimizedWindow",this.state.roomID)
               this.player.pauseVideo()
               prevhidden = true;
             }
-            else if(prevhidden == true && !document.hidden) {
+            else if(prevhidden && !document.hidden) {
               prevhidden = false;
               this.socket.emit("userMaximizedWindow",this.state.roomID)
             }
@@ -289,7 +299,7 @@ class App extends Component {
           clearInterval(checkMinimize)
         }
       })
-
+      //get block state of room, setup interval check for minimize if blockstate is true
       this.socket.on("receiveCurrentBlockState",(blockState) => {
         this.setState({blockMinimize : blockState},() => {
           if(this.state.blockMinimize) {

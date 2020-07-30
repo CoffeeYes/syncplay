@@ -350,6 +350,10 @@ io.on('connection', (client) => {
     client.on("userChangedBlockMinimize",(roomID,blockState) => {
       io.to(roomID).emit("anotherUserChangedBlockMinimize",blockState)
       roomMetaData[roomID].blockState = blockState;
+      //clear minimizedUsers array if not blocking minimize
+      if(!blockState) {
+        roomMetaData[roomID].minimizedUsers = []
+      }
     })
     client.on("disconnect",() => {
         //find room user disconnected from
