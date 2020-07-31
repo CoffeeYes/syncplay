@@ -355,6 +355,10 @@ io.on('connection', (client) => {
         roomMetaData[roomID].minimizedUsers = []
       }
     })
+
+    client.on("userChangedAutoPlay",(roomID,autoPlayState) => {
+      io.to(roomID).emit("anotherUserChangedAutoPlay",autoPlayState)
+    })
     client.on("disconnect",() => {
         //find room user disconnected from
         var disconnectingUserRoom = ""

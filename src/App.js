@@ -48,7 +48,8 @@ class App extends Component {
       cacheAcceptance : localStorage.getItem("cacheAcceptance") || false,
       linkCopied : false,
       nameError : "",
-      blockMinimize : true
+      blockMinimize : true,
+      autoPlay : false
     }
 
     reactGA.initialize(connect.ga.TID);
@@ -319,6 +320,9 @@ class App extends Component {
           }
         })
       })
+      this.socket.on("anotherUserChangedAutoPlay",(autoPlayState) => {
+        this.setState({autoPlay : autoPlayState})
+      })
     /*------------------------------------------------------*/
   }
 
@@ -386,6 +390,17 @@ class App extends Component {
         this.setState({playlistCurrentVideoIndex : this.state.playlistCurrentVideoIndex + 1},() => {
           this.socket.emit("updatePlaylistIndex",this.state.playlistCurrentVideoIndex,this.state.roomID)
           this.socket.emit("videoIdWasChangedByClient",this.state.playlistVideos[this.state.playlistCurrentVideoIndex].videoID,this.state.roomID,0);
+          //autoplay video if user has toggled autoplay on
+          if(this.state.autoPlay) {
+            var autoplayCheck = setInterval(() => {
+              if(this.player.getPlayerState() == window.YT.PlayerState.PAUSED) {
+                this.player.playVideo();
+                if(this.player.getPlayerState() == window.YT.PlayerState.PLAYING) {
+                  clearInterval(autoplayCheck);
+                }
+              }
+            },100)
+          }
         })
       }
     }
@@ -622,6 +637,10 @@ class App extends Component {
     this.socket.emit("userChangedBlockMinimize",this.state.roomID,!this.state.blockMinimize)
   }
 
+  toggleAutoPlay = () => {
+    this.socket.emit("userChangedAutoPlay",this.state.roomID,!this.state.autoPlay)
+  }
+
   render = () => {
     return(
       <Switch>
@@ -660,6 +679,8 @@ class App extends Component {
             addToPlaylistFromURL={this.addToPlaylistFromURL}
             toggleBlockMinimize={this.toggleBlockMinimize}
             blockMinimize={this.state.blockMinimize}
+            toggleAutoPlay={this.toggleAutoPlay}
+            autoPlay={this.state.autoPlay}
             />
           )}/>
           <Route path="/" render={() => (

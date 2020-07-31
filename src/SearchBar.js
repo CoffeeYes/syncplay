@@ -32,7 +32,12 @@ class SearchBar extends Component {
                 {this.props.showAddToPlaylistFromURLButton &&
                   <button className="addFromURLButton" onClick={this.props.addToPlaylistFromURL}>Add to Playist</button>
                 }
-                <ToggleOptions toggleBlockMinimize={this.props.toggleBlockMinimize} blockMinimize={this.props.blockMinimize}/>
+                <ToggleOptions
+                toggleBlockMinimize={this.props.toggleBlockMinimize}
+                blockMinimize={this.props.blockMinimize}
+                toggleAutoPlay={this.props.toggleAutoPlay}
+                autoPlay={this.props.autoPlay}
+                />
                 <button className="defaultButton bugButton" onClick={this.props.triggerBugReport}>Submit a Bug Report</button>
             </div>
         )

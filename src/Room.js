@@ -45,6 +45,8 @@ class Room extends Component {
                 addToPlaylistFromURL={this.props.addToPlaylistFromURL}
                 toggleBlockMinimize={this.props.toggleBlockMinimize}
                 blockMinimize={this.props.blockMinimize}
+                toggleAutoPlay={this.props.toggleAutoPlay}
+                autoPlay={this.props.autoPlay}
                 />
                 <Player videoSource={this.props.videoSource}/>
                 <Playlist
