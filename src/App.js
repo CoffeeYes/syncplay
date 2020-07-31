@@ -602,6 +602,7 @@ class App extends Component {
             imgURL : data.items[item].snippet.thumbnails.default.url
           }
           this.setState(this.setState((prevState) => ({playlistVideos : [...prevState.playlistVideos,videoData]})))
+          this.socket.emit("userAddedVideoToPlaylist",videoData,this.state.roomID)
         }
 
       })
