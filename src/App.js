@@ -395,9 +395,7 @@ class App extends Component {
             var autoplayCheck = setInterval(() => {
               if(this.player.getPlayerState() == window.YT.PlayerState.PAUSED) {
                 this.player.playVideo();
-                if(this.player.getPlayerState() == window.YT.PlayerState.PLAYING) {
-                  clearInterval(autoplayCheck);
-                }
+                clearInterval(autoplayCheck);
               }
             },100)
           }
