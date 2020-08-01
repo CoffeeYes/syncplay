@@ -666,7 +666,9 @@ input:checked + .slider:before {
   .changeUsernameInput {
     padding : 0px 0px 0px 0px;
   }
-
+  .toggleSliderContainer {
+    display: none;
+  }
 
 }
 
@@ -694,6 +696,10 @@ input:checked + .slider:before {
 
   .bugReportContainer {
     width: 50%;
+  }
+
+  .toggleSliderContainer {
+    display: none;
   }
 }
 
@@ -735,6 +741,10 @@ input:checked + .slider:before {
 
   .splashContentContainer {
     width: 90%;
+  }
+
+  .toggleSliderContainer {
+    display: none;
   }
 }
 
