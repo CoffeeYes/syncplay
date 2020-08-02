@@ -604,7 +604,7 @@ class App extends Component {
         }
 
       })
-      return this.setState({searchTerm : ""});
+      return this.setState({searchTerm : "",showAddToPlaylistFromURLButton : false});
     }
 
     var videoID = "";
@@ -628,7 +628,7 @@ class App extends Component {
       imgURL : data.items[0].snippet.thumbnails.default.url
       }
       this.setState(this.setState((prevState) => ({playlistVideos : [...prevState.playlistVideos,videoData]})))
-      this.setState({searchTerm : ""})
+      this.setState({searchTerm : "",showAddToPlaylistFromURLButton : false})
     })
   }
 
