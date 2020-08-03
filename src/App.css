@@ -746,6 +746,14 @@ input:checked + .slider:before {
   .toggleSliderContainer {
     display: none;
   }
+
+  .searchResultImage {
+    height: 100px;
+  }
+
+  .searchResultContainer {
+    font-size: 12px;
+  }
 }
 
 @media (max-width : 896px) and (orientation : landscape) {
