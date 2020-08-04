@@ -760,4 +760,12 @@ input:checked + .slider:before {
   .playerContainer {
     padding-bottom : 40%;
   }
+
+  .chatContainer {
+    display: none;
+  }
+  .playlistContainer {
+    grid-row-start : 2;
+    grid-row-end : 4
+  }
 }
