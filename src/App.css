@@ -720,7 +720,7 @@ input:checked + .slider:before {
     width: 90%;
     margin : auto;
     align-self: center;
-    grid-template-rows : 1fr minmax(0,4.5fr) minmax(0,4.5fr);
+    grid-template-rows : 1fr minmax(0,4.5fr) minmax(0,4fr);
     grid-template-columns: 100%;
   }
 
@@ -757,6 +757,10 @@ input:checked + .slider:before {
 }
 
 @media (max-width : 896px) and (orientation : landscape) {
+
+  .mainContainerRoom {
+    width: 95%;
+  }
   .playerContainer {
     padding-bottom : 40%;
   }
