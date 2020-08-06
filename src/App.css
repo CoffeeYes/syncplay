@@ -752,7 +752,9 @@ input:checked + .slider:before {
   }
 
   .searchResultContainer {
-    font-size: 12px;
+    font-size : 12px;
+    height: 100px;
+    overflow : hidden
   }
 }
 
@@ -771,5 +773,14 @@ input:checked + .slider:before {
   .playlistContainer {
     grid-row-start : 2;
     grid-row-end : 4
+  }
+
+  .searchResultContainer {
+    font-size : 12px;
+    height: 75px;
+  }
+
+  .searchResultImage {
+    width: 75px
   }
 }
