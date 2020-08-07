@@ -9,7 +9,9 @@ class SearchResult extends Component {
                         <div className="searchResultContainer showPointerOnHover">
                             <div className="searchResultData" key={index} onClick={() => this.props.userClickedSearchResult(item.id.videoId)}>
                                 <img src={item.snippet.thumbnails.default.url} className="searchResultImage"/>
-                                <p className="searchResultTitle">{item.snippet.title}</p>
+                                <div className="searchResultTitleContainer">
+                                  <p className="searchResultTitle">{item.snippet.title}</p>
+                                </div>
                             </div>
                             <button className="addToPlaylistButton" onClick={() => this.props.addVideoToPlaylist(item)}>Add to Playlist</button>
                         </div>

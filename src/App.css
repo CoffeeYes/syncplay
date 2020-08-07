@@ -756,6 +756,17 @@ input:checked + .slider:before {
     height: 100px;
     overflow : hidden
   }
+
+  .searchResultTitleContainer {
+    width: 100px;
+    overflow: hidden;
+    height : 80%;
+  }
+
+  .searchResultTitle {
+    overflow-wrap : break-word;
+    text-overflow: ellipsis;
+  }
 }
 
 @media (max-width : 896px) and (orientation : landscape) {
