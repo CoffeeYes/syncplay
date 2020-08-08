@@ -767,6 +767,14 @@ input:checked + .slider:before {
     overflow-wrap : break-word;
     text-overflow: ellipsis;
   }
+
+  .bugReportContainer {
+    width: 90%;
+  }
+
+  .closeBugReportButton {
+    height : 25px;
+  }
 }
 
 @media (max-width : 896px) and (orientation : landscape) {
@@ -793,5 +801,14 @@ input:checked + .slider:before {
 
   .searchResultImage {
     width: 75px
+  }
+
+  .bugReportContainer {
+    width : 70%;
+    height : 80%;
+  }
+
+  .closeBugReportButton {
+    height : 25px;
   }
 }
