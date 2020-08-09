@@ -640,6 +640,15 @@ class App extends Component {
     this.socket.emit("userChangedAutoPlay",this.state.roomID,!this.state.autoPlay)
   }
 
+  hideSearchOnExit = (event) => {
+    const target = event.currentTarget
+
+    setTimeout(() => {
+      if (!target.contains(document.activeElement)) {
+        this.setState({searchResults : [],searchTerm : ""})
+      }
+    },100)
+  }
   render = () => {
     return(
       <Switch>
@@ -680,6 +689,7 @@ class App extends Component {
             blockMinimize={this.state.blockMinimize}
             toggleAutoPlay={this.toggleAutoPlay}
             autoPlay={this.state.autoPlay}
+            hideSearchOnExit={this.hideSearchOnExit}
             />
           )}/>
           <Route path="/" render={() => (

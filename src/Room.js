@@ -47,6 +47,7 @@ class Room extends Component {
                 blockMinimize={this.props.blockMinimize}
                 toggleAutoPlay={this.props.toggleAutoPlay}
                 autoPlay={this.props.autoPlay}
+                hideSearchOnExit={event => this.props.hideSearchOnExit(event)}
                 />
                 <Player videoSource={this.props.videoSource}/>
                 <Playlist

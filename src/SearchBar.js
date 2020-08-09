@@ -7,7 +7,7 @@ import Logo from './assets/Logo.png'
 class SearchBar extends Component {
     render = () => {
         return (
-            <div className="searchContainer">
+            <div className="searchContainer" onBlur={event => this.props.hideSearchOnExit(event)}>
                 <a href="/">
                     <img src={Logo} id="logoImg"/>
                 </a>
@@ -15,7 +15,13 @@ class SearchBar extends Component {
                     {this.props.linkCopied && <p>Copied!</p>}
                     <button className="defaultButton" onClick={this.props.copyLink}>Copy Link</button>
                 </div>
-                <div className="searchBarAndResultsContainer showPointerOnHover" style={this.props.showAddToPlaylistFromURLButton ? {"marginRight" : undefined} : {"marginRight" : "auto" }}>
+                <div
+                className="searchBarAndResultsContainer showPointerOnHover"
+                style={this.props.showAddToPlaylistFromURLButton ?
+                  {"marginRight" : undefined}
+                  :
+                  {"marginRight" : "auto" }}
+                  >
                     <p className="error">{this.props.error}</p>
                     <input className='searchBar inputFocus'
                     name='searchTerm' value={this.props.searchTerm}
