@@ -756,6 +756,12 @@ input:checked + .slider:before {
     overflow : hidden
   }
 
+  .searchResultsContainer {
+    position: absolute;
+    width: inherit;
+    margin-top: 16%;
+  }
+
   .searchResultTitleContainer {
     width: 100px;
     overflow: hidden;
