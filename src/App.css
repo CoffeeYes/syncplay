@@ -820,4 +820,15 @@ input:checked + .slider:before {
   .closeBugReportButton {
     height : 25px;
   }
+
+  .searchResultsContainer {
+    position: absolute;
+    width: inherit;
+    margin-top: 10%;
+    overflow: hidden;
+  }
+
+  .searchResultContainer {
+    overflow: hidden;
+  }
 }
