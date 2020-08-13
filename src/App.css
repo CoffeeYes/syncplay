@@ -669,6 +669,17 @@ input:checked + .slider:before {
     display: none;
   }
 
+  .searchResultContainer {
+    overflow: hidden;
+    font-size: 14px;
+  }
+
+  .searchResultsContainer {
+    position: absolute;
+    width : inherit;
+    margin-top: 6%;
+  }
+
 }
 
 @media (max-width : 768px) and (max-height : 1024px) and (orientation : portrait) {
@@ -699,6 +710,15 @@ input:checked + .slider:before {
 
   .toggleSliderContainer {
     display: none;
+  }
+
+  .searchResultContainer {
+    font-size : 14px;
+    overflow : hidden;
+  }
+
+  .searchResultTitle {
+    width : 100px;
   }
 }
 
