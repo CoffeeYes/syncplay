@@ -804,6 +804,12 @@ input:checked + .slider:before {
   .chatContainer {
     grid-template-rows: minmax(0,0fr) minmax(0,1fr) minmax(0,7fr) minmax(0,2fr);
   }
+
+  .message {
+    font-size: 14px;
+    padding : 2px;
+    height : 100px;
+  }
 }
 
 @media (max-width : 896px) and (orientation : landscape) {
@@ -850,5 +856,13 @@ input:checked + .slider:before {
 
   .searchResultContainer {
     overflow: hidden;
+  }
+
+  .playlistVideoImg {
+    width: 75px
+  }
+
+  .playlistVideoTitle {
+    width: 90px;
   }
 }
