@@ -265,7 +265,7 @@ class App extends Component {
             showUsernameModal: false
           })
           //save username for reloads and other sessions
-          sessionStorage.setItem("username",this.state.changeName)
+          sessionStorage.setItem("username",confirmation.name)
         }
       })
 

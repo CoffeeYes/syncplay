@@ -287,7 +287,7 @@ io.on('connection', (client) => {
                     return io.to(client.id).emit("clientChangeNameReturn",{error : "username is already taken",success : false})
                 }
             }
-            io.to(client.id).emit("clientChangeNameReturn",{success : true})
+            io.to(client.id).emit("clientChangeNameReturn",{success : true,name : name})
             //change users username in metadata
             roomMetaData[roomID].usernames[client.id] = name;
             //let other users know the user changed their username
