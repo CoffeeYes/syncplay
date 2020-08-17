@@ -4,10 +4,11 @@ import {Route,Switch} from 'react-router-dom';
 import reactGA from 'react-ga'
 
 import connect from './connect.js'
-import socketClient from 'socket.io-client'
 
 import Splash from './Splash.js'
 import Room from './Room.js'
+
+import socket from './Socket'
 
 var key = connect.youtubeAPI.key
 
@@ -22,7 +23,7 @@ class App extends Component {
 
   constructor(props) {
     super(props)
-    this.socket = socketClient(connect.serverData.socketURL)
+    this.socket = socket
 
     this.state = {
       socketID : "",
