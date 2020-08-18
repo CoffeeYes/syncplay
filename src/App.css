@@ -802,7 +802,12 @@ input:checked + .slider:before {
   }
 
   .chatContainer {
-    grid-template-rows: minmax(0,0fr) minmax(0,1fr) minmax(0,7fr) minmax(0,2fr);
+    grid-template-rows: minmax(0,0fr) minmax(0,2fr) minmax(0,7fr) minmax(0,2fr);
+  }
+
+  .userListContainer {
+      height : 40px;
+      display: flex;
   }
 
   .message {
