@@ -18,11 +18,9 @@ const Room = props => {
 
     return(
         <div className="mainContainerRoom">
-            {props.showCacheDialogue &&
             <CacheAccept
             handleCacheChoice={(choice) => props.handleCacheChoice(choice)}
             />
-            }
             { props.showUsernameModal &&
                 <UsernameModal
                 changeName={props.changeName}
