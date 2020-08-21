@@ -45,7 +45,6 @@ class App extends Component {
       chooseUsername : "",
       showUsernameModal : true,
       showAddToPlaylistFromURLButton : false,
-      linkCopied : false,
       nameError : "",
       blockMinimize : true,
       autoPlay : false
@@ -556,16 +555,6 @@ class App extends Component {
     })
   }
 
-  copyLink = () => {
-    var link = window.location.href;
-    navigator.clipboard.writeText(link);
-    this.setState({linkCopied : true});
-
-    setTimeout(() => {
-      this.setState({linkCopied: false});
-    },400)
-  }
-
   addToPlaylistFromURL = () => {
     //url parameter object to extract information from
     const URLParams = new URLSearchParams(this.state.searchTerm)
@@ -662,8 +651,6 @@ class App extends Component {
             closeBugReport={this.closeBugReport}
             submitBugReport={this.submitBugReport}
             showUsernameModal={this.state.showUsernameModal}
-            copyLink={this.copyLink}
-            linkCopied={this.state.linkCopied}
             nameError={this.state.nameError}
             showAddToPlaylistFromURLButton={this.state.showAddToPlaylistFromURLButton}
             addToPlaylistFromURL={this.addToPlaylistFromURL}

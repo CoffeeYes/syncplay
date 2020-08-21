@@ -1,53 +1,62 @@
-import React,{ Component } from 'react';
+import React,{ Component, useEffect, useState } from 'react';
 import SearchResult from './SearchResult'
 import ToggleOptions from './ToggleOptions'
 
 import Logo from './assets/Logo.png'
 
-class SearchBar extends Component {
-    render = () => {
-        return (
-            <div className="searchContainer" onBlur={event => this.props.hideSearchOnExit(event)}>
-                <a href="/">
-                    <img src={Logo} id="logoImg"/>
-                </a>
-                <div className="copyLinkContainer copyLinkButton">
-                    {this.props.linkCopied && <p>Copied!</p>}
-                    <button className="defaultButton" onClick={this.props.copyLink}>Copy Link</button>
-                </div>
-                <div
-                className="searchBarAndResultsContainer showPointerOnHover"
-                style={this.props.showAddToPlaylistFromURLButton ?
-                  {"marginRight" : undefined}
-                  :
-                  {"marginRight" : "auto" }}
-                  >
-                    <p className="error">{this.props.error}</p>
-                    <input className='searchBar inputFocus'
-                    name='searchTerm' value={this.props.searchTerm}
-                    onChange={this.props.handleChange}
-                    onKeyPress={this.props.searchInputEnterPressed}
-                    placeholder="Search or paste a youtube url here ..."
-                    />
-                    <SearchResult
-                    searchResults={this.props.searchResults}
-                    userClickedSearchResult={(videoID) => this.props.userClickedSearchResult(videoID)}
-                    addVideoToPlaylist={(videoObj => this.props.addVideoToPlaylist(videoObj))}
-                    />
-                </div>
-                {this.props.showAddToPlaylistFromURLButton &&
-                  <button className="addFromURLButton" onClick={this.props.addToPlaylistFromURL}>Add to Playist</button>
-                }
-                <ToggleOptions
-                toggleBlockMinimize={this.props.toggleBlockMinimize}
-                blockMinimize={this.props.blockMinimize}
-                toggleAutoPlay={this.props.toggleAutoPlay}
-                autoPlay={this.props.autoPlay}
-                />
-                <button className="defaultButton bugButton" onClick={this.props.triggerBugReport}>Submit a Bug Report</button>
-            </div>
-        )
-    }
-}
+const SearchBar = props => {
 
+    const [linkCopied, setLinkCopied] = useState(false)
+
+    const copyLink = () => {
+        var link = window.location.href;
+        navigator.clipboard.writeText(link);
+        setLinkCopied(true)
+
+        setTimeout(() => {
+          setLinkCopied(false)
+        },400)
+    }
+    return (
+        <div className="searchContainer" onBlur={event => props.hideSearchOnExit(event)}>
+            <a href="/">
+                <img src={Logo} id="logoImg"/>
+            </a>
+            <div className="copyLinkContainer copyLinkButton">
+                {linkCopied && <p>Copied!</p>}
+                <button className="defaultButton" onClick={copyLink}>Copy Link</button>
+            </div>
+            <div
+            className="searchBarAndResultsContainer showPointerOnHover"
+            style={props.showAddToPlaylistFromURLButton ?
+              {"marginRight" : undefined}
+              :
+              {"marginRight" : "auto" }}
+              >
+                <p className="error">{props.error}</p>
+                <input className='searchBar inputFocus'
+                name='searchTerm' value={props.searchTerm}
+                onChange={props.handleChange}
+                onKeyPress={props.searchInputEnterPressed}
+                placeholder="Search or paste a youtube url here ..."
+                />
+                <SearchResult
+                searchResults={props.searchResults}
+                userClickedSearchResult={(videoID) => props.userClickedSearchResult(videoID)}
+                addVideoToPlaylist={(videoObj => props.addVideoToPlaylist(videoObj))}
+                />
+            </div>
+            {props.showAddToPlaylistFromURLButton &&
+              <button className="addFromURLButton" onClick={props.addToPlaylistFromURL}>Add to Playist</button>
+            }
+            <ToggleOptions
+            toggleBlockMinimize={props.toggleBlockMinimize}
+            blockMinimize={props.blockMinimize}
+            toggleAutoPlay={props.toggleAutoPlay}
+            autoPlay={props.autoPlay}
+            />
+            <button className="defaultButton bugButton" onClick={props.triggerBugReport}>Submit a Bug Report</button>
+        </div>
+    )
+}
 export default SearchBar;
