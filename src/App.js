@@ -456,12 +456,8 @@ class App extends Component {
     }
   }
 
-  createNewRoom = (event) => {
-    event.preventDefault();
-    this.socket.emit("requestCreateNewRoom",this.socket.id)
-  }
-
   initializeRoom = (roomID) => {
+    sessionStorage.setItem("roomID",roomID);
     this.setState({roomID : roomID},() => {
       this.socket.emit("userJoinedRoom",roomID)
       //check if the joining user already had a username (reloaded the page) and update it on the backend
