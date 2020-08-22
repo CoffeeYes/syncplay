@@ -601,14 +601,6 @@ class App extends Component {
     })
   }
 
-  toggleBlockMinimize = () => {
-    this.socket.emit("userChangedBlockMinimize",this.state.roomID,!this.state.blockMinimize)
-  }
-
-  toggleAutoPlay = () => {
-    this.socket.emit("userChangedAutoPlay",this.state.roomID,!this.state.autoPlay)
-  }
-
   hideSearchOnExit = (event) => {
     const target = event.currentTarget
 
@@ -650,9 +642,7 @@ class App extends Component {
             nameError={this.state.nameError}
             showAddToPlaylistFromURLButton={this.state.showAddToPlaylistFromURLButton}
             addToPlaylistFromURL={this.addToPlaylistFromURL}
-            toggleBlockMinimize={this.toggleBlockMinimize}
             blockMinimize={this.state.blockMinimize}
-            toggleAutoPlay={this.toggleAutoPlay}
             autoPlay={this.state.autoPlay}
             hideSearchOnExit={this.hideSearchOnExit}
             />
