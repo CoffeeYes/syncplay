@@ -4,7 +4,7 @@ class SearchResult extends Component {
     render = () => {
         return (
             <div className="searchResultsContainer">
-                {this.props.searchResults.map((item,index) => {
+                {this.props.searchResults && this.props.searchResults.map((item,index) => {
                     return (
                         <div className="searchResultContainer showPointerOnHover">
                             <div className="searchResultData" key={index} onClick={() => this.props.userClickedSearchResult(item.id.videoId)}>

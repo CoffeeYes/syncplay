@@ -59,7 +59,10 @@ class App extends Component {
       return this.setState({searchResults : []})
     }
 
-    fetch("https://www.googleapis.com/youtube/v3/search?part=snippet&videoSyndicated=true&type=video&q=" + this.state.searchTerm + "&maxResults=5&key=" + key )
+    fetch("https://www.googleapis.com/youtube/v3/search?part=snippet&videoSyndicated=true&type=video&q="
+    + this.state.searchTerm + "&maxResults=5&key=" + key +
+    "&origin=https://www.youtubeparty.net"
+    )
     .then(res => res.json())
     .then(data => {
       this.setState({searchResults : data.items})
@@ -559,7 +562,8 @@ class App extends Component {
     var playlistID = ""
     if(URLParams.has("list")) {
       playlistID = URLParams.get("list");
-      fetch("https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=20&playlistId=" + playlistID + "&key=" + key)
+      fetch("https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=20&playlistId="
+       + playlistID + "&key=" + key + "&origin=https://www.youtubeparty.net")
       .then(res => res.json())
       .then(data => {
         for(var item in data.items) {
@@ -588,7 +592,8 @@ class App extends Component {
     }
 
     //fetch image and title from videoID and add to playlist
-    fetch("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" + videoID + "&key=" + key )
+    fetch("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" +
+    videoID + "&key=" + key + "&origin=https://www.youtubeparty.net" )
     .then(res => res.json())
     .then(data => {
       var videoData = {
