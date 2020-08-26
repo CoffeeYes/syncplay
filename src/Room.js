@@ -38,13 +38,9 @@ const Room = props => {
             addVideoToPlaylist={(videoObj => props.addVideoToPlaylist(videoObj))}
             error={props.error}
             triggerBugReport={props.triggerBugReport}
-            copyLink={props.copyLink}
-            linkCopied={props.linkCopied}
             showAddToPlaylistFromURLButton={props.showAddToPlaylistFromURLButton}
             addToPlaylistFromURL={props.addToPlaylistFromURL}
-            toggleBlockMinimize={props.toggleBlockMinimize}
             blockMinimize={props.blockMinimize}
-            toggleAutoPlay={props.toggleAutoPlay}
             autoPlay={props.autoPlay}
             hideSearchOnExit={event => props.hideSearchOnExit(event)}
             />
@@ -62,7 +58,6 @@ const Room = props => {
             changeName={props.changeName}
             changeUsername={props.changeUsername}
             chatError={props.chatError}
-            connectedUsers={props.connectedUsers}
             />
             {props.showBugReport && <BugReport closeBugReport={props.closeBugReport} submitBugReport={props.submitBugReport}/>}
         </div>

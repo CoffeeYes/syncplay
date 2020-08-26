@@ -40,7 +40,6 @@ class App extends Component {
       playlistVideos : [],
       playlistCurrentVideoIndex : -1,
       currentPlayerState : "",
-      connectedUsers : ["user1","user2"],
       showBugReport : false,
       chooseUsername : "",
       showUsernameModal : true,
@@ -638,7 +637,6 @@ class App extends Component {
             addVideoToPlaylist={(videoObj => this.addVideoToPlaylist(videoObj))}
             videoFromPlaylistWasClicked={(videoID,index) => this.videoFromPlaylistWasClicked(videoID,index)}
             removeVideoFromPlaylist={ (index) => this.removeVideoFromPlaylist(index)}
-            connectedUsers={this.state.connectedUsers}
             triggerBugReport={this.triggerBugReport}
             showBugReport={this.state.showBugReport}
             closeBugReport={this.closeBugReport}
