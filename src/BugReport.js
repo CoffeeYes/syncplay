@@ -1,15 +1,15 @@
 import React from 'react';
 
-const BugReport = (props) => {
+const BugReport = ({closeBugReport, submitBugReport, setShowBugReport }) => {
     return (
         <div className="bugReportCoverPage">
             <div className="bugReportContainer">
-                <button onClick={props.closeBugReport} className="closeBugReportButton defaultButton">x</button>
+                <button onClick={() => setShowBugReport(false)} className="closeBugReportButton defaultButton">x</button>
                 <textarea id="bugReportText"></textarea>
-                <button className="defaultButton submitBugReportButton" onClick={props.submitBugReport}>Submit</button>
+                <button className="defaultButton submitBugReportButton" onClick={submitBugReport}>Submit</button>
             </div>
         </div>
-        
+
     )
 }
 

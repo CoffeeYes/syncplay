@@ -55,7 +55,7 @@ const SearchBar = props => {
             toggleAutoPlay={props.toggleAutoPlay}
             autoPlay={props.autoPlay}
             />
-            <button className="defaultButton bugButton" onClick={props.triggerBugReport}>Submit a Bug Report</button>
+            <button className="defaultButton bugButton" onClick={() => props.setShowBugReport(true)}>Submit a Bug Report</button>
         </div>
     )
 }

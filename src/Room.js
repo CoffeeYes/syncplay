@@ -10,6 +10,8 @@ import CacheAccept from './CacheAccept.js';
 
 const Room = props => {
 
+    const [showBugReport,setShowBugReport] = useState(false)
+
     useEffect(() => {
         //re-hydrate room state after losing on redirect
         let roomID = window.location.href.split("/room/")[1]
@@ -37,12 +39,12 @@ const Room = props => {
             userClickedSearchResult={(videoID) => props.userClickedSearchResult(videoID)}
             addVideoToPlaylist={(videoObj => props.addVideoToPlaylist(videoObj))}
             error={props.error}
-            triggerBugReport={props.triggerBugReport}
             showAddToPlaylistFromURLButton={props.showAddToPlaylistFromURLButton}
             addToPlaylistFromURL={props.addToPlaylistFromURL}
             blockMinimize={props.blockMinimize}
             autoPlay={props.autoPlay}
             hideSearchOnExit={event => props.hideSearchOnExit(event)}
+            setShowBugReport={setShowBugReport}
             />
             <Player videoSource={props.videoSource}/>
             <Playlist
@@ -59,7 +61,11 @@ const Room = props => {
             changeUsername={props.changeUsername}
             chatError={props.chatError}
             />
-            {props.showBugReport && <BugReport closeBugReport={props.closeBugReport} submitBugReport={props.submitBugReport}/>}
+            {showBugReport &&
+            <BugReport
+            submitBugReport={props.submitBugReport}
+            setShowBugReport={setShowBugReport}
+            />}
         </div>
     )
 }

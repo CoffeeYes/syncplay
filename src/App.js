@@ -40,7 +40,6 @@ class App extends Component {
       playlistVideos : [],
       playlistCurrentVideoIndex : -1,
       currentPlayerState : "",
-      showBugReport : false,
       chooseUsername : "",
       showUsernameModal : true,
       showAddToPlaylistFromURLButton : false,
@@ -533,18 +532,6 @@ class App extends Component {
     this.socket.emit("userRemovedVideoFromPlaylist",index,this.state.roomID)
   }
 
-  triggerBugReport = () => {
-    this.setState({showBugReport : true})
-    reactGA.event({
-      category : "bug report",
-      action : "User opened bug report window"
-    })
-  }
-
-  closeBugReport = () => {
-    this.setState({showBugReport : false})
-  }
-
   submitBugReport = () => {
     this.setState({showBugReport : false})
     reactGA.event({
@@ -637,9 +624,6 @@ class App extends Component {
             addVideoToPlaylist={(videoObj => this.addVideoToPlaylist(videoObj))}
             videoFromPlaylistWasClicked={(videoID,index) => this.videoFromPlaylistWasClicked(videoID,index)}
             removeVideoFromPlaylist={ (index) => this.removeVideoFromPlaylist(index)}
-            triggerBugReport={this.triggerBugReport}
-            showBugReport={this.state.showBugReport}
-            closeBugReport={this.closeBugReport}
             submitBugReport={this.submitBugReport}
             showUsernameModal={this.state.showUsernameModal}
             nameError={this.state.nameError}
