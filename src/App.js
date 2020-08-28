@@ -1,7 +1,7 @@
 import React, { Component} from 'react';
 import './App.css';
 import {Route,Switch} from 'react-router-dom';
-import reactGA from 'react-ga'
+import reactGA from './ReactGA'
 
 import connect from './connect.js'
 
@@ -47,8 +47,6 @@ class App extends Component {
       blockMinimize : true,
       autoPlay : false
     }
-
-    reactGA.initialize(connect.ga.TID);
   }
 
   searchForVideoByString = () => {
