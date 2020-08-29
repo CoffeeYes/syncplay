@@ -2,7 +2,8 @@ import React,{ Component, useEffect, useState } from 'react';
 import SearchResult from './SearchResult'
 import ToggleOptions from './ToggleOptions'
 
-import Logo from './assets/Logo.png'
+import Logo from './assets/Logo.png';
+import GA from './ReactGA'
 
 const SearchBar = props => {
 
@@ -55,7 +56,17 @@ const SearchBar = props => {
             toggleAutoPlay={props.toggleAutoPlay}
             autoPlay={props.autoPlay}
             />
-            <button className="defaultButton bugButton" onClick={() => props.setShowBugReport(true)}>Submit a Bug Report</button>
+            <button
+            className="defaultButton bugButton"
+            onClick={() => {
+                GA.event({
+                  category : "bug report",
+                  action : "User opened bug report window"
+                })
+                props.setShowBugReport(true)}}
+           >
+           Submit a Bug Report
+           </button>
         </div>
     )
 }
