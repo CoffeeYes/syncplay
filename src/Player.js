@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Player = () =>
-<div className="playerContainer">
+const Player = ({playerClass}) =>
+<div className={playerClass}>
     <div id='player'>player</div>
 </div>
 

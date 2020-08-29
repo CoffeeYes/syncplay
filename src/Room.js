@@ -10,7 +10,9 @@ import CacheAccept from './CacheAccept.js';
 
 const Room = props => {
 
-    const [showBugReport,setShowBugReport] = useState(false)
+    const [showBugReport,setShowBugReport] = useState(false);
+    const [showPlaylistAndChat,setShowPlaylistAndChat] = useState(true);
+    const [playerClass, setPlayerClass] = useState("playerContainer");
 
     useEffect(() => {
         //re-hydrate room state after losing on redirect
@@ -46,12 +48,28 @@ const Room = props => {
             hideSearchOnExit={event => props.hideSearchOnExit(event)}
             setShowBugReport={setShowBugReport}
             />
-            <Player videoSource={props.videoSource}/>
+            <Player videoSource={props.videoSource} playerClass={playerClass}/>
+            {
+                <div
+                onClick={() => {
+                  setShowPlaylistAndChat(!showPlaylistAndChat)
+                  setPlayerClass(playerClass === "playerContainer" ?
+                  "playerContainerExtended"
+                  :
+                  "playerContainer")
+                }}
+                className="togglePlaylistAndChat showPointerOnHover"
+                >
+                {showPlaylistAndChat ? "Hide" : "Show"}
+                </div>
+            }
+            {showPlaylistAndChat &&
             <Playlist
             playlistVideos={props.playlistVideos}
             videoFromPlaylistWasClicked={(videoID, index) => props.videoFromPlaylistWasClicked(videoID, index)}
             removeVideoFromPlaylist={(index) => props.removeVideoFromPlaylist(index)}
-            />
+            />}
+            {showPlaylistAndChat &&
             <ChatBox
             localMessage={props.localMessage}
             messages={props.messages}
@@ -61,6 +79,7 @@ const Room = props => {
             changeUsername={props.changeUsername}
             chatError={props.chatError}
             />
+            }
             {showBugReport &&
             <BugReport
             submitBugReport={props.submitBugReport}
