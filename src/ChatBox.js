@@ -18,18 +18,10 @@ const ChatBox = props => {
             <UserList connectedUsers={props.connectedUsers}/>
             <div className="messageBox">
                 {props.messages.map((item,index) =>
-                    item.sentFromHere ?
-                    <div className="message messageFromHere" style={{"backgroundColor" : item.color}} key={index}>
-                        <div className="messageContent">
-                            <div className="messageHeader">
-                                <p className="messageUser"><b>{item.user}</b></p>
-                                <p className="messageTime"><b>{item.time}</b></p>
-                            </div>
-                            <p className="messageText">{item.text}</p>
-                        </div>
-                    </div>
-                    :
-                    <div className="message messageFromOther" style={{"backgroundColor" : item.color}} key={index}>
+                    <div
+                    className={"message " +
+                    (item.sentFromHere ? "messageFromHere" : "messageFromOther")} 
+                    style={{"backgroundColor" : item.color}} key={index}>
                         <div className="messageContent">
                             <div className="messageHeader">
                                 <p className="messageUser"><b>{item.user}</b></p>
