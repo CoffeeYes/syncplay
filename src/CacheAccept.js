@@ -18,22 +18,18 @@ const CacheAccept = props => {
             window.location.href = "www.google.com"
         }
     }
-    if(showCacheDialogue) {
-        return (
-            <div className="cacheAcceptModal">
-                <div className="cacheAcceptContent">
-                    <p className="cacheAcceptText">This Website uses cookies.<br/>Click accept if you consent to the use of functional cookies.</p>
-                    <div className="cacheButtonContainer">
-                        <button onClick={() => handleCacheChoice("reject")} className="cacheRejectButton">Reject</button>
-                        <button onClick={() => handleCacheChoice("accept")} className="defaultButton">Accept</button>
-                    </div>
-                </div>
-            </div>
-        )
-    }
-    else {
-        return (null)
-    }
+    return showCacheDialogue ?
+      <div className="cacheAcceptModal">
+          <div className="cacheAcceptContent">
+              <p className="cacheAcceptText">This Website uses cookies.<br/>Click accept if you consent to the use of functional cookies.</p>
+              <div className="cacheButtonContainer">
+                  <button onClick={() => handleCacheChoice("reject")} className="cacheRejectButton">Reject</button>
+                  <button onClick={() => handleCacheChoice("accept")} className="defaultButton">Accept</button>
+              </div>
+          </div>
+      </div>
+      :
+      null
 }
 
 export default CacheAccept

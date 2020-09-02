@@ -6,17 +6,15 @@ const Playlist = props =>
             <p>Playlist</p>
     </div>
     <div className="playlistVideosContainer">
-        {props.playlistVideos.map( (item,index) => {
-            return (
-                <div className="playlistVideoContainer showPointerOnHover" key={index}>
-                    <div className="playlistVideoDataContainer" onClick={() => props.videoFromPlaylistWasClicked(item.videoID,index)}>
-                        <img className="playlistVideoImg" src={item.imgURL}/>
-                        <p className="playlistVideoTitle line-clamp-3">{item.title}</p>
-                    </div>
-                    <button className="removeFromPlaylistButton showPointerOnHover" onClick={() => props.removeVideoFromPlaylist(index)}>X</button>
-                </div>
-            )
-        })}
+        {props.playlistVideos.map( (item,index) =>
+          <div className="playlistVideoContainer showPointerOnHover" key={index}>
+              <div className="playlistVideoDataContainer" onClick={() => props.videoFromPlaylistWasClicked(item.videoID,index)}>
+                  <img className="playlistVideoImg" src={item.imgURL}/>
+                  <p className="playlistVideoTitle line-clamp-3">{item.title}</p>
+              </div>
+              <button className="removeFromPlaylistButton showPointerOnHover" onClick={() => props.removeVideoFromPlaylist(index)}>X</button>
+          </div>
+        )}
     </div>
 </div>
 
