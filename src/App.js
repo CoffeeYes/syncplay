@@ -475,21 +475,6 @@ class App extends Component {
     }
   }
 
-  //this function is continued with the server socket message clientChangeNameReturn
-  changeUsername = (event) => {
-    //reset chat error
-    this.setState({nameError : ""})
-    //empty check
-    if(this.state.changeName == "") {
-      return this.setState({nameError : "Username cannot be empty"})
-    }
-
-    if(this.state.changeName.length > 20) {
-      return this.setState({nameError : "Name must be shorter than 20 characters"})
-    }
-    this.socket.emit("clientChangedUsername",this.state.changeName,this.state.roomID)
-  }
-
   userClickedSearchResult = (videoID) => {
     this.setState({videoID : videoID},() => {
       //cue video and emit ID to other users
