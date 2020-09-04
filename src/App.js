@@ -33,7 +33,6 @@ class App extends Component {
       error : "",
       chatError : "",
       allowPlay : true,
-      localMessage : "",
       messages : [],
       changeName : sessionStorage.getItem("username") || "",
       searchResults : [],
@@ -468,13 +467,6 @@ class App extends Component {
     })
   }
 
-  sendMessage = (event) => {
-    if(event.which == 13 && this.state.localMessage.trim() != "") {
-      this.socket.emit("newMessage",this.state.localMessage,this.state.roomID)
-      this.setState({localMessage : ""})
-    }
-  }
-
   userClickedSearchResult = (videoID) => {
     this.setState({videoID : videoID},() => {
       //cue video and emit ID to other users
@@ -594,9 +586,7 @@ class App extends Component {
             searchInputEnterPressed={this.searchInputEnterPressed}
             videoSource={this.state.videoSource}
             initializeRoom={ (roomID) => {this.initializeRoom(roomID)}}
-            localMessage={this.state.localMessage}
             messages={this.state.messages}
-            sendMessage={this.sendMessage}
             changeName={this.state.changeName}
             changeUsername={this.changeUsername}
             chatError={this.state.chatError}

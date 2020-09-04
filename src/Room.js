@@ -64,22 +64,20 @@ const Room = props => {
                 </div>
             }
             {showPlaylistAndChat &&
-            <Playlist
-            playlistVideos={props.playlistVideos}
-            videoFromPlaylistWasClicked={(videoID, index) => props.videoFromPlaylistWasClicked(videoID, index)}
-            removeVideoFromPlaylist={(index) => props.removeVideoFromPlaylist(index)}
-            />}
-            {showPlaylistAndChat &&
-            <ChatBox
-            localMessage={props.localMessage}
-            messages={props.messages}
-            sendMessage={props.sendMessage}
-            handleChange={props.handleChange}
-            changeName={props.changeName}
-            changeUsername={props.changeUsername}
-            chatError={props.chatError}
-            />
-            }
+            <>
+              <Playlist
+              playlistVideos={props.playlistVideos}
+              videoFromPlaylistWasClicked={(videoID, index) => props.videoFromPlaylistWasClicked(videoID, index)}
+              removeVideoFromPlaylist={(index) => props.removeVideoFromPlaylist(index)}
+              />
+              showPlaylistAndChat
+              <ChatBox
+              messages={props.messages}
+              changeName={props.changeName}
+              changeUsername={props.changeUsername}
+              chatError={props.chatError}
+              />
+            </>}
             {showBugReport &&
             <BugReport
             submitBugReport={props.submitBugReport}

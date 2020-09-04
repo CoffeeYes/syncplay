@@ -1,8 +1,10 @@
 import React, {Component, useState, useEffect} from 'react'
 import UserList from './UserList.js'
+import socket from './Socket'
 
 const ChatBox = props => {
     const msgEndRef = React.createRef();
+    const [message,setMessage] = useState("");
 
     const scrollToBottom = () => {
         msgEndRef.current.scrollIntoView({ behavior: "smooth" });
@@ -12,6 +14,13 @@ const ChatBox = props => {
       scrollToBottom();
     },[props.messages])
 
+    const sendMessage = event => {
+      if(event.which == 13 && message.trim() != "") {
+        socket.emit("newMessage",message,sessionStorage.getItem("roomID"))
+        setMessage("")
+      }
+    }
+
     return(
         <div className="chatContainer">
             <p className="error">{props.chatError}</p>
@@ -20,7 +29,7 @@ const ChatBox = props => {
                 {props.messages.map((item,index) =>
                     <div
                     className={"message " +
-                    (item.sentFromHere ? "messageFromHere" : "messageFromOther")} 
+                    (item.sentFromHere ? "messageFromHere" : "messageFromOther")}
                     style={{"backgroundColor" : item.color}} key={index}>
                         <div className="messageContent">
                             <div className="messageHeader">
@@ -33,7 +42,11 @@ const ChatBox = props => {
                   )}
                 <div ref={msgEndRef}/>
             </div>
-            <input id="chatInput" name="localMessage" onChange={props.handleChange} onKeyPress={props.sendMessage} value={props.localMessage}
+            <input id="chatInput"
+            name="localMessage"
+            onChange={event => setMessage(event.target.value)}
+            onKeyPress={event => sendMessage(event)}
+            value={message}
             placeholder="Send a message to the room"/>
         </div>
     )
