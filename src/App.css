@@ -203,6 +203,10 @@ html {
 
 .togglePlaylistAndChat {
   grid-row : 2;
+  height : 20px;
+  background-color: lightBlue;
+  border : none;
+  box-shadow: 1px 1px 0 0 grey;
 }
 
 .line {

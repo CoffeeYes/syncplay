@@ -50,7 +50,7 @@ const Room = props => {
             />
             <Player videoSource={props.videoSource} playerClass={playerClass}/>
             {
-                <div
+                <button
                 onClick={() => {
                   setShowPlaylistAndChat(!showPlaylistAndChat)
                   setPlayerClass(playerClass === "playerContainer" ?
@@ -61,7 +61,7 @@ const Room = props => {
                 className="togglePlaylistAndChat showPointerOnHover"
                 >
                 {showPlaylistAndChat ? "Hide" : "Show"}
-                </div>
+                </button>
             }
             {showPlaylistAndChat &&
             <>
@@ -70,7 +70,6 @@ const Room = props => {
               videoFromPlaylistWasClicked={(videoID, index) => props.videoFromPlaylistWasClicked(videoID, index)}
               removeVideoFromPlaylist={(index) => props.removeVideoFromPlaylist(index)}
               />
-              showPlaylistAndChat
               <ChatBox
               messages={props.messages}
               changeName={props.changeName}
