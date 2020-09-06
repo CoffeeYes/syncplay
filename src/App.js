@@ -507,14 +507,6 @@ class App extends Component {
     this.socket.emit("userRemovedVideoFromPlaylist",index,this.state.roomID)
   }
 
-  submitBugReport = () => {
-    this.setState({showBugReport : false})
-    reactGA.event({
-      category: "bug report",
-      action : "User submitted bug report"
-    })
-  }
-
   addToPlaylistFromURL = () => {
     //url parameter object to extract information from
     const URLParams = new URLSearchParams(this.state.searchTerm)
@@ -597,7 +589,6 @@ class App extends Component {
             addVideoToPlaylist={(videoObj => this.addVideoToPlaylist(videoObj))}
             videoFromPlaylistWasClicked={(videoID,index) => this.videoFromPlaylistWasClicked(videoID,index)}
             removeVideoFromPlaylist={ (index) => this.removeVideoFromPlaylist(index)}
-            submitBugReport={this.submitBugReport}
             showUsernameModal={this.state.showUsernameModal}
             nameError={this.state.nameError}
             showAddToPlaylistFromURLButton={this.state.showAddToPlaylistFromURLButton}

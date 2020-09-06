@@ -79,7 +79,6 @@ const Room = props => {
             </>}
             {showBugReport &&
             <BugReport
-            submitBugReport={props.submitBugReport}
             setShowBugReport={setShowBugReport}
             />}
         </div>
