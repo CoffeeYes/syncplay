@@ -48,7 +48,9 @@ const SearchBar = props => {
                 />
             </div>
             {props.showAddToPlaylistFromURLButton &&
-              <button className="addFromURLButton" onClick={props.addToPlaylistFromURL}>Add to Playist</button>
+              <button
+              className="addFromURLButton"
+              onClick={props.addToPlaylistFromURL}>Add to Playist</button>
             }
             <ToggleOptions
             toggleBlockMinimize={props.toggleBlockMinimize}
