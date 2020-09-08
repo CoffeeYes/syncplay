@@ -8,6 +8,10 @@ const Playlist = props => {
     //tell all users to play video from playlist
     socket.emit('videoIdWasChangedByClient',videoID,sessionStorage.getItem("roomID"),0)
   }
+
+  const removeVideoFromPlaylist = index => {
+    socket.emit("userRemovedVideoFromPlaylist",index,sessionStorage.getItem("roomID"))
+  }
   return (
     <div className="playlistContainer">
       <div className="playlistHeader">
@@ -23,7 +27,7 @@ const Playlist = props => {
             </div>
             <button
             className="removeFromPlaylistButton showPointerOnHover"
-            onClick={() => props.removeVideoFromPlaylist(index)}>X</button>
+            onClick={() => removeVideoFromPlaylist(index)}>X</button>
           </div>
         )}
       </div>

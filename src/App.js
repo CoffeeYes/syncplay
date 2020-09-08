@@ -488,24 +488,14 @@ class App extends Component {
     this.socket.emit("userAddedVideoToPlaylist",videoData,this.state.roomID)
   }
 
-  videoFromPlaylistWasClicked = (videoID,index) => {
-    //update current playlist index locally and on backend
-    this.setState({playlistCurrentVideoIndex : index})
-    this.socket.emit("updatePlaylistIndex",index,this.state.roomID)
-
-    //tell all users to play video from playlist
-    this.socket.emit('videoIdWasChangedByClient',videoID,this.state.roomID,0)
-
-  }
-
-  removeVideoFromPlaylist = (index) => {
-    this.setState({playlistVideos : this.state.playlistVideos.filter( (item) => {
-      if(this.state.playlistVideos.indexOf(item) !== index) {
-        return item;
-      }
-    })})
-    this.socket.emit("userRemovedVideoFromPlaylist",index,this.state.roomID)
-  }
+  // removeVideoFromPlaylist = (index) => {
+  //   this.setState({playlistVideos : this.state.playlistVideos.filter( (item) => {
+  //     if(this.state.playlistVideos.indexOf(item) !== index) {
+  //       return item;
+  //     }
+  //   })})
+  //   this.socket.emit("userRemovedVideoFromPlaylist",index,this.state.roomID)
+  // }
 
   addToPlaylistFromURL = () => {
     //url parameter object to extract information from
@@ -587,8 +577,6 @@ class App extends Component {
             userClickedSearchResult={(videoID) => this.userClickedSearchResult(videoID)}
             playlistVideos={this.state.playlistVideos}
             addVideoToPlaylist={(videoObj => this.addVideoToPlaylist(videoObj))}
-            videoFromPlaylistWasClicked={(videoID,index) => this.videoFromPlaylistWasClicked(videoID,index)}
-            removeVideoFromPlaylist={ (index) => this.removeVideoFromPlaylist(index)}
             showUsernameModal={this.state.showUsernameModal}
             nameError={this.state.nameError}
             showAddToPlaylistFromURLButton={this.state.showAddToPlaylistFromURLButton}

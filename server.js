@@ -310,7 +310,7 @@ io.on('connection', (client) => {
 
     client.on("userRemovedVideoFromPlaylist", (index,roomID) => {
         roomMetaData[roomID].playlist.splice(index,1)
-        client.to(roomID).emit("anotherUserRemovedVideoFromPlaylist",index)
+        io.to(roomID).emit("anotherUserRemovedVideoFromPlaylist",index)
     })
 
     client.on("userMinimizedWindow", (roomID) => {

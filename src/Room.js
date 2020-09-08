@@ -60,8 +60,6 @@ const Room = props => {
             <>
               <Playlist
               playlistVideos={props.playlistVideos}
-              videoFromPlaylistWasClicked={(videoID, index) => props.videoFromPlaylistWasClicked(videoID, index)}
-              removeVideoFromPlaylist={(index) => props.removeVideoFromPlaylist(index)}
               />
               <ChatBox
               messages={props.messages}
