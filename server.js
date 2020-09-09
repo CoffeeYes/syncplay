@@ -299,7 +299,7 @@ io.on('connection', (client) => {
     })
 
     client.on("userAddedVideoToPlaylist",(videoData,roomID) => {
-        client.to(roomID).emit("anotherUserAddedVideoToPlaylist",videoData)
+        io.to(roomID).emit("anotherUserAddedVideoToPlaylist",videoData)
         roomMetaData[roomID].playlist.push(videoData)
     })
 

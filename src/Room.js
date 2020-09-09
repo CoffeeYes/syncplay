@@ -32,7 +32,6 @@ const Room = props => {
             searchResults={props.searchResults}
             searchTerm={props.searchTerm}
             userClickedSearchResult={(videoID) => props.userClickedSearchResult(videoID)}
-            addVideoToPlaylist={(videoObj => props.addVideoToPlaylist(videoObj))}
             error={props.error}
             showAddToPlaylistFromURLButton={props.showAddToPlaylistFromURLButton}
             addToPlaylistFromURL={props.addToPlaylistFromURL}
@@ -63,8 +62,6 @@ const Room = props => {
               />
               <ChatBox
               messages={props.messages}
-              changeName={props.changeName}
-              changeUsername={props.changeUsername}
               chatError={props.chatError}
               />
             </>}

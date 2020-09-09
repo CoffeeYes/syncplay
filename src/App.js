@@ -477,24 +477,15 @@ class App extends Component {
     })
   }
 
-  addVideoToPlaylist = (videoObj) => {
-      var videoData = {
-      title : videoObj.snippet.title,
-      videoID : videoObj.id.videoId,
-      imgURL : videoObj.snippet.thumbnails.default.url
-    }
-
-    this.setState(this.setState((prevState) => ({playlistVideos : [...prevState.playlistVideos,videoData]})))
-    this.socket.emit("userAddedVideoToPlaylist",videoData,this.state.roomID)
-  }
-
-  // removeVideoFromPlaylist = (index) => {
-  //   this.setState({playlistVideos : this.state.playlistVideos.filter( (item) => {
-  //     if(this.state.playlistVideos.indexOf(item) !== index) {
-  //       return item;
-  //     }
-  //   })})
-  //   this.socket.emit("userRemovedVideoFromPlaylist",index,this.state.roomID)
+  // addVideoToPlaylist = (videoObj) => {
+  //     var videoData = {
+  //     title : videoObj.snippet.title,
+  //     videoID : videoObj.id.videoId,
+  //     imgURL : videoObj.snippet.thumbnails.default.url
+  //   }
+  //
+  //   this.setState(this.setState((prevState) => ({playlistVideos : [...prevState.playlistVideos,videoData]})))
+  //   this.socket.emit("userAddedVideoToPlaylist",videoData,this.state.roomID)
   // }
 
   addToPlaylistFromURL = () => {
@@ -576,7 +567,6 @@ class App extends Component {
             searchTerm={this.state.searchTerm}
             userClickedSearchResult={(videoID) => this.userClickedSearchResult(videoID)}
             playlistVideos={this.state.playlistVideos}
-            addVideoToPlaylist={(videoObj => this.addVideoToPlaylist(videoObj))}
             showUsernameModal={this.state.showUsernameModal}
             nameError={this.state.nameError}
             showAddToPlaylistFromURLButton={this.state.showAddToPlaylistFromURLButton}
