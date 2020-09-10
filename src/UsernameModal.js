@@ -24,7 +24,7 @@ const UsernameModal = () => {
             name="changeName"
             value={name}
             onChange={event => setName(event.target.value)}
-            onKeyPress={(event) => {return event.which == 13 ? changeUsername() : false}}
+            onKeyPress={event => event.which === 13 ? changeUsername() : undefined}
             />
             <button className="defaultButton changeNameButton" onClick={changeUsername}>Submit</button>
         </div>

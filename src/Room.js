@@ -23,7 +23,7 @@ const Room = props => {
     return(
         <div className="mainContainerRoom">
             <CacheAccept
-            handleCacheChoice={(choice) => props.handleCacheChoice(choice)}
+            handleCacheChoice={choice => props.handleCacheChoice(choice)}
             />
             { props.showUsernameModal &&<UsernameModal /> }
             <SearchBar
@@ -31,7 +31,7 @@ const Room = props => {
             searchInputEnterPressed={props.searchInputEnterPressed}
             searchResults={props.searchResults}
             searchTerm={props.searchTerm}
-            userClickedSearchResult={(videoID) => props.userClickedSearchResult(videoID)}
+            userClickedSearchResult={videoID => props.userClickedSearchResult(videoID)}
             error={props.error}
             showAddToPlaylistFromURLButton={props.showAddToPlaylistFromURLButton}
             addToPlaylistFromURL={props.addToPlaylistFromURL}

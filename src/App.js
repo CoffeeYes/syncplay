@@ -558,14 +558,14 @@ class App extends Component {
             handleChange={this.handleChange}
             searchInputEnterPressed={this.searchInputEnterPressed}
             videoSource={this.state.videoSource}
-            initializeRoom={ (roomID) => {this.initializeRoom(roomID)}}
+            initializeRoom={roomID => {this.initializeRoom(roomID)}}
             messages={this.state.messages}
             changeName={this.state.changeName}
             changeUsername={this.changeUsername}
             chatError={this.state.chatError}
             searchResults={this.state.searchResults}
             searchTerm={this.state.searchTerm}
-            userClickedSearchResult={(videoID) => this.userClickedSearchResult(videoID)}
+            userClickedSearchResult={videoID => this.userClickedSearchResult(videoID)}
             playlistVideos={this.state.playlistVideos}
             showUsernameModal={this.state.showUsernameModal}
             nameError={this.state.nameError}

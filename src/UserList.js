@@ -13,9 +13,9 @@ const UserList = () => {
     return (
         <div className="userListContainer">
         <p className="connectedUserText">Connected Users :</p>
-        {connectedUsers.map((item,index) => {
-            return <p key={index} className="connectedUserText">{item},</p>
-        })}
+        {connectedUsers.map((item,index) =>
+            <p key={index} className="connectedUserText">{item},</p>
+        )}
         </div>
     )
 }

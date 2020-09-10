@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Player = ({playerClass}) =>
+const Player = ({ playerClass }) =>
 <div className={playerClass}>
     <div id='player'>player</div>
 </div>
