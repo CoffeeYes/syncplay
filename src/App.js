@@ -414,45 +414,45 @@ class App extends Component {
     })
   }
 
-  searchInputEnterPressed = (event) => {
-    if(event.which === 13) {
-      var ytRegex = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/
-      //check if typed text is a youtube link, if not perform a search
-      if(ytRegex.test(this.state.searchTerm) == false) {
-        return this.searchForVideoByString()
-      }
-      //url parameter object to extract information from
-      const URLParams = new URLSearchParams(this.state.searchTerm)
-
-      var videoID = "";
-      var time = 0;
-
-      //if time parameter is present set this as video time
-      if(URLParams.has('t')) {
-        time = URLParams.get('t')
-      }
-
-      //if URL is standard youtube URL extract video ID from param
-      if(URLParams.has('https://www.youtube.com/watch?v')) {
-        videoID = URLParams.get('https://www.youtube.com/watch?v')
-      }
-
-      //if url is non-standard .be URL extract video ID and time from pasted URL
-      if(this.state.searchTerm.includes(".be") && URLParams.get('feature') != "youtu.be") {
-        //if video is "be" format and contains timestamp do seperate split
-        videoID = this.state.searchTerm.split("youtu.be/")[1];
-        if(videoID.includes("?")) {
-          time = videoID.split("?t=")[1];
-          videoID = videoID.split("?")[0];
-        }
-      }
-      this.setState({videoID : videoID},() => {
-        this.player.loadVideoById(this.state.videoID,time,"large")
-        this.socket.emit('videoIdWasChangedByClient',this.state.videoID,this.state.roomID,time)
-        this.setState({searchTerm : "",showAddToPlaylistFromURLButton : false})
-      })
-    }
-  }
+  // searchInputEnterPressed = (event) => {
+  //   if(event.which === 13) {
+  //     var ytRegex = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/
+  //     //check if typed text is a youtube link, if not perform a search
+  //     if(ytRegex.test(this.state.searchTerm) == false) {
+  //       return this.searchForVideoByString()
+  //     }
+  //     //url parameter object to extract information from
+  //     const URLParams = new URLSearchParams(this.state.searchTerm)
+  //
+  //     var videoID = "";
+  //     var time = 0;
+  //
+  //     //if time parameter is present set this as video time
+  //     if(URLParams.has('t')) {
+  //       time = URLParams.get('t')
+  //     }
+  //
+  //     //if URL is standard youtube URL extract video ID from param
+  //     if(URLParams.has('https://www.youtube.com/watch?v')) {
+  //       videoID = URLParams.get('https://www.youtube.com/watch?v')
+  //     }
+  //
+  //     //if url is non-standard .be URL extract video ID and time from pasted URL
+  //     if(this.state.searchTerm.includes(".be") && URLParams.get('feature') != "youtu.be") {
+  //       //if video is "be" format and contains timestamp do seperate split
+  //       videoID = this.state.searchTerm.split("youtu.be/")[1];
+  //       if(videoID.includes("?")) {
+  //         time = videoID.split("?t=")[1];
+  //         videoID = videoID.split("?")[0];
+  //       }
+  //     }
+  //     this.setState({videoID : videoID},() => {
+  //       this.player.loadVideoById(this.state.videoID,time,"large")
+  //       this.socket.emit('videoIdWasChangedByClient',this.state.videoID,this.state.roomID,time)
+  //       this.setState({searchTerm : "",showAddToPlaylistFromURLButton : false})
+  //     })
+  //   }
+  // }
 
   initializeRoom = (roomID) => {
     sessionStorage.setItem("roomID",roomID);
@@ -539,16 +539,16 @@ class App extends Component {
       this.setState({searchTerm : "",showAddToPlaylistFromURLButton : false})
     })
   }
-
-  hideSearchOnExit = (event) => {
-    const target = event.currentTarget
-
-    setTimeout(() => {
-      if (!target.contains(document.activeElement)) {
-        this.setState({searchResults : [],searchTerm : ""})
-      }
-    },100)
-  }
+  //
+  // hideSearchOnExit = (event) => {
+  //   const target = event.currentTarget
+  //
+  //   setTimeout(() => {
+  //     if (!target.contains(document.activeElement)) {
+  //       this.setState({searchResults : [],searchTerm : ""})
+  //     }
+  //   },100)
+  // }
   render = () => {
     return(
       <Switch>
