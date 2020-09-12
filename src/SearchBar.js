@@ -14,6 +14,21 @@ const SearchBar = props => {
     const [linkCopied, setLinkCopied] = useState(false);
     const [searchTerm,setSearchTerm] = useState("");
     const [searchResults,setSearchResults] = useState([]);
+    const [showAddToPlaylistFromURLButton,setShowAddToPlaylistFromURLButton] =
+      useState(false);
+
+      const handleSearchChange = event => {
+        setSearchTerm(event.target.value);
+
+        if(event.target.value === "") {
+          setSearchResults([]);
+          setShowAddToPlaylistFromURLButton(false);
+        }
+        var ytRegex = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/
+        if(ytRegex.test(event.target.value) == true) {
+          setShowAddToPlaylistFromURLButton(true);
+        }
+      }
 
     const copyLink = () => {
         var link = window.location.href;
@@ -32,6 +47,7 @@ const SearchBar = props => {
         if (!target.contains(document.activeElement)) {
           setSearchResults([]);
           setSearchTerm("");
+          setShowAddToPlaylistFromURLButton(false)
         }
       },100)
     }
@@ -84,10 +100,62 @@ const SearchBar = props => {
           }
         }
         // this.player.loadVideoById(this.state.videoID,time,"large");
-        socket.emit('videoIdWasChangedByClient',this.state.videoID,this.state.roomID,time);
+        socket.emit('videoIdWasChangedByClient',this.state.videoID,sessionStorage.getItem("roomID"),time);
         setSearchTerm("");
         // this.setState({searchTerm : "",showAddToPlaylistFromURLButton : false})
       }
+    }
+
+    const addToPlaylistFromURL = () => {
+      //url parameter object to extract information from
+      const URLParams = new URLSearchParams(searchTerm)
+
+      //if pasted link is a playlist, add first 20 items from youtube playlist to youtubeparty playlist and return out of addToPlaylistFromURL
+      var playlistID = ""
+      if(URLParams.has("list")) {
+        playlistID = URLParams.get("list");
+        fetch("https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=20&playlistId="
+         + playlistID + "&key=" + key)
+        .then(res => res.json())
+        .then(data => {
+          for(var item in data.items) {
+            var videoData = {
+              title : data.items[item].snippet.title,
+              videoID : data.items[item].snippet.resourceId.videoId,
+              imgURL : data.items[item].snippet.thumbnails.default.url
+            }
+            socket.emit("userAddedVideoToPlaylist",videoData,sessionStorage.getItem("roomID"))
+          }
+          setSearchTerm("");
+          setShowAddToPlaylistFromURLButton(false);
+          return;
+        })
+      }
+
+      var videoID = "";
+
+      //if URL is standard youtube URL extract video ID from param
+      if(URLParams.has('https://www.youtube.com/watch?v')) {
+        videoID = URLParams.get('https://www.youtube.com/watch?v')
+      }
+      //if url is non-standard .be URL extract video ID and time from pasted URL
+      if(searchTerm.includes(".be") && URLParams.get('feature') != "youtu.be") {
+        videoID = searchTerm.split("youtu.be/")[1];
+      }
+
+      //fetch image and title from videoID and add to playlist
+      fetch("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" +
+      videoID + "&key=" + key )
+      .then(res => res.json())
+      .then(data => {
+        var videoData = {
+        title : data.items[0].snippet.title,
+        videoID : data.items[0].id,
+        imgURL : data.items[0].snippet.thumbnails.default.url
+        }
+        setSearchTerm("");
+        setShowAddToPlaylistFromURLButton(false);
+      })
     }
     return (
         <div className="searchContainer" onBlur={event => hideSearchOnExit(event)}>
@@ -100,7 +168,7 @@ const SearchBar = props => {
             </div>
             <div
             className="searchBarAndResultsContainer showPointerOnHover"
-            style={props.showAddToPlaylistFromURLButton ?
+            style={showAddToPlaylistFromURLButton ?
               {"marginRight" : undefined}
               :
               {"marginRight" : "auto" }}
@@ -109,10 +177,7 @@ const SearchBar = props => {
                 <input
                 className='searchBar inputFocus'
                 name='searchTerm' value={searchTerm}
-                onChange={event => {
-                  setSearchTerm(event.target.value)
-                  event.target.value === "" && setSearchResults([])
-                }}
+                onChange={event => handleSearchChange(event)}
                 onKeyPress={searchInputEnterPressed}
                 placeholder="Search or paste a youtube url here ..."
                 />
@@ -122,10 +187,10 @@ const SearchBar = props => {
                 addVideoToPlaylist={(videoObj => props.addVideoToPlaylist(videoObj))}
                 />
             </div>
-            {props.showAddToPlaylistFromURLButton &&
+            {showAddToPlaylistFromURLButton &&
               <button
               className="addFromURLButton"
-              onClick={props.addToPlaylistFromURL}>Add to Playist</button>
+              onClick={addToPlaylistFromURL}>Add to Playist</button>
             }
             <ToggleOptions
             toggleBlockMinimize={props.toggleBlockMinimize}

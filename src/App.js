@@ -488,57 +488,54 @@ class App extends Component {
   //   this.socket.emit("userAddedVideoToPlaylist",videoData,this.state.roomID)
   // }
 
-  addToPlaylistFromURL = () => {
-    //url parameter object to extract information from
-    const URLParams = new URLSearchParams(this.state.searchTerm)
-
-    //if pasted link is a playlist, add first 20 items from youtube playlist to youtubeparty playlist and return out of addToPlaylistFromURL
-    var playlistID = ""
-    if(URLParams.has("list")) {
-      playlistID = URLParams.get("list");
-      fetch("https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=20&playlistId="
-       + playlistID + "&key=" + key + "&origin=https://www.youtubeparty.net")
-      .then(res => res.json())
-      .then(data => {
-        for(var item in data.items) {
-          var videoData = {
-            title : data.items[item].snippet.title,
-            videoID : data.items[item].snippet.resourceId.videoId,
-            imgURL : data.items[item].snippet.thumbnails.default.url
-          }
-          this.setState(this.setState((prevState) => ({playlistVideos : [...prevState.playlistVideos,videoData]})))
-          this.socket.emit("userAddedVideoToPlaylist",videoData,this.state.roomID)
-        }
-
-      })
-      return this.setState({searchTerm : "",showAddToPlaylistFromURLButton : false});
-    }
-
-    var videoID = "";
-
-    //if URL is standard youtube URL extract video ID from param
-    if(URLParams.has('https://www.youtube.com/watch?v')) {
-      videoID = URLParams.get('https://www.youtube.com/watch?v')
-    }
-    //if url is non-standard .be URL extract video ID and time from pasted URL
-    if(this.state.searchTerm.includes(".be") && URLParams.get('feature') != "youtu.be") {
-      videoID = this.state.searchTerm.split("youtu.be/")[1];
-    }
-
-    //fetch image and title from videoID and add to playlist
-    fetch("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" +
-    videoID + "&key=" + key + "&origin=https://www.youtubeparty.net" )
-    .then(res => res.json())
-    .then(data => {
-      var videoData = {
-      title : data.items[0].snippet.title,
-      videoID : data.items[0].id,
-      imgURL : data.items[0].snippet.thumbnails.default.url
-      }
-      this.setState(this.setState((prevState) => ({playlistVideos : [...prevState.playlistVideos,videoData]})))
-      this.setState({searchTerm : "",showAddToPlaylistFromURLButton : false})
-    })
-  }
+  // addToPlaylistFromURL = () => {
+  //   //url parameter object to extract information from
+  //   const URLParams = new URLSearchParams(this.state.searchTerm)
+  //
+  //   //if pasted link is a playlist, add first 20 items from youtube playlist to youtubeparty playlist and return out of addToPlaylistFromURL
+  //   var playlistID = ""
+  //   if(URLParams.has("list")) {
+  //     playlistID = URLParams.get("list");
+  //     fetch("https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=20&playlistId="
+  //      + playlistID + "&key=" + key + "&origin=https://www.youtubeparty.net")
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       for(var item in data.items) {
+  //         var videoData = {
+  //           title : data.items[item].snippet.title,
+  //           videoID : data.items[item].snippet.resourceId.videoId,
+  //           imgURL : data.items[item].snippet.thumbnails.default.url
+  //         }
+  //         this.socket.emit("userAddedVideoToPlaylist",videoData,this.state.roomID)
+  //       }
+  //     })
+  //   }
+  //
+  //   var videoID = "";
+  //
+  //   //if URL is standard youtube URL extract video ID from param
+  //   if(URLParams.has('https://www.youtube.com/watch?v')) {
+  //     videoID = URLParams.get('https://www.youtube.com/watch?v')
+  //   }
+  //   //if url is non-standard .be URL extract video ID and time from pasted URL
+  //   if(this.state.searchTerm.includes(".be") && URLParams.get('feature') != "youtu.be") {
+  //     videoID = this.state.searchTerm.split("youtu.be/")[1];
+  //   }
+  //
+  //   //fetch image and title from videoID and add to playlist
+  //   fetch("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" +
+  //   videoID + "&key=" + key + "&origin=https://www.youtubeparty.net" )
+  //   .then(res => res.json())
+  //   .then(data => {
+  //     var videoData = {
+  //     title : data.items[0].snippet.title,
+  //     videoID : data.items[0].id,
+  //     imgURL : data.items[0].snippet.thumbnails.default.url
+  //     }
+  //     this.setState(this.setState((prevState) => ({playlistVideos : [...prevState.playlistVideos,videoData]})))
+  //     this.setState({searchTerm : "",showAddToPlaylistFromURLButton : false})
+  //   })
+  // }
   //
   // hideSearchOnExit = (event) => {
   //   const target = event.currentTarget

@@ -33,8 +33,6 @@ const Room = props => {
             searchTerm={props.searchTerm}
             userClickedSearchResult={videoID => props.userClickedSearchResult(videoID)}
             error={props.error}
-            showAddToPlaylistFromURLButton={props.showAddToPlaylistFromURLButton}
-            addToPlaylistFromURL={props.addToPlaylistFromURL}
             blockMinimize={props.blockMinimize}
             autoPlay={props.autoPlay}
             hideSearchOnExit={event => props.hideSearchOnExit(event)}
