@@ -150,6 +150,7 @@ const SearchBar = props => {
         videoID : data.items[0].id,
         imgURL : data.items[0].snippet.thumbnails.default.url
         }
+        socket.emit("userAddedVideoToPlaylist",videoData,sessionStorage.getItem("roomID"))
         setSearchTerm("");
         setShowAddToPlaylistFromURLButton(false);
       })
