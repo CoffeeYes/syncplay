@@ -100,7 +100,7 @@ const SearchBar = props => {
           }
         }
         // this.player.loadVideoById(this.state.videoID,time,"large");
-        socket.emit('videoIdWasChangedByClient',this.state.videoID,sessionStorage.getItem("roomID"),time);
+        socket.emit('videoIdWasChangedByClient',videoID,sessionStorage.getItem("roomID"),time);
         setSearchTerm("");
         // this.setState({searchTerm : "",showAddToPlaylistFromURLButton : false})
       }
@@ -126,9 +126,6 @@ const SearchBar = props => {
             }
             socket.emit("userAddedVideoToPlaylist",videoData,sessionStorage.getItem("roomID"))
           }
-          setSearchTerm("");
-          setShowAddToPlaylistFromURLButton(false);
-          return;
         })
       }
 
