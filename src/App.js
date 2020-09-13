@@ -27,7 +27,6 @@ class App extends Component {
 
     this.state = {
       socketID : "",
-      searchTerm : '',
       videoID : '',
       currentTime : 0,
       error : "",
@@ -35,13 +34,11 @@ class App extends Component {
       allowPlay : true,
       messages : [],
       changeName : sessionStorage.getItem("username") || "",
-      searchResults : [],
       playlistVideos : [],
       playlistCurrentVideoIndex : -1,
       currentPlayerState : "",
       chooseUsername : "",
       showUsernameModal : true,
-      showAddToPlaylistFromURLButton : false,
       nameError : "",
       blockMinimize : true,
       autoPlay : false
@@ -397,62 +394,8 @@ class App extends Component {
   }
 
   handleChange = (event) => {
-    this.setState({[event.target.name] : event.target.value},() => {
-      //clear searchresults if user deleted searchterm
-      if(this.state.searchTerm == "") {
-        this.setState({searchResults : []})
-      }
-      else {
-        //check if user pasted in a youtube video URL, if so show the "add to playlist from url" button
-        var ytRegex = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/
-        if(ytRegex.test(this.state.searchTerm) == true) {
-          return this.setState({showAddToPlaylistFromURLButton : true,searchResults : []})
-        }
-      }
-      //if return wasnt fired hide the add to playlist from url button
-      this.setState({showAddToPlaylistFromURLButton : false})
-    })
+    this.setState({[event.target.name] : event.target.value})
   }
-
-  // searchInputEnterPressed = (event) => {
-  //   if(event.which === 13) {
-  //     var ytRegex = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/
-  //     //check if typed text is a youtube link, if not perform a search
-  //     if(ytRegex.test(this.state.searchTerm) == false) {
-  //       return this.searchForVideoByString()
-  //     }
-  //     //url parameter object to extract information from
-  //     const URLParams = new URLSearchParams(this.state.searchTerm)
-  //
-  //     var videoID = "";
-  //     var time = 0;
-  //
-  //     //if time parameter is present set this as video time
-  //     if(URLParams.has('t')) {
-  //       time = URLParams.get('t')
-  //     }
-  //
-  //     //if URL is standard youtube URL extract video ID from param
-  //     if(URLParams.has('https://www.youtube.com/watch?v')) {
-  //       videoID = URLParams.get('https://www.youtube.com/watch?v')
-  //     }
-  //
-  //     //if url is non-standard .be URL extract video ID and time from pasted URL
-  //     if(this.state.searchTerm.includes(".be") && URLParams.get('feature') != "youtu.be") {
-  //       //if video is "be" format and contains timestamp do seperate split
-  //       videoID = this.state.searchTerm.split("youtu.be/")[1];
-  //       if(videoID.includes("?")) {
-  //         time = videoID.split("?t=")[1];
-  //         videoID = videoID.split("?")[0];
-  //       }
-  //     }
-  //     this.setState({videoID : videoID},() => {
-  //       this.player.loadVideoById(this.state.videoID,time,"large")
-  //       this.socket.emit('videoIdWasChangedByClient',this.state.videoID,this.state.roomID,time)
-  //       this.setState({searchTerm : "",showAddToPlaylistFromURLButton : false})
-  //     })
-  //   }
-  // }
 
   initializeRoom = (roomID) => {
     sessionStorage.setItem("roomID",roomID);
@@ -467,85 +410,6 @@ class App extends Component {
     })
   }
 
-  userClickedSearchResult = (videoID) => {
-    this.setState({videoID : videoID},() => {
-      //cue video and emit ID to other users
-      this.player.loadVideoById(this.state.videoID,0,"large")
-      this.socket.emit('videoIdWasChangedByClient',this.state.videoID,this.state.roomID,0)
-      //clear search results and search term
-      this.setState({searchResults : [],searchTerm : ""})
-    })
-  }
-
-  // addVideoToPlaylist = (videoObj) => {
-  //     var videoData = {
-  //     title : videoObj.snippet.title,
-  //     videoID : videoObj.id.videoId,
-  //     imgURL : videoObj.snippet.thumbnails.default.url
-  //   }
-  //
-  //   this.setState(this.setState((prevState) => ({playlistVideos : [...prevState.playlistVideos,videoData]})))
-  //   this.socket.emit("userAddedVideoToPlaylist",videoData,this.state.roomID)
-  // }
-
-  // addToPlaylistFromURL = () => {
-  //   //url parameter object to extract information from
-  //   const URLParams = new URLSearchParams(this.state.searchTerm)
-  //
-  //   //if pasted link is a playlist, add first 20 items from youtube playlist to youtubeparty playlist and return out of addToPlaylistFromURL
-  //   var playlistID = ""
-  //   if(URLParams.has("list")) {
-  //     playlistID = URLParams.get("list");
-  //     fetch("https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=20&playlistId="
-  //      + playlistID + "&key=" + key + "&origin=https://www.youtubeparty.net")
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       for(var item in data.items) {
-  //         var videoData = {
-  //           title : data.items[item].snippet.title,
-  //           videoID : data.items[item].snippet.resourceId.videoId,
-  //           imgURL : data.items[item].snippet.thumbnails.default.url
-  //         }
-  //         this.socket.emit("userAddedVideoToPlaylist",videoData,this.state.roomID)
-  //       }
-  //     })
-  //   }
-  //
-  //   var videoID = "";
-  //
-  //   //if URL is standard youtube URL extract video ID from param
-  //   if(URLParams.has('https://www.youtube.com/watch?v')) {
-  //     videoID = URLParams.get('https://www.youtube.com/watch?v')
-  //   }
-  //   //if url is non-standard .be URL extract video ID and time from pasted URL
-  //   if(this.state.searchTerm.includes(".be") && URLParams.get('feature') != "youtu.be") {
-  //     videoID = this.state.searchTerm.split("youtu.be/")[1];
-  //   }
-  //
-  //   //fetch image and title from videoID and add to playlist
-  //   fetch("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=" +
-  //   videoID + "&key=" + key + "&origin=https://www.youtubeparty.net" )
-  //   .then(res => res.json())
-  //   .then(data => {
-  //     var videoData = {
-  //     title : data.items[0].snippet.title,
-  //     videoID : data.items[0].id,
-  //     imgURL : data.items[0].snippet.thumbnails.default.url
-  //     }
-  //     this.setState(this.setState((prevState) => ({playlistVideos : [...prevState.playlistVideos,videoData]})))
-  //     this.setState({searchTerm : "",showAddToPlaylistFromURLButton : false})
-  //   })
-  // }
-  //
-  // hideSearchOnExit = (event) => {
-  //   const target = event.currentTarget
-  //
-  //   setTimeout(() => {
-  //     if (!target.contains(document.activeElement)) {
-  //       this.setState({searchResults : [],searchTerm : ""})
-  //     }
-  //   },100)
-  // }
   render = () => {
     return(
       <Switch>
@@ -560,17 +424,11 @@ class App extends Component {
             changeName={this.state.changeName}
             changeUsername={this.changeUsername}
             chatError={this.state.chatError}
-            searchResults={this.state.searchResults}
-            searchTerm={this.state.searchTerm}
-            userClickedSearchResult={videoID => this.userClickedSearchResult(videoID)}
             playlistVideos={this.state.playlistVideos}
             showUsernameModal={this.state.showUsernameModal}
             nameError={this.state.nameError}
-            showAddToPlaylistFromURLButton={this.state.showAddToPlaylistFromURLButton}
-            addToPlaylistFromURL={this.addToPlaylistFromURL}
             blockMinimize={this.state.blockMinimize}
             autoPlay={this.state.autoPlay}
-            hideSearchOnExit={this.hideSearchOnExit}
             />
           )}/>
           <Route path="/" render={() => (

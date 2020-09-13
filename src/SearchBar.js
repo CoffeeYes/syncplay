@@ -181,8 +181,8 @@ const SearchBar = props => {
                 />
                 <SearchResult
                 searchResults={searchResults}
-                userClickedSearchResult={(videoID) => props.userClickedSearchResult(videoID)}
-                addVideoToPlaylist={(videoObj => props.addVideoToPlaylist(videoObj))}
+                setSearchResults={setSearchResults}
+                setSearchTerm={setSearchTerm}
                 />
             </div>
             {showAddToPlaylistFromURLButton &&
