@@ -17,14 +17,14 @@ const ToggleOptions = (props) => {
       <div className="toggleSliderItem">
         <p>Block Minimizing</p>
         <label className="switch">
-          <input type="checkbox" checked={props.blockMinimize} onClick={toggleBlockMinimize}/>
+          <input type="checkbox" checked={props.blockMinimize} onChange={toggleBlockMinimize}/>
           <span className="slider round"></span>
         </label>
       </div>
       <div className="toggleSliderItem">
         <p>Autoplay</p>
         <label className="switch">
-          <input type="checkbox" checked={props.autoPlay} onClick={toggleAutoPlay}/>
+          <input type="checkbox" checked={props.autoPlay} onChange={toggleAutoPlay}/>
           <span className="slider round"></span>
         </label>
       </div>
