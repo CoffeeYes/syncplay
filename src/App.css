@@ -149,6 +149,7 @@ html {
   grid-row-end: 1;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .searchBarAndResultsContainer {

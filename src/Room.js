@@ -1,6 +1,7 @@
 import React, { Component, useState, useEffect } from 'react';
 import Player from './Player.js'
 import SearchBar from './SearchBar.js'
+import { Button } from '@material-ui/core'
 
 import ChatBox from './ChatBox.js'
 import Playlist from './Playlist'
@@ -40,7 +41,9 @@ const Room = props => {
             />
             <Player videoSource={props.videoSource} playerClass={playerClass}/>
             {
-                <button
+                <Button
+                variant="outlined"
+                color="secondary"
                 onClick={() => {
                   setShowPlaylistAndChat(!showPlaylistAndChat)
                   setPlayerClass(playerClass === "playerContainer" ?
@@ -51,7 +54,7 @@ const Room = props => {
                 className="togglePlaylistAndChat showPointerOnHover"
                 >
                 {showPlaylistAndChat ? "Hide" : "Show"}
-                </button>
+                </Button>
             }
             {showPlaylistAndChat &&
             <>

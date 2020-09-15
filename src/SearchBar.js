@@ -1,6 +1,7 @@
 import React,{ Component, useEffect, useState } from 'react';
 import SearchResult from './SearchResult'
 import ToggleOptions from './ToggleOptions'
+import { Button } from '@material-ui/core'
 
 import Logo from './assets/Logo.png';
 import GA from './ReactGA';
@@ -162,7 +163,7 @@ const SearchBar = props => {
             </a>
             <div className="copyLinkContainer copyLinkButton">
                 {linkCopied && <p>Copied!</p>}
-                <button className="defaultButton" onClick={copyLink}>Copy Link</button>
+                <Button variant="contained" color="primary" onClick={copyLink}>Copy Link</Button>
             </div>
             <div
             className="searchBarAndResultsContainer showPointerOnHover"
@@ -196,17 +197,16 @@ const SearchBar = props => {
             toggleAutoPlay={props.toggleAutoPlay}
             autoPlay={props.autoPlay}
             />
-            <button
-            className="defaultButton bugButton"
+            <Button variant="contained"
+            color="secondary"
             onClick={() => {
                 GA.event({
                   category : "bug report",
                   action : "User opened bug report window"
                 })
-                props.setShowBugReport(true)}}
-           >
-           Submit a Bug Report
-           </button>
+                props.setShowBugReport(true)}}>
+              Bug report
+            </Button>
         </div>
     )
 }
