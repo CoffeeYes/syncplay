@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Button } from '@material-ui/core'
 
 const CacheAccept = props => {
     const [showCacheDialogue,setShowCacheDialogue] = useState(false)
@@ -24,8 +25,15 @@ const CacheAccept = props => {
               <p className="cacheAcceptText">This Website uses cookies.
               <br/>Click accept if you consent to the use of functional cookies.</p>
               <div className="cacheButtonContainer">
-                  <button onClick={() => handleCacheChoice("reject")} className="cacheRejectButton">Reject</button>
-                  <button onClick={() => handleCacheChoice("accept")} className="defaultButton">Accept</button>
+                  <Button
+                  onClick={() => handleCacheChoice("reject")}
+                  variant="outlined"
+                  className="cacheRejectButton"
+                  color="secondary">Reject</Button>
+                  <Button
+                  onClick={() => handleCacheChoice("accept")}
+                  variant="contained"
+                  color="primary">Accept</Button>
               </div>
           </div>
       </div>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import socket from './Socket'
+import { Button } from '@material-ui/core'
 
 const UsernameModal = () => {
   const [name,setName] = useState("");
@@ -26,7 +27,7 @@ const UsernameModal = () => {
             onChange={event => setName(event.target.value)}
             onKeyPress={event => event.which === 13 ? changeUsername() : undefined}
             />
-            <button className="defaultButton changeNameButton" onClick={changeUsername}>Submit</button>
+            <Button variant="contained" color="primary" onClick={changeUsername}>Submit</Button>
         </div>
     </div>
   )

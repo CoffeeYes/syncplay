@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import socket from './Socket'
+import { Button } from '@material-ui/core'
 
 const Splash = () =>  {
 
@@ -11,11 +12,12 @@ const Splash = () =>  {
     <div className="verticalCenter horizontalCenter splash">
       <div className="splashContentContainer">
         <h1>Create a room, Send the link to your friends and watch together!</h1>
-        <button
-        className="createRoomButton showPointerOnHover"
+        <Button
+        variant="contained"
+        color="primary"
         onClick={createRoom}>
         Create Room
-        </button>
+        </Button>
       </div>
     </div>
   )
