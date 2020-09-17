@@ -461,7 +461,7 @@ html {
 .submitBugReportButton {
   grid-row-start: 3;
   grid-row-end: 4;
-  grid-column: 2;
+  grid-column-start:  2;
 }
 
 .usernameModalFullscreen {

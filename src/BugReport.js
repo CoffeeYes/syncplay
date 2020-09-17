@@ -1,5 +1,6 @@
 import React from 'react';
-import reactGA from './ReactGA'
+import reactGA from './ReactGA';
+import {Button} from '@material-ui/core';
 
 const BugReport = ({setShowBugReport }) => {
     const submitBugReport = () => {
@@ -12,9 +13,17 @@ const BugReport = ({setShowBugReport }) => {
     return (
       <div className="bugReportCoverPage">
           <div className="bugReportContainer">
-              <button onClick={() => setShowBugReport(false)} className="closeBugReportButton defaultButton">x</button>
+              <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => setShowBugReport(false)}
+              className="closeBugReportButton defaultButton">x</Button>
               <textarea id="bugReportText"></textarea>
-              <button className="defaultButton submitBugReportButton" onClick={submitBugReport}>Submit</button>
+              <Button
+              variant="contained"
+              color="primary"
+              className="defaultButton submitBugReportButton"
+              onClick={submitBugReport}>Submit</Button>
           </div>
       </div>
   )
