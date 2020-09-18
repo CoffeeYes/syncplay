@@ -168,6 +168,12 @@ html {
   display: inline-block;
 }
 
+.searchBarButtonContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .addFromURLButton {
   margin-right: auto;
   font-weight: bold;
@@ -200,14 +206,6 @@ html {
 .searchResultTitle {
   width: 60%;
   margin-left: 15px;
-}
-
-.togglePlaylistAndChat {
-  grid-row : 2;
-  height : 20px;
-  background-color: lightBlue;
-  border : none;
-  box-shadow: 1px 1px 0 0 grey;
 }
 
 .line {

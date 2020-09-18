@@ -11,6 +11,10 @@ import socket from './Socket'
 const key = connect.youtubeAPI.key
 
 const SearchBar = props => {
+    const { setShowPlaylistAndChat,
+            showPlaylistAndChat,
+            setPlayerClass,
+            playerClass } = props;
 
     const [linkCopied, setLinkCopied] = useState(false);
     const [searchTerm,setSearchTerm] = useState("");
@@ -197,16 +201,30 @@ const SearchBar = props => {
             toggleAutoPlay={props.toggleAutoPlay}
             autoPlay={props.autoPlay}
             />
-            <Button variant="contained"
-            color="secondary"
-            onClick={() => {
-                GA.event({
-                  category : "bug report",
-                  action : "User opened bug report window"
-                })
-                props.setShowBugReport(true)}}>
-              Bug report
-            </Button>
+            <div className="searchBarButtonContainer">
+              <Button variant="contained"
+              color="secondary"
+              onClick={() => {
+                  GA.event({
+                    category : "bug report",
+                    action : "User opened bug report window"
+                  })
+                  props.setShowBugReport(true)}}>
+                Bug report
+              </Button>
+              <Button
+              variant="outlined"
+              color="secondary"
+              onClick={() => {
+                setShowPlaylistAndChat(!showPlaylistAndChat)
+                setPlayerClass(playerClass === "playerContainer" ?
+                "playerContainerExtended"
+                :
+                "playerContainer")
+              }}>
+              {showPlaylistAndChat ? "Hide" : "Show"}
+              </Button>
+            </div>
         </div>
     )
 }

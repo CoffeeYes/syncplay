@@ -38,24 +38,12 @@ const Room = props => {
             autoPlay={props.autoPlay}
             hideSearchOnExit={event => props.hideSearchOnExit(event)}
             setShowBugReport={setShowBugReport}
+            setShowPlaylistAndChat={setShowPlaylistAndChat}
+            showPlaylistAndChat={showPlaylistAndChat}
+            setPlayerClass={setPlayerClass}
+            playerClass={playerClass}
             />
             <Player videoSource={props.videoSource} playerClass={playerClass}/>
-            {
-                <Button
-                variant="outlined"
-                color="secondary"
-                onClick={() => {
-                  setShowPlaylistAndChat(!showPlaylistAndChat)
-                  setPlayerClass(playerClass === "playerContainer" ?
-                  "playerContainerExtended"
-                  :
-                  "playerContainer")
-                }}
-                className="togglePlaylistAndChat showPointerOnHover"
-                >
-                {showPlaylistAndChat ? "Hide" : "Show"}
-                </Button>
-            }
             {showPlaylistAndChat &&
             <>
               <Playlist
