@@ -438,7 +438,7 @@ html {
   height: 50%;
   border-radius: 5px;
   display: grid;
-  grid-template-columns: 10% 80% 10%;
+  grid-template-columns: 1fr 8fr 1fr;
   grid-template-rows: 5% 80% 10%;
   background-color: #f4f7f6;
 }
