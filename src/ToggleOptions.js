@@ -1,4 +1,5 @@
 import React from 'react'
+import { Switch } from '@material-ui/core'
 
 import socket from './Socket'
 
@@ -16,17 +17,11 @@ const ToggleOptions = (props) => {
     <div className="toggleSliderContainer">
       <div className="toggleSliderItem">
         <p>Block Minimizing</p>
-        <label className="switch">
-          <input type="checkbox" checked={props.blockMinimize} onChange={toggleBlockMinimize}/>
-          <span className="slider round"></span>
-        </label>
+        <Switch checked={props.blockMinimize} onChange={toggleBlockMinimize} color="primary"/>
       </div>
       <div className="toggleSliderItem">
         <p>Autoplay</p>
-        <label className="switch">
-          <input type="checkbox" checked={props.autoPlay} onChange={toggleAutoPlay}/>
-          <span className="slider round"></span>
-        </label>
+        <Switch checked={props.autoPlay} onChange={toggleAutoPlay} color="primary"/>
       </div>
     </div>
   )
