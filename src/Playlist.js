@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import socket from './Socket'
+import { Paper } from '@material-ui/core'
 
 const Playlist = props => {
 
@@ -13,7 +14,7 @@ const Playlist = props => {
     socket.emit("userRemovedVideoFromPlaylist",index,sessionStorage.getItem("roomID"))
   }
   return (
-    <div className="playlistContainer">
+    <Paper elevation={2} className="playlistContainer">
       <div className="playlistHeader">
         <p>Playlist</p>
       </div>
@@ -31,7 +32,7 @@ const Playlist = props => {
           </div>
         )}
       </div>
-    </div>
+    </Paper>
   )
 }
 export default Playlist

@@ -174,6 +174,10 @@ html {
   justify-content: space-between;
 }
 
+.searchBarButtonContainer .MuiButtonBase-root:last-child {
+  margin-top : 5px;
+}
+
 .addFromURLButton {
   margin-right: auto;
   font-weight: bold;
@@ -531,7 +535,7 @@ html {
   align-self: center;
   text-align: center;
   margin-right: auto
-} 
+}
 
 .toggleSliderContainer {
   display: flex;

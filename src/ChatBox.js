@@ -1,6 +1,7 @@
 import React, {Component, useState, useEffect} from 'react'
 import UserList from './UserList.js'
 import socket from './Socket'
+import { Paper } from '@material-ui/core'
 
 const ChatBox = props => {
     const msgEndRef = React.createRef();
@@ -22,7 +23,7 @@ const ChatBox = props => {
     }
 
     return(
-        <div className="chatContainer">
+        <Paper elevation={2} className="chatContainer">
             <p className="error">{props.chatError}</p>
             <UserList connectedUsers={props.connectedUsers}/>
             <div className="messageBox">
@@ -48,7 +49,7 @@ const ChatBox = props => {
             onKeyPress={event => sendMessage(event)}
             value={message}
             placeholder="Send a message to the room"/>
-        </div>
+        </Paper>
     )
 }
 
