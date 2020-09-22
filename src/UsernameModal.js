@@ -15,6 +15,10 @@ const UsernameModal = () => {
     }
     socket.emit("clientChangedUsername",name,sessionStorage.getItem("roomID"))
   }
+
+  socket.on("clientChangeNameReturn",response => {
+    response.error && setNameError(response.error)
+  })
   return (
     <div className="usernameModalFullscreen">
         <div className="usernameModalChoice">
