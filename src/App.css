@@ -160,12 +160,8 @@ html {
 }
 
 .searchBar {
-  height: 0;
-  padding: 20px 10px 20px 10px;
-  border-radius: 5px;
   width: 100%;
   box-sizing: border-box;
-  display: inline-block;
 }
 
 .searchBarButtonContainer {

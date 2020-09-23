@@ -1,7 +1,7 @@
 import React,{ Component, useEffect, useState } from 'react';
 import SearchResult from './SearchResult'
 import ToggleOptions from './ToggleOptions'
-import { Button } from '@material-ui/core'
+import { Button, TextField } from '@material-ui/core'
 
 import Logo from './assets/Logo.png';
 import GA from './ReactGA';
@@ -177,12 +177,12 @@ const SearchBar = props => {
               {"marginRight" : "auto" }}
               >
                 <p className="error">{props.error}</p>
-                <input
-                className='searchBar inputFocus'
-                name='searchTerm' value={searchTerm}
+                <TextField
+                className="searchBar"
                 onChange={event => handleSearchChange(event)}
-                onKeyPress={searchInputEnterPressed}
-                placeholder="Search or paste a youtube url here ..."
+                onKeyDown={searchInputEnterPressed}
+                label="Search"
+                variant="outlined"
                 />
                 <SearchResult
                 searchResults={searchResults}
