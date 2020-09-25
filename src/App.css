@@ -686,6 +686,10 @@ html {
     display: none;
   }
 
+  .searchBarButtonContainer {
+    display: none;
+  }
+
   .mainContainerRoom {
     width: 90%;
     margin : auto;
