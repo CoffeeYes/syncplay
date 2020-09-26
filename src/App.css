@@ -539,16 +539,12 @@ html {
 .toggleSliderContainer {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-right: 5px;
-  justify-content: center;
 }
 
 .toggleSliderItem {
-  width: 150px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 
 /*21 : 9 aspect ratio on video for ultrawide monitors */
