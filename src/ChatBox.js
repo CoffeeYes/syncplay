@@ -1,7 +1,7 @@
 import React, {Component, useState, useEffect} from 'react'
 import UserList from './UserList.js'
 import socket from './Socket'
-import { Paper } from '@material-ui/core'
+import { Paper, TextField } from '@material-ui/core'
 
 const ChatBox = props => {
     const msgEndRef = React.createRef();
@@ -43,12 +43,14 @@ const ChatBox = props => {
                   )}
                 <div ref={msgEndRef}/>
             </div>
-            <input id="chatInput"
-            name="localMessage"
-            onChange={event => setMessage(event.target.value)}
+            <TextField
+            id="chatInput"
+            variant="outlined"
+            name="localMessage"onChange={event => setMessage(event.target.value)}
             onKeyPress={event => sendMessage(event)}
             value={message}
-            placeholder="Send a message to the room"/>
+            placeholder="Send a message to the room"
+            />
         </Paper>
     )
 }
