@@ -182,6 +182,7 @@ const SearchBar = props => {
                 onChange={event => handleSearchChange(event)}
                 onKeyDown={searchInputEnterPressed}
                 label="Search"
+                value={searchTerm}
                 variant="outlined"
                 />
                 <SearchResult
