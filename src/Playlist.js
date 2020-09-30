@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import socket from './Socket'
-import { Paper } from '@material-ui/core'
+import { Paper, Button } from '@material-ui/core'
 
 const Playlist = props => {
 
@@ -26,9 +26,11 @@ const Playlist = props => {
                 <img className="playlistVideoImg" src={item.imgURL}/>
                 <p className="playlistVideoTitle line-clamp-3">{item.title}</p>
             </div>
-            <button
+            <Button
+            variant="contained"
+            color="primary"
             className="removeFromPlaylistButton showPointerOnHover"
-            onClick={() => removeVideoFromPlaylist(index)}>X</button>
+            onClick={() => removeVideoFromPlaylist(index)}>X</Button>
           </div>
         )}
       </div>
