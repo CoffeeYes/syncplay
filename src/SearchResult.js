@@ -1,6 +1,6 @@
 import React from 'react';
 import socket from './Socket'
-
+import { Button } from '@material-ui/core'
 const SearchResult = props => {
   const {setSearchResults, setSearchTerm } = props;
 
@@ -19,7 +19,7 @@ const SearchResult = props => {
     setSearchTerm("");
     setSearchResults([]);
   }
-  
+
   return (
       <div className="searchResultsContainer">
       {props.searchResults && props.searchResults.map((item,index) =>
@@ -30,7 +30,10 @@ const SearchResult = props => {
         <p className="searchResultTitle">{item.snippet.title}</p>
         </div>
         </div>
-        <button className="addToPlaylistButton" onClick={() => addVideoToPlaylist(item)}>Add to Playlist</button>
+        <Button
+        className="addToPlaylistButton"
+        onClick={() => addVideoToPlaylist(item)}
+        color="secondary">Add to Playlist</Button>
         </div>
       )}
       </div>
