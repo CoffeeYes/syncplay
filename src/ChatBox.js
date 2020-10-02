@@ -25,7 +25,7 @@ const ChatBox = props => {
     return(
         <Paper elevation={2} className="chatContainer">
             <p className="error">{props.chatError}</p>
-            <UserList connectedUsers={props.connectedUsers}/>
+            <UserList/>
             <div className="messageBox">
                 {props.messages.map((item,index) =>
                     <div
