@@ -28,7 +28,7 @@ const Playlist = props => {
             </div>
             <Button
             variant="contained"
-            color="primary"
+            color="secondary"
             className="removeFromPlaylistButton showPointerOnHover"
             onClick={() => removeVideoFromPlaylist(index)}>X</Button>
           </div>
