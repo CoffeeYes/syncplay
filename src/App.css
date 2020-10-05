@@ -464,7 +464,7 @@ html {
   width: 100vw;
   height: 100vh;
   background-color: rgba(0,0,0,0.5);
-  position: absolute;
+  position: fixed;
   top : 0;
   left: 0;
   z-index: 999;
@@ -500,7 +500,7 @@ html {
   top : 0;
   left: 0;
   display: flex;
-  position: absolute;
+  position: fixed;
   justify-content: center;
   align-items: center;
   animation-name : modalFadeIn;
