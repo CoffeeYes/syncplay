@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import socket from './Socket'
 import { Button } from '@material-ui/core'
 
-const UsernameModal = () => {
+const UsernameModal = ({ setShowUsernameModal }) => {
   const [name,setName] = useState("");
   const [nameError,setNameError] = useState("");
   const changeUsername = () => {
@@ -18,6 +18,7 @@ const UsernameModal = () => {
 
   socket.on("clientChangeNameReturn",response => {
     response.error && setNameError(response.error)
+    !response.error && setShowUsernameModal(false);
   })
   return (
     <div className="usernameModalFullscreen">

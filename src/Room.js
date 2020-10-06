@@ -14,11 +14,16 @@ const Room = props => {
     const [showBugReport,setShowBugReport] = useState(false);
     const [showPlaylistAndChat,setShowPlaylistAndChat] = useState(true);
     const [playerClass, setPlayerClass] = useState("playerContainer");
+    const [showUsernameModal,setShowUsernameModal] = useState(true);
 
     useEffect(() => {
         //re-hydrate room state after losing on redirect
         let roomID = window.location.href.split("/room/")[1]
         props.initializeRoom(roomID)
+
+        if(sessionStorage.getItem("username")) {
+          setShowUsernameModal(false);
+        }
     },[])
 
     return(
@@ -26,7 +31,8 @@ const Room = props => {
             <CacheAccept
             handleCacheChoice={choice => props.handleCacheChoice(choice)}
             />
-            { props.showUsernameModal &&<UsernameModal /> }
+            { showUsernameModal &&
+              <UsernameModal setShowUsernameModal={setShowUsernameModal}/> }
             <SearchBar
             handleChange={props.handleChange}
             searchInputEnterPressed={props.searchInputEnterPressed}
