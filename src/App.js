@@ -38,7 +38,6 @@ class App extends Component {
       playlistCurrentVideoIndex : -1,
       currentPlayerState : "",
       chooseUsername : "",
-      showUsernameModal : true,
       nameError : "",
       blockMinimize : true,
       autoPlay : false
@@ -251,7 +250,6 @@ class App extends Component {
           this.setState({
             nameError : "",
             changeName : "",
-            showUsernameModal: false
           })
           //save username for reloads and other sessions
           sessionStorage.setItem("username",confirmation.name)
@@ -403,7 +401,6 @@ class App extends Component {
       this.socket.emit("userJoinedRoom",roomID)
       //check if the joining user already had a username (reloaded the page) and update it on the backend
       if(this.state.changeName != "") {
-        this.setState({showUsernameModal : false})
         this.socket.emit("clientChangedUsername",this.state.changeName,this.state.roomID)
         this.setState({changeName : ""})
       }
@@ -425,7 +422,6 @@ class App extends Component {
             changeUsername={this.changeUsername}
             chatError={this.state.chatError}
             playlistVideos={this.state.playlistVideos}
-            showUsernameModal={this.state.showUsernameModal}
             nameError={this.state.nameError}
             blockMinimize={this.state.blockMinimize}
             autoPlay={this.state.autoPlay}

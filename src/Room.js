@@ -32,7 +32,7 @@ const Room = props => {
             handleCacheChoice={choice => props.handleCacheChoice(choice)}
             />
             { showUsernameModal &&
-              <UsernameModal setShowUsernameModal={setShowUsernameModal}/> }
+            <UsernameModal setShowUsernameModal={setShowUsernameModal}/> }
             <SearchBar
             handleChange={props.handleChange}
             searchInputEnterPressed={props.searchInputEnterPressed}
