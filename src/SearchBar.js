@@ -107,6 +107,7 @@ const SearchBar = props => {
         // this.player.loadVideoById(this.state.videoID,time,"large");
         socket.emit('videoIdWasChangedByClient',videoID,sessionStorage.getItem("roomID"),time);
         setSearchTerm("");
+        setShowAddToPlaylistFromURLButton(false);
         // this.setState({searchTerm : "",showAddToPlaylistFromURLButton : false})
       }
     }

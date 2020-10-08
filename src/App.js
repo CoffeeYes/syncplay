@@ -414,7 +414,6 @@ class App extends Component {
             <Room
             error={this.state.error}
             handleChange={this.handleChange}
-            searchInputEnterPressed={this.searchInputEnterPressed}
             videoSource={this.state.videoSource}
             initializeRoom={roomID => {this.initializeRoom(roomID)}}
             messages={this.state.messages}

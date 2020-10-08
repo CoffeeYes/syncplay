@@ -37,12 +37,9 @@ const Room = props => {
             handleChange={props.handleChange}
             searchInputEnterPressed={props.searchInputEnterPressed}
             searchResults={props.searchResults}
-            searchTerm={props.searchTerm}
-            userClickedSearchResult={videoID => props.userClickedSearchResult(videoID)}
             error={props.error}
             blockMinimize={props.blockMinimize}
             autoPlay={props.autoPlay}
-            hideSearchOnExit={event => props.hideSearchOnExit(event)}
             setShowBugReport={setShowBugReport}
             setShowPlaylistAndChat={setShowPlaylistAndChat}
             showPlaylistAndChat={showPlaylistAndChat}
