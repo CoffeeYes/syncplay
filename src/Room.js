@@ -34,8 +34,6 @@ const Room = props => {
             { showUsernameModal &&
             <UsernameModal setShowUsernameModal={setShowUsernameModal}/> }
             <SearchBar
-            handleChange={props.handleChange}
-            searchInputEnterPressed={props.searchInputEnterPressed}
             searchResults={props.searchResults}
             error={props.error}
             blockMinimize={props.blockMinimize}

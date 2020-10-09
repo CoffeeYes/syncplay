@@ -417,11 +417,8 @@ class App extends Component {
             videoSource={this.state.videoSource}
             initializeRoom={roomID => {this.initializeRoom(roomID)}}
             messages={this.state.messages}
-            changeName={this.state.changeName}
-            changeUsername={this.changeUsername}
             chatError={this.state.chatError}
             playlistVideos={this.state.playlistVideos}
-            nameError={this.state.nameError}
             blockMinimize={this.state.blockMinimize}
             autoPlay={this.state.autoPlay}
             />
