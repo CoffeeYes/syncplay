@@ -310,10 +310,17 @@ html {
   grid-row-end: 4;
 }
 
+.chatContainer .MuiInputBase-root {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
 #chatInput {
   grid-row-start: 4;
   grid-row-end: 5;
   font-size: 1rem;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 .message {

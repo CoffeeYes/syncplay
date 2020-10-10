@@ -36,6 +36,7 @@ const SearchResult = props => {
           className="addToPlaylistButton"
           variant="outlined"
           onClick={() => addVideoToPlaylist(item)}
+          style={{borderBottom : "none"}}
           color="secondary">Add to Playlist</Button>
 
         </div>
