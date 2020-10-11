@@ -491,9 +491,13 @@ html {
   text-align: center;
 }
 
+.usernameModalChoice .MuiInputBase-root {
+  margin-right: 10px;
+  align-self: center;
+}
+
 .usernameChoiceInput {
-  display: inline-block;
-  margin-right: 5px;
+  margin-right: 10px;
 }
 
 .changeNameButton {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import socket from './Socket'
-import { Button } from '@material-ui/core'
+import { Button, TextField } from '@material-ui/core'
 
 const UsernameModal = ({ setShowUsernameModal }) => {
   const [name,setName] = useState("");
@@ -25,7 +25,7 @@ const UsernameModal = ({ setShowUsernameModal }) => {
         <div className="usernameModalChoice">
             <p className="error">{nameError}</p>
             <p>Choose your Username</p>
-            <input
+            <TextField
             className="usernameChoiceInput inputFocus"
             name="changeName"
             value={name}
