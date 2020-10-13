@@ -17,11 +17,17 @@ const ToggleOptions = (props) => {
     <div className="toggleSliderContainer">
       <div className="toggleSliderItem">
         <p>Block Minimizing</p>
-        <Switch checked={props.blockMinimize} onChange={toggleBlockMinimize} color="primary"/>
+        <Switch
+        checked={props.blockMinimize}
+        onChange={toggleBlockMinimize}
+        color="secondary"/>
       </div>
       <div className="toggleSliderItem">
         <p>Autoplay</p>
-        <Switch checked={props.autoPlay} onChange={toggleAutoPlay} color="primary"/>
+        <Switch
+        checked={props.autoPlay}
+        onChange={toggleAutoPlay}
+        color="secondary"/>
       </div>
     </div>
   )

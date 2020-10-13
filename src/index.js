@@ -6,7 +6,14 @@ import {BrowserRouter} from 'react-router-dom';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core'
 
 const theme = createMuiTheme({
-
+  palette : {
+    primary : {
+      main : "#673ab7"
+    },
+    secondary : {
+      main : "#00b0ff"
+    }
+  }
 });
 ReactDOM.render(
   <BrowserRouter>
