@@ -32,7 +32,7 @@ const UsernameModal = ({ setShowUsernameModal }) => {
             onChange={event => setName(event.target.value)}
             onKeyPress={event => event.which === 13 ? changeUsername() : undefined}
             />
-            <Button variant="contained" color="primary" onClick={changeUsername}>Submit</Button>
+            <Button variant="contained" color="secondary" onClick={changeUsername}>Submit</Button>
         </div>
     </div>
   )

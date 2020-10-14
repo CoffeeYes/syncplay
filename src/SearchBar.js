@@ -219,7 +219,7 @@ const SearchBar = props => {
               </Button>
               <Button
               variant="outlined"
-              color="secondary"
+              color="primary"
               onClick={() => {
                 setShowPlaylistAndChat(!showPlaylistAndChat)
                 setPlayerClass(playerClass === "playerContainer" ?
