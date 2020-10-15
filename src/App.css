@@ -489,11 +489,16 @@ html {
   border-radius: 5px;
   padding: 0px 10px 20px 10px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .usernameModalChoice .MuiInputBase-root {
-  margin-right: 10px;
-  align-self: center;
+  margin-bottom: 10px;
+}
+
+.usernameModalChoice .MuiInputButtonBase-root {
+
 }
 
 .usernameChoiceInput {
