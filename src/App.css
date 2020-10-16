@@ -413,6 +413,9 @@ html {
 .connectedUserText {
   display: inline-block;
 }
+.connectedUsername {
+  font-weight: bold;
+}
 
 .inputFocus:focus {
   border: 1px solid #42C0FB;
