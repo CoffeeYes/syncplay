@@ -15,6 +15,7 @@ const Room = props => {
     const [showPlaylistAndChat,setShowPlaylistAndChat] = useState(true);
     const [playerClass, setPlayerClass] = useState("playerContainer");
     const [showUsernameModal,setShowUsernameModal] = useState(true);
+    const [scrollToMsgBottom,setScrollToMsgBottom] = useState(true);
 
     useEffect(() => {
         //re-hydrate room state after losing on redirect
@@ -43,6 +44,8 @@ const Room = props => {
             showPlaylistAndChat={showPlaylistAndChat}
             setPlayerClass={setPlayerClass}
             playerClass={playerClass}
+            scrollToMsgBottom={scrollToMsgBottom}
+            setScrollToMsgBottom={setScrollToMsgBottom}
             />
             <Player videoSource={props.videoSource} playerClass={playerClass}/>
             {showPlaylistAndChat &&
@@ -53,6 +56,7 @@ const Room = props => {
               <ChatBox
               messages={props.messages}
               chatError={props.chatError}
+              scrollToMsgBottom={scrollToMsgBottom}
               />
             </>}
             {showBugReport &&

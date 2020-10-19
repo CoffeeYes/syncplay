@@ -12,6 +12,7 @@ const ChatBox = props => {
     }
 
     useEffect(() => {
+      props.scrollToMsgBottom &&
       scrollToBottom();
     },[props.messages])
 

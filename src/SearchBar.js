@@ -205,6 +205,8 @@ const SearchBar = props => {
             blockMinimize={props.blockMinimize}
             toggleAutoPlay={props.toggleAutoPlay}
             autoPlay={props.autoPlay}
+            setScrollToMsgBottom={props.setScrollToMsgBottom}
+            scrollToMsgBottom={props.scrollToMsgBottom}
             />
             <div className="searchBarButtonContainer">
               <Button variant="contained"
