@@ -553,7 +553,6 @@ html {
 
 .toggleSliderContainer {
   display: flex;
-  flex-direction: column;
 }
 
 .toggleSliderItem {
