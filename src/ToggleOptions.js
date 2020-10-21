@@ -19,6 +19,7 @@ const ToggleOptions = ({ autoPlay, blockMinimize, scrollToMsgBottom,
       <div className="toggleSliderItem">
         <p>Block Minimizing</p>
         <Switch
+        size="small"
         checked={blockMinimize}
         onChange={toggleBlockMinimize}
         color="secondary"/>
@@ -26,6 +27,7 @@ const ToggleOptions = ({ autoPlay, blockMinimize, scrollToMsgBottom,
       <div className="toggleSliderItem">
         <p>Autoplay</p>
         <Switch
+        size="small"
         checked={autoPlay}
         onChange={toggleAutoPlay}
         color="secondary"/>
@@ -33,6 +35,7 @@ const ToggleOptions = ({ autoPlay, blockMinimize, scrollToMsgBottom,
       <div className="toggleSliderItem">
         <p>Scroll to Bottom</p>
         <Switch
+        size="small"
         checked={scrollToMsgBottom}
         onChange={() => setScrollToMsgBottom(!scrollToMsgBottom)}
         color="secondary"/>

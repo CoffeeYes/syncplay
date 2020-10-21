@@ -561,6 +561,10 @@ html {
   justify-content: flex-end;
 }
 
+.toggleSliderItem p {
+  font-size : 0.8rem;
+}
+
 /*21 : 9 aspect ratio on video for ultrawide monitors */
 @media (min-width: 3440px) {
   .playerContainer {
