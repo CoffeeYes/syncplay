@@ -13,6 +13,9 @@ const UsernameModal = ({ setShowUsernameModal }) => {
     else if (name.length > 20) {
       return setNameError("name cannot be longer than 20 characters")
     }
+    else if (/\d+$/.test(name) === false) {
+      return setNameError("only numbers and letters are allowed")
+    }
     socket.emit("clientChangedUsername",name,sessionStorage.getItem("roomID"))
   }
 
